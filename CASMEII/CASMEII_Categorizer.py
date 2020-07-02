@@ -41,10 +41,16 @@ for subject in directorylisting:
                 viddirectorylisting = os.listdir(videopath)
                 for image in viddirectorylisting:
                     # print(image)
-                    if "img"+str(catdata[vidid][3])+".jpg" == str(image) or "img"+str(catdata[vidid][4] )+".jpg"== str(image):
+                    if "img" + str(catdata[vidid][3]) + ".jpg" == str(image) :
+                        print(vidid, image)
+                        print(videopath + "/" + str(image))
+                        shutil.copyfile(videopath + "/" + str(image),
+                                        str(targetpath) + str(catdata[vidid][2]) + "/" + str(
+                                            catdata[vidid][0]) + '_' + str(video) + '/1' + str(image))
+                    if  "img"+str(catdata[vidid][4] )+".jpg"== str(image):
                         print(vidid,image)
                         print(videopath+"/"+str(image))
-                        shutil.copyfile(videopath+"/"+str(image), str(targetpath)+str(catdata[vidid][2])+"/"+str(catdata[vidid][0])+'_'+str(video)+'/'+str(image))
+                        shutil.copyfile(videopath+"/"+str(image), str(targetpath)+str(catdata[vidid][2])+"/"+str(catdata[vidid][0])+'_'+str(video)+'/2'+str(image))
                 if found==True:
                     print("multiple",video,catdata[vidid])
                 found=True
