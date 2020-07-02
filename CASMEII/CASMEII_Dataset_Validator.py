@@ -22,8 +22,8 @@ print(cat)
 
 cat=[0]*7
 dir=0
-for typepath in os.listdir('../../../Datasets/CASMEII_categorical/'):
-    directorylisting = os.listdir('../../../Datasets/CASMEII_categorical/'+typepath)
+for typepath in os.listdir('../../../Datasets/CASMEII_categorical_apex/'):
+    directorylisting = os.listdir('../../../Datasets/CASMEII_categorical_apex/'+typepath)
     for video in directorylisting:
         cat[dir]+=1
     dir+=1
