@@ -74,7 +74,7 @@ def evaluate(segment_train_images, segment_validation_images, segment_train_labe
     print (cfm)
     print("accuracy: ",accuracy_score(validation_labels, predictions_labels))
 
-    return accuracy_score(validation_labels, predictions_labels)
+    return accuracy_score(validation_labels, predictions_labels),validation_labels,predictions_labels
 
 
 
@@ -91,7 +91,7 @@ sizeD=2
 segment_training_set = numpy.load('numpy_training_datasets/{0}_images_{1}x{2}x{3}.npy'.format(segmentName,sizeH, sizeV,sizeD))
 segment_traininglabels = numpy.load('numpy_training_datasets/{0}_labels_{1}x{2}x{3}.npy'.format(segmentName,sizeH, sizeV,sizeD))
 
-'''
+
 #-----------------------------------------------------------------------------------------------------------------
 #LOOCV
 loo = LeaveOneOut()
@@ -100,25 +100,39 @@ tot=0
 count=0
 accs=[]
 accs2=[]
+val_labels=[]
+pred_labels=[]
 for train_index, test_index in loo.split(segment_training_set):
 
     # print(segment_traininglabels[train_index])
     # print(segment_traininglabels[test_index])
     print(test_index)
 
-    val_acc = evaluate(segment_training_set[train_index], segment_training_set[test_index],segment_traininglabels[train_index], segment_traininglabels[test_index] ,test_index)
+    val_acc,val_label,pred_label = evaluate(segment_training_set[train_index], segment_training_set[test_index],segment_traininglabels[train_index], segment_traininglabels[test_index] ,test_index)
     tot+=val_acc
+    val_labels.extend(val_label)
+    pred_labels.extend(pred_label)
     accs.append(val_acc)
     accs2.append(segment_traininglabels[test_index])
     count+=1
     print("------------------------------------------------------------------------")
     print("validation acc:",val_acc)
     print("------------------------------------------------------------------------")
-print(tot/count)
-print('depth: ',sizeD)
-print(accs)
-print('9')
-print(segmentName)
+print("average acc: ",tot/count)
+cfm = confusion_matrix(val_labels, pred_labels)
+tp_and_fn = sum(cfm.sum(1))
+tp_and_fp = sum(cfm.sum(0))
+tp = sum(cfm.diagonal())
+print("cfm: \n",cfm)
+print("tp_and_fn: ",tp_and_fn)
+print("tp_and_fp: ",tp_and_fp)
+print("tp: ",tp)
+
+precision = tp / tp_and_fp
+recall = tp / tp_and_fn
+print("precision: ",precision)
+print("recall: ",recall)
+print("F1-score: ",2 * (precision * recall) / (precision + recall))
 
 validation_labels = numpy.argmax(accs2, axis=1)
 
@@ -143,3 +157,4 @@ numpy.save('numpy_validation_datasets/{0}_images_{1}x{2}.npy'.format(segmentName
 # labels = numpy.load('numpy_validation_datasets/{0}_images_{1}x{2}.npy'.format(segmentName,sizeH, sizeV))
 
 evaluate(segment_train_images, segment_validation_images,segment_train_labels, segment_validation_labels ,0)
+'''
