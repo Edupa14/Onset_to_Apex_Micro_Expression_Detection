@@ -41,18 +41,18 @@ def annotate_landmarks(img, landmarks, font_scale=0.4):
     return img
 
 
-disgustpath = '../../../Datasets/CASMEII_categorical/disgust/'
-# fearpath = '../../../Datasets/CASMEII_categorical/fear/'
-happinesspath = '../../../Datasets/CASMEII_categorical/happiness/'
-otherspath = '../../../Datasets/CASMEII_categorical/others/'
-repressionpath = '../../../Datasets/CASMEII_categorical/repression/'
-# sadnesspath = '../../../Datasets/CASMEII_categorical/sadness/'
-surprisepath = '../../../Datasets/CASMEII_categorical/surprise/'
+disgustpath = '../../../Datasets/CASMEII_categorical_apex/disgust/'
+# fearpath = '../../../Datasets/CASMEII_categorical_apex/fear/'
+happinesspath = '../../../Datasets/CASMEII_categorical_apex/happiness/'
+otherspath = '../../../Datasets/CASMEII_categorical_apex/others/'
+repressionpath = '../../../Datasets/CASMEII_categorical_apex/repression/'
+# sadnesspath = '../../../Datasets/CASMEII_categorical_apex/sadness/'
+surprisepath = '../../../Datasets/CASMEII_categorical_apex/surprise/'
 
 segmentName = 'UpperFace'
 sizeH=32
 sizeV=32
-sizeD=30
+sizeD=2
 
 paths=[disgustpath,  happinesspath,otherspath,repressionpath,surprisepath]
 
@@ -61,9 +61,11 @@ counting = 0
 for typepath in (paths):
     directorylisting = os.listdir(typepath)
     print(typepath)
+    print((directorylisting))
 
     for video in directorylisting:
         videopath = typepath + video
+        print(videopath)
         segment_frames = []
         framelisting = os.listdir(videopath)
         if sizeD<len(framelisting):
@@ -76,6 +78,8 @@ for typepath in (paths):
             for y in range (tempD1):
                 framerange.extend([x for x in range(len(framelisting))])
             framerange.extend([y for y in range(tempD2)])
+
+
         for frame in framerange:
             imagepath = videopath + "/" + framelisting[frame]
             image = cv2.imread(imagepath)
