@@ -1,6 +1,6 @@
 import numpy
 from sklearn.metrics import confusion_matrix
-from sklearn.metrics import accuracy_score
+from sklearn.metrics import accuracy_score,f1_score
 from keras.models import Sequential, Model
 from keras.layers.core import Dense, Dropout, Activation, Flatten
 from keras.layers.convolutional import Convolution3D, MaxPooling3D, ZeroPadding3D
@@ -24,10 +24,10 @@ def evaluate(segment_train_images, segment_validation_images, segment_train_labe
         Convolution3D(32, (20, 20, 1), strides=(10, 10, 1), input_shape=(1, sizeH, sizeV, sizeD), padding='Same'))
     model.add(PReLU())
     # model.add(Dropout(0.5))
-    # model.add(Convolution3D(32, (3, 3, 2), strides=1, padding='Same'))
+    # --2model.add(Convolution3D(32, (3, 3, 2), strides=1, padding='Same'))
     # model.add(PReLU())
     # model.add(Dropout(0.5))
-    model.add(MaxPooling3D(pool_size=(3, 3, 2)))
+    #--1 model.add(MaxPooling3D(pool_size=(3, 3, 2)))
     # model.add( PReLU())
     # model.add(Dropout(0.5))
     model.add(Flatten())
@@ -132,7 +132,12 @@ precision = tp / tp_and_fp
 recall = tp / tp_and_fn
 print("precision: ",precision)
 print("recall: ",recall)
-print("F1-score: ",2 * (precision * recall) / (precision + recall))
+print("F1-score: ",f1_score(val_labels,pred_labels))
+print("F1-score: ",f1_score(val_labels,pred_labels,average="macro"))
+print("F1-score: ",f1_score(val_labels,pred_labels,average="weighted"))
+print("F1-score: ",f1_score(val_labels,pred_labels,average="samples"))
+
+
 
 validation_labels = numpy.argmax(accs2, axis=1)
 
