@@ -41,7 +41,7 @@ def annotate_landmarks(img, landmarks, font_scale=0.4):
     return img
 
 
-path='../../CASMEII_categorical_apex/'
+path='../../CASMEII_categorical_apex2/'
 disgustpath = path+'disgust/'
 # fearpath = path+'fear/'
 happinesspath = path+'happiness/'
