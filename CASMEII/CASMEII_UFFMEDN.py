@@ -86,7 +86,7 @@ def evaluate(segment_train_images, segment_validation_images, segment_train_labe
 
 K.set_image_dim_ordering('th')
 
-segmentName='FullFace'
+segmentName='FullFace2'
 sizeH=32
 sizeV=32
 sizeD=2
@@ -123,6 +123,7 @@ for train_index, test_index in loo.split(segment_training_set):
     print("------------------------------------------------------------------------")
     print("validation acc:",val_acc)
     print("------------------------------------------------------------------------")
+print(segmentName)
 print("average acc: ",tot/count)
 cfm = confusion_matrix(val_labels, pred_labels)
 tp_and_fn = sum(cfm.sum(1))
