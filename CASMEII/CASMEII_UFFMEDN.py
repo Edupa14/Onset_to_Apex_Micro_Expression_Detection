@@ -26,15 +26,15 @@ def evaluate(segment_train_images, segment_validation_images, segment_train_labe
 
     # model.add(Dropout(0.5))
     #3
-    model.add(Convolution3D(32, (3, 3, 2), strides=1, padding='Same'))
-    model.add(PReLU())
-    #4
-    model.add(Dropout(0.5))
+    # model.add(Convolution3D(32, (3, 3, 2), strides=1, padding='Same'))
+    # model.add(PReLU())
+    # 4
+    # model.add(Dropout(0.5))
     #1
     model.add(MaxPooling3D(pool_size=(3, 3, 2)))
     model.add( PReLU())
     #2
-    model.add(Dropout(0.5))
+    # model.add(Dropout(0.5))
     model.add(Flatten())
     # model.add(Dense(1024, init='normal'))
     # model.add(Dropout(0.5))
@@ -86,7 +86,7 @@ def evaluate(segment_train_images, segment_validation_images, segment_train_labe
 
 K.set_image_dim_ordering('th')
 
-segmentName='FullFaceFace2'
+segmentName='FullFace'
 sizeH=32
 sizeV=32
 sizeD=2
