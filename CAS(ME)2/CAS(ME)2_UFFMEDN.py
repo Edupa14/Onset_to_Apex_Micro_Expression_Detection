@@ -40,7 +40,7 @@ def evaluate(segment_train_images, segment_validation_images, segment_train_labe
     # model.add(Dropout(0.5))
     # model.add(Dense(128, init='normal'))
     # model.add(Dropout(0.5))
-    model.add(Dense(5, init='normal'))
+    model.add(Dense(3, init='normal'))
     model.add(Dropout(0.5))
     model.add(Activation('softmax'))
     opt = SGD(lr=0.01)
@@ -86,7 +86,7 @@ def evaluate(segment_train_images, segment_validation_images, segment_train_labe
 
 K.set_image_dim_ordering('th')
 
-segmentName='FullFace2'
+segmentName='UpperFace'
 sizeH=32
 sizeV=32
 sizeD=2
