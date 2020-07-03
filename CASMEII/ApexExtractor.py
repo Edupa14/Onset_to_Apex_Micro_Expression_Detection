@@ -1,8 +1,6 @@
 import os
 import numpy as np
-import pandas as pd
 import cv2
-import matplotlib.pyplot as plt
 import dlib
 from keras import backend as K
 import shutil
@@ -41,7 +39,7 @@ def annotate_landmarks(img, landmarks, font_scale=0.4):
         cv2.circle(img, pos, 3, color=(0, 255, 255))
     return img
 
-path='../../../Datasets/CASMEII_categorical/'
+path='../../CASMEII_categorical/'
 
 # catdatafile = pd.read_excel('../../../Datasets/CASMEII/cat_apex.xlsx')
 # catdata = np.array(catdatafile)
@@ -51,7 +49,7 @@ path='../../../Datasets/CASMEII_categorical/'
 # print(namedata)
 
 
-targetpath= '../../../Datasets/CASMEII_categorical_apex2/'
+targetpath= '../../CASMEII_categorical_apex2/'
 
 directorylisting = os.listdir(path)
 
