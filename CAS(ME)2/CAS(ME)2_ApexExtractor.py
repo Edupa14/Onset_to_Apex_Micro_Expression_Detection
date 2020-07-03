@@ -39,7 +39,7 @@ def annotate_landmarks(img, landmarks, font_scale=0.4):
         cv2.circle(img, pos, 3, color=(0, 255, 255))
     return img
 
-path='../../CASMEII_categorical/'
+path='../../CAS(ME)2_categorical/'
 
 # catdatafile = pd.read_excel('../../../Datasets/CASMEII/cat_apex.xlsx')
 # catdata = np.array(catdatafile)
@@ -49,7 +49,7 @@ path='../../CASMEII_categorical/'
 # print(namedata)
 
 
-targetpath= '../../CASMEII_categorical_apex2/'
+targetpath= '../../CAS(ME)2_categorical_apex2/'
 
 directorylisting = os.listdir(path)
 
