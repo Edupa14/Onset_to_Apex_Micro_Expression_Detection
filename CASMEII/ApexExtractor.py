@@ -41,10 +41,10 @@ def annotate_landmarks(img, landmarks, font_scale=0.4):
         cv2.circle(img, pos, 3, color=(0, 255, 255))
     return img
 
-path='D:/University/Detecting Forced Emotions through Micro-Expression Recognition using Neural Networks/Datasets/CASMEII/CASME2_RAW_selected/CASME2_RAW_selected/'
+path='../../../Datasets/CASMEII_categorical/'
 
-catdatafile = pd.read_excel('../../../Datasets/CASMEII/cat_apex.xlsx')
-catdata = np.array(catdatafile)
+# catdatafile = pd.read_excel('../../../Datasets/CASMEII/cat_apex.xlsx')
+# catdata = np.array(catdatafile)
 
 
 # print(catdata)
@@ -58,78 +58,78 @@ directorylisting = os.listdir(path)
 
 count=0
 cats=[]
-for item in catdata:
-    if item[2] not in cats:
-        cats.append(item[2])
-        if os.path.exists(targetpath+item[2]):
-            shutil.rmtree(targetpath+item[2])
-        os.mkdir(targetpath+item[2], mode=0o777)
+for item in directorylisting:
+    if item not in cats:
+        cats.append(item)
+        if os.path.exists(targetpath+item):
+            shutil.rmtree(targetpath+item)
+        os.mkdir(targetpath+item, mode=0o777)
 
 for subject in directorylisting:
     # print(subject)
     subjectdirectorylisting=os.listdir(path+subject)
     for video in subjectdirectorylisting:
         videopath = path+subject +'/'+ video
+        newvideopath=targetpath+subject +'/'+ video
         found=False
-        for vidid in range(len(catdata)):
-            if catdata[vidid][1]==str(video) and ("sub"+str(catdata[vidid][0])==subject or "sub0"+str(catdata[vidid][0])==subject):
-                print(video,catdata[vidid][2],catdata[vidid])
+        # for vidid in range(len(catdata)):
+            # if catdata[vidid][1]==str(video) and ("sub"+str(catdata[vidid][0])==subject or "sub0"+str(catdata[vidid][0])==subject):
+            #     print(video,catdata[vidid][2],catdata[vidid])
                 # print(str(targetpath)+str(catdata[vidid][2])+"/"+str(catdata[vidid][0])+'_'+str(video))
-                if os.path.exists(targetpath + catdata[vidid][2]+"/"+str(catdata[vidid][0])+'_'+str(video)):
-                    shutil.rmtree(targetpath + catdata[vidid][2]+"/"+str(catdata[vidid][0])+'_'+str(video))
-                os.mkdir(targetpath + catdata[vidid][2]+"/"+str(catdata[vidid][0])+'_'+str(video), mode=0o777)
-                viddirectorylisting = os.listdir(videopath)
-                print(videopath,viddirectorylisting[0])
-                image = cv2.imread(videopath+'/'+viddirectorylisting[0])
-                landmarks = get_landmark(image)
-                numpylandmarks = np.asarray(landmarks)
-                total_pos=[1]*len(numpylandmarks)
-                count=0
-                for image in viddirectorylisting:
-                    image = cv2.imread(videopath+'/'+image)
-                    landmarks = get_landmark(image)
-                    numpylandmarks = np.asarray(landmarks)
-                    count+=1
-                    for pos in range(len(total_pos)):
-                        total_pos[pos]+=numpylandmarks[pos]
-                avg_pos=[]
-                for pos in total_pos:
-                    avg_pos.append(pos/count)
-                max_diff=0
-                max_diff_image=None
-                for image in viddirectorylisting:
-                    im=image
-                    image = cv2.imread(videopath +'/'+ image)
-                    landmarks = get_landmark(image)
-                    numpylandmarks = np.asarray(landmarks)
-                    diff=[]
-                    for pos in range(len(avg_pos)):
-                        diff.append(abs(avg_pos[pos]-numpylandmarks[pos]))
-                    # print(diff,sum(diff),len(diff),sum(sum(diff)/len(diff)))
-                    avg_diff=sum(sum(diff)/len(diff))
-                    # print(max_diff,avg_diff)
-                    if max_diff<avg_diff:
-                        max_diff=avg_diff
-                        max_diff_image=im
-                print(max_diff_image,max_diff)
-                for image in viddirectorylisting:
-                    if viddirectorylisting[0] == image :
-                        print(vidid, image,1)
-                        print(videopath + "/" + str(image))
-                        shutil.copyfile(videopath + "/" + str(image),
-                                        str(targetpath) + str(catdata[vidid][2]) + "/" + str(
-                                            catdata[vidid][0]) + '_' + str(video) + '/1' + str(image))
-                    if  max_diff_image == image:
-                        print(vidid,image,2)
-                        print(videopath+"/"+str(image))
-                        shutil.copyfile(videopath+"/"+str(image), str(targetpath)+str(catdata[vidid][2])+"/"+str(catdata[vidid][0])+'_'+str(video)+'/2'+str(image))
+        if os.path.exists(newvideopath):
+            shutil.rmtree(newvideopath)
+        os.mkdir(newvideopath, mode=0o777)
+        viddirectorylisting = os.listdir(videopath)
+        print(videopath,viddirectorylisting)
+        image = cv2.imread(videopath+'/'+viddirectorylisting[0])
+        landmarks = get_landmark(image)
+        numpylandmarks = np.asarray(landmarks)
+        total_pos=[1]*len(numpylandmarks)
+        count=0
+        for image in viddirectorylisting:
+            image = cv2.imread(videopath+'/'+image)
+            landmarks = get_landmark(image)
+            numpylandmarks = np.asarray(landmarks)
+            count+=1
+            for pos in range(len(total_pos)):
+                total_pos[pos]+=numpylandmarks[pos]
+        avg_pos=[]
+        for pos in total_pos:
+            avg_pos.append(pos/count)
+        max_diff=0
+        max_diff_image=None
+        for image in viddirectorylisting:
+            im=image
+            image = cv2.imread(videopath +'/'+ image)
+            landmarks = get_landmark(image)
+            numpylandmarks = np.asarray(landmarks)
+            diff=[]
+            for pos in range(len(avg_pos)):
+                diff.append(abs(avg_pos[pos]-numpylandmarks[pos]))
+            # print(diff,sum(diff),len(diff),sum(sum(diff)/len(diff)))
+            avg_diff=sum(sum(diff)/len(diff))
+            # print(max_diff,avg_diff)
+            if max_diff<avg_diff:
+                max_diff=avg_diff
+                max_diff_image=im
+        print(max_diff_image,max_diff)
+        for image in viddirectorylisting:
+            if viddirectorylisting[0] == image :
+                # print(vidid, image,1)
+                print(videopath + "/" + str(image))
+                shutil.copyfile(videopath + "/" + str(image),
+                                newvideopath+ '/1' + str(image))
+            if  max_diff_image == image:
+                # print(vidid,image,2)
+                print(videopath+"/"+str(image))
+                shutil.copyfile(videopath+"/"+str(image), newvideopath+'/2'+str(image))
 
-                if found==True:
-                    print("multiple",video,catdata[vidid])
-                found=True
-                count+=1
-        if found==False:
-            print("not found",video)
-        # print(str(subjectdirectorylisting)+str(video))
-        continue
+        #         if found==True:
+        #             print("multiple",video,catdata[vidid])
+        #         found=True
+        #         count+=1
+        # if found==False:
+        #     print("not found",video)
+        # # print(str(subjectdirectorylisting)+str(video))
+        # continue
 
