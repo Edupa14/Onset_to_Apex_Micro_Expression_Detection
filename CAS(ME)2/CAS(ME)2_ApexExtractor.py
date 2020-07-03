@@ -49,7 +49,7 @@ path='../../CAS(ME)2_categorical/'
 # print(namedata)
 
 
-targetpath= '../../CAS(ME)2_categorical_apex2/'
+targetpath= '../../CAS(ME)2_categorical_apex/'
 
 directorylisting = os.listdir(path)
 
