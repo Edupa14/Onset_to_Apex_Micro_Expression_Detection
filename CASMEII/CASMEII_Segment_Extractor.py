@@ -41,15 +41,16 @@ def annotate_landmarks(img, landmarks, font_scale=0.4):
     return img
 
 
-disgustpath = '../../CASMEII_categorical_apex2/disgust/'
-# fearpath = '../../CASMEII_categorical_apex2/fear/'
-happinesspath = '../../CASMEII_categorical_apex2/happiness/'
-otherspath = '../../CASMEII_categorical_apex2/others/'
-repressionpath = '../../CASMEII_categorical_apex2/repression/'
-# sadnesspath = '../../CASMEII_categorical_apex2/sadness/'
-surprisepath = '../../CASMEII_categorical_apex2/surprise/'
+path='../../CASMEII_categorical_apex/'
+disgustpath = path+'disgust/'
+# fearpath = path+'fear/'
+happinesspath = path+'happiness/'
+otherspath = path+'others/'
+repressionpath = path+'repression/'
+# sadnesspath = path+'sadness/'
+surprisepath =path+'surprise/'
 
-segmentName = 'FullFaceFace2'
+segmentName = 'FullFace2'
 sizeH=32
 sizeV=32
 sizeD=2
