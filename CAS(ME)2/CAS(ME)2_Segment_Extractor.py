@@ -41,11 +41,11 @@ def annotate_landmarks(img, landmarks, font_scale=0.4):
     return img
 
 path='../../CAS(ME)2_categorical_apex/'
-negativepath =path+'Negative/'
-positivepath = path+'Positive/'
-surprisepath = path+'Surprise/'
+negativepath =path+'negative/'
+positivepath = path+'positive/'
+surprisepath = path+'surprise/'
 
-segmentName = 'FullFace'
+segmentName = 'UpperFace'
 sizeH=32
 sizeV=32
 sizeD=2
