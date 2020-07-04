@@ -1,0 +1,33 @@
+model = Sequential()
+    #model.add(ZeroPadding3D((2,2,0)))
+    model.add(
+        Convolution3D(32, (20, 20, 1), strides=(10, 10, 1), input_shape=(1, sizeH, sizeV, sizeD), padding='Same'))
+    model.add(PReLU())
+
+    # model.add(Dropout(0.5))
+    #3
+    # model.add(Convolution3D(32, (3, 3, 2), strides=1, padding='Same'))
+    # model.add(PReLU())
+    #4
+    # model.add(Dropout(0.5))
+    #1
+    model.add(MaxPooling3D(pool_size=(3, 3, 2)))
+    model.add( PReLU())
+    #2
+    # model.add(Dropout(0.5))
+    model.add(Flatten())
+    # model.add(Dense(1024, init='normal'))
+    # model.add(Dropout(0.5))
+    # model.add(Dense(128, init='normal'))
+    # model.add(Dropout(0.5))
+    model.add(Dense(5, init='normal'))
+    model.add(Dropout(0.5))
+    model.add(Activation('softmax'))
+    opt = SGD(lr=0.01)
+    model.compile(loss='categorical_crossentropy', optimizer=opt, metrics=['accuracy'])
+
+
+--CAS(ME)^2 (3)= 0.842
+--SAMM (5)= 
+--SIMC = 
+--CASMEII(5)= 0.715
