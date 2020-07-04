@@ -1,6 +1,6 @@
-**/SMIC/weights_late_microexpfusenet/
-**/SMIC/numpy_validation_datasets/
-**/SMIC/numpy_training_datasets/
+**/SIMC/weights_late_microexpfusenet/
+**/SIMC/numpy_validation_datasets/
+**/SIMC/numpy_training_datasets/
 **/SAMM/weights_SAMM/
 **/SAMM/numpy_validation_datasets/
 **/SAMM/numpy_training_datasets/
