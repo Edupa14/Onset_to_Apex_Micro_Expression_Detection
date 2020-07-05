@@ -27,7 +27,7 @@ model = Sequential()
     model.compile(loss='categorical_crossentropy', optimizer=opt, metrics=['accuracy'])
 
 
---CAS(ME)^2 (3)= 0.842
+--CAS(ME)^2 (3)= 0.895
 --SAMM (5)= 
 --SIMC = 
 --CASMEII(5)= 0.715
