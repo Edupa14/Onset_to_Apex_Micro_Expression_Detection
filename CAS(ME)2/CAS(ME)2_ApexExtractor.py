@@ -50,7 +50,9 @@ path='../../CAS(ME)2_categorical/'
 
 
 targetpath= '../../CAS(ME)2_categorical_apex/'
-
+if os.path.exists(targetpath ):
+    shutil.rmtree(targetpath )
+os.mkdir(targetpath , mode=0o777)
 directorylisting = os.listdir(path)
 
 
