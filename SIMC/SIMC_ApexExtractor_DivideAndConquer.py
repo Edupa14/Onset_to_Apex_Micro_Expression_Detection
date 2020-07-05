@@ -80,7 +80,9 @@ path='../../SIMC_E_categorical/'
 
 
 targetpath= '../../SIMC_categorical_apex_DivideAndConquer/'
-
+if os.path.exists(targetpath ):
+    shutil.rmtree(targetpath )
+os.mkdir(targetpath , mode=0o777)
 directorylisting = os.listdir(path)
 
 
