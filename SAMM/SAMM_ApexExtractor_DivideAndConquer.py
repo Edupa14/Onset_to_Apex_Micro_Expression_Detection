@@ -76,15 +76,9 @@ def find_max(imgs):
 
 path='../../SAMM_categorical/'
 
-# catdatafile = pd.read_excel('../../../Datasets/CASMEII/cat_apex.xlsx')
-# catdata = np.array(catdatafile)
 
 
-# print(catdata)
-# print(namedata)
-
-
-targetpath= '../../SAMM_categorical_apex/'
+targetpath= '../../SAMM_categorical_apex_DivideAndConquer/'
 
 directorylisting = os.listdir(path)
 
