@@ -76,15 +76,10 @@ def find_max(imgs):
 
 path='../../CAS(ME)2_categorical/'
 
-# catdatafile = pd.read_excel('../../../Datasets/CASMEII/cat_apex.xlsx')
-# catdata = np.array(catdatafile)
 
 
-# print(catdata)
-# print(namedata)
 
-
-targetpath= '../../CAS(ME)2_categorical_apex/'
+targetpath= '../../CAS(ME)2_categorical_apex_DivideAndConquer/'
 
 directorylisting = os.listdir(path)
 
