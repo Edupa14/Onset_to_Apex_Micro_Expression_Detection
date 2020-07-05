@@ -85,33 +85,34 @@ for subject in directorylisting:
         landmarks = get_landmark(image)
         numpylandmarks = np.asarray(landmarks)
         total_pos=[1]*len(numpylandmarks)
+        img_pos=[]
         count=0
         for image in viddirectorylisting:
+            img_pos.append()
             image = cv2.imread(videopath+'/'+image)
             landmarks = get_landmark(image)
             numpylandmarks = np.asarray(landmarks)
             count+=1
             for pos in range(len(total_pos)):
                 total_pos[pos]+=numpylandmarks[pos]
+                img_pos[count-1].append(numpylandmarks[pos])
         avg_pos=[]
         for pos in total_pos:
             avg_pos.append(pos/count)
         max_diff=0
         max_diff_image=None
+        count2=0
         for image in viddirectorylisting:
-            im=image
-            image = cv2.imread(videopath +'/'+ image)
-            landmarks = get_landmark(image)
-            numpylandmarks = np.asarray(landmarks)
             diff=[]
             for pos in range(len(avg_pos)):
-                diff.append(abs(avg_pos[pos]-numpylandmarks[pos]))
+                diff.append(abs(avg_pos[pos]-img_pos[count2][pos]))
+            count2+=1
             # print(diff,sum(diff),len(diff),sum(sum(diff)/len(diff)))
             avg_diff=sum(sum(diff)/len(diff))
             # print(max_diff,avg_diff)
             if max_diff<avg_diff:
                 max_diff=avg_diff
-                max_diff_image=im
+                max_diff_image=image
         print(max_diff_image,max_diff)
         for image in viddirectorylisting:
             if viddirectorylisting[0] == image :
