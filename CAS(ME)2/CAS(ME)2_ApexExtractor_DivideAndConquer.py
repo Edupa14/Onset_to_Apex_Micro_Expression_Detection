@@ -39,6 +39,41 @@ def annotate_landmarks(img, landmarks, font_scale=0.4):
         cv2.circle(img, pos, 3, color=(0, 255, 255))
     return img
 
+def find_max(imgs):
+    image = cv2.imread(videopath + '/' + imgs[0])
+    landmarks = get_landmark(image)
+    numpylandmarks = np.asarray(landmarks)
+    total_pos = [1] * len(numpylandmarks)
+    count = 0
+    for i in range(int(len(imgs) // 2)):
+        image = cv2.imread(videopath + '/' + imgs[i])
+        landmarks = get_landmark(image)
+        numpylandmarks = np.asarray(landmarks)
+        count += 1
+        for pos in range(len(total_pos)):
+            total_pos[pos] += numpylandmarks[pos]
+    avg_pos = []
+    for pos in total_pos:
+        avg_pos.append(pos / count)
+    max_diff = 0
+    max_diff_image = None
+    for image in imgs:
+        im = image
+        image = cv2.imread(videopath + '/' + image)
+        landmarks = get_landmark(image)
+        numpylandmarks = np.asarray(landmarks)
+        diff = []
+        for pos in range(len(avg_pos)):
+            diff.append(abs(avg_pos[pos] - numpylandmarks[pos]))
+        # print(diff,sum(diff),len(diff),sum(sum(diff)/len(diff)))
+        avg_diff = sum(sum(diff) / len(diff))
+        # print(max_diff,avg_diff)
+        if max_diff < avg_diff:
+            max_diff = avg_diff
+            max_diff_image = im
+    return max_diff,max_diff_image
+
+
 path='../../CAS(ME)2_categorical/'
 
 # catdatafile = pd.read_excel('../../../Datasets/CASMEII/cat_apex.xlsx')
@@ -79,37 +114,26 @@ for subject in directorylisting:
         os.mkdir(newvideopath, mode=0o777)
         viddirectorylisting = os.listdir(videopath)
         print(videopath,viddirectorylisting)
-        image = cv2.imread(videopath+'/'+viddirectorylisting[0])
-        landmarks = get_landmark(image)
-        numpylandmarks = np.asarray(landmarks)
-        total_pos=[1]*len(numpylandmarks)
         count=0
-        for image in viddirectorylisting:
-            image = cv2.imread(videopath+'/'+image)
-            landmarks = get_landmark(image)
-            numpylandmarks = np.asarray(landmarks)
-            count+=1
-            for pos in range(len(total_pos)):
-                total_pos[pos]+=numpylandmarks[pos]
-        avg_pos=[]
-        for pos in total_pos:
-            avg_pos.append(pos/count)
-        max_diff=0
-        max_diff_image=None
-        for image in viddirectorylisting:
-            im=image
-            image = cv2.imread(videopath +'/'+ image)
-            landmarks = get_landmark(image)
-            numpylandmarks = np.asarray(landmarks)
-            diff=[]
-            for pos in range(len(avg_pos)):
-                diff.append(abs(avg_pos[pos]-numpylandmarks[pos]))
-            # print(diff,sum(diff),len(diff),sum(sum(diff)/len(diff)))
-            avg_diff=sum(sum(diff)/len(diff))
-            # print(max_diff,avg_diff)
-            if max_diff<avg_diff:
-                max_diff=avg_diff
-                max_diff_image=im
+        Lmax=0
+        Rmax=0
+        Lval,Rval=None
+        len=len(viddirectorylisting)
+        imgs=viddirectorylisting
+        while len>2:
+            Lmax,Lval=find_max(imgs[:len(int(imgs//2))])
+            Rmax,Rval = find_max(imgs[len(int(imgs // 2)):])
+            if Lmax>Rmax:
+                imgs=imgs[:len(int(imgs//2))]
+            else:
+                imgs=imgs[len(int(imgs // 2)):]
+            len=len(imgs)
+        if Lmax > Rmax:
+            max_diff_image=Lval
+            max_diff=Lmax
+        else:
+            max_diff_image=Rval
+            max_diff=Rmax
         print(max_diff_image,max_diff)
         for image in viddirectorylisting:
             if viddirectorylisting[0] == image :
