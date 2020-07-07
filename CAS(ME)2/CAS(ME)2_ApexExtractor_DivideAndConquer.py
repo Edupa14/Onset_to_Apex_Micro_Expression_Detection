@@ -47,7 +47,7 @@ def find_max(imgs):
     img_pos = []
     count = 0
     for image in viddirectorylisting:
-        img_pos.append()
+        img_pos.append([])
         image = cv2.imread(videopath + '/' + image)
         landmarks = get_landmark(image)
         numpylandmarks = np.asarray(landmarks)
@@ -115,17 +115,18 @@ for subject in directorylisting:
         count=0
         Lmax=0
         Rmax=0
-        Lval,Rval=None
-        len=len(viddirectorylisting)
+        Lval=None
+        Rval=None
+        lenght=len(viddirectorylisting)
         imgs=viddirectorylisting
-        while len>2:
-            Lmax,Lval=find_max(imgs[:len(int(imgs//2))])
-            Rmax,Rval = find_max(imgs[len(int(imgs // 2)):])
+        while lenght>2:
+            Lmax,Lval=find_max(imgs[:int(len(imgs)//2)])
+            Rmax,Rval = find_max(imgs[int(len(imgs)//2):])
             if Lmax>Rmax:
-                imgs=imgs[:len(int(imgs//2))]
+                imgs=imgs[:int(len(imgs)//2)]
             else:
-                imgs=imgs[len(int(imgs // 2)):]
-            len=len(imgs)
+                imgs=imgs[int(len(imgs)//2):]
+            lenght=len(imgs)
         if Lmax > Rmax:
             max_diff_image=Lval
             max_diff=Lmax
