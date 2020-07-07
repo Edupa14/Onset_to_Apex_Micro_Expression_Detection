@@ -85,7 +85,7 @@ path='../../CAS(ME)2_categorical/'
 
 
 
-targetpath= '../../CAS(ME)2_categorical_apex_DivideAndConquer/'
+targetpath= '../../CAS(ME)2_categorical_apex_SelectiveDivideAndConquer/'
 if os.path.exists(targetpath ):
     shutil.rmtree(targetpath )
 os.mkdir(targetpath , mode=0o777)
