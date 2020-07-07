@@ -113,7 +113,8 @@ for subject in directorylisting:
         count=0
         Lmax=0
         Rmax=0
-        Lval,Rval=None
+        Lval=None
+        Rval=None
         lenght=len(viddirectorylisting)
         imgs=viddirectorylisting
         while lenght>2:
