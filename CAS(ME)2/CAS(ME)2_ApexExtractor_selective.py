@@ -49,7 +49,7 @@ path='../../CAS(ME)2_categorical/'
 # print(namedata)
 
 
-targetpath= '../../CAS(ME)2_categorical_apex/'
+targetpath= '../../CAS(ME)2_categorical_apex_selective/'
 if os.path.exists(targetpath ):
     shutil.rmtree(targetpath )
 os.mkdir(targetpath , mode=0o777)
@@ -88,16 +88,16 @@ for subject in directorylisting:
         total_pos=[1]*landmarksNos
         img_pos=[]
         count=0
-        landmark_list=[x for x in range(18,28)]
-        landmark_list.extend([x for x in range(37,69)])
+        landmark_list=[x for x in range(17,27)]
+        landmark_list.extend([x for x in range(36,68)])
         for image in viddirectorylisting:
-            img_pos.append()
+            img_pos.append([])
             image = cv2.imread(videopath+'/'+image)
             landmarks = get_landmark(image)
             numpylandmarks = np.asarray(landmarks)
             count+=1
             img_pos[count - 1]=[1]*landmarksNos
-            for pos in landmark_list:
+            for pos in range(landmarksNos):
                 total_pos[pos]+=numpylandmarks[pos]
                 img_pos[count-1][pos]=(numpylandmarks[pos])
         avg_pos=[]
@@ -108,6 +108,7 @@ for subject in directorylisting:
         count2=0
         for image in viddirectorylisting:
             diff=[]
+            # print(landmark_list,len(avg_pos))
             for pos in landmark_list:
                 diff.append(abs(avg_pos[pos]-img_pos[count2][pos]))
             count2+=1
