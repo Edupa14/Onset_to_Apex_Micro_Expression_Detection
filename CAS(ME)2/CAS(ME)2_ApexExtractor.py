@@ -88,7 +88,7 @@ for subject in directorylisting:
         img_pos=[]
         count=0
         for image in viddirectorylisting:
-            img_pos.append()
+            img_pos.append([])
             image = cv2.imread(videopath+'/'+image)
             landmarks = get_landmark(image)
             numpylandmarks = np.asarray(landmarks)
