@@ -116,16 +116,16 @@ for subject in directorylisting:
         Lmax=0
         Rmax=0
         Lval,Rval=None
-        len=len(viddirectorylisting)
+        lenght=len(viddirectorylisting)
         imgs=viddirectorylisting
-        while len>2:
+        while lenght>2:
             Lmax,Lval=find_max(imgs[:int(len(imgs)//2)])
             Rmax,Rval = find_max(imgs[int(len(imgs)//2):])
             if Lmax>Rmax:
                 imgs=imgs[:int(len(imgs)//2)]
             else:
                 imgs=imgs[int(len(imgs)//2):]
-            len=len(imgs)
+            lenght=len(imgs)
         if Lmax > Rmax:
             max_diff_image=Lval
             max_diff=Lmax
