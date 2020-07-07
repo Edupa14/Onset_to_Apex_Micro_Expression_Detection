@@ -50,8 +50,8 @@ def evaluate(segment_train_images, segment_validation_images, segment_train_labe
 
     filepath="weights_CAS(ME)2/weights-improvement"+str(test_index)+"-{epoch:02d}-{val_acc:.2f}.hdf5"
     checkpoint = ModelCheckpoint(filepath, monitor='val_acc', verbose=1, save_best_only=True, mode='max')
-    EarlyStop = EarlyStopping(monitor='val_acc', min_delta=0, patience=100, restore_best_weights=True, verbose=1, mode='max')
-    reduce = ReduceLROnPlateau(monitor='val_acc', factor=0.5, patience=20,cooldown=10, verbose=1,min_delta=0, mode='max',min_lr=0.0005)
+    EarlyStop = EarlyStopping(monitor='val_acc', min_delta=0, patience=150, restore_best_weights=True, verbose=1, mode='max')
+    reduce = ReduceLROnPlateau(monitor='val_acc', factor=0.5, patience=30,cooldown=10, verbose=1,min_delta=0, mode='max',min_lr=0.0005)
     callbacks_list = [ EarlyStop, reduce,myCallback()]
 
 
@@ -86,7 +86,7 @@ def evaluate(segment_train_images, segment_validation_images, segment_train_labe
 
 K.set_image_dim_ordering('th')
 
-segmentName='UpperFace_categorical_apex_DivideAndConquer'
+segmentName='UpperFace_categorical_apex_SelectiveDivideAndConquer'
 sizeH=32
 sizeV=32
 sizeD=2
@@ -137,7 +137,7 @@ precision = tp / tp_and_fp
 recall = tp / tp_and_fn
 print("precision: ",precision)
 print("recall: ",recall)
-print("F1-score: ",f1_score(val_labels,pred_labels))
+print("F1-score: ",f1_score(val_labels,pred_labels,average="none"))
 print("F1-score: ",f1_score(val_labels,pred_labels,average="macro"))
 print("F1-score: ",f1_score(val_labels,pred_labels,average="weighted"))
 print("F1-score: ",f1_score(val_labels,pred_labels,average="samples"))
