@@ -137,7 +137,7 @@ precision = tp / tp_and_fp
 recall = tp / tp_and_fn
 print("precision: ",precision)
 print("recall: ",recall)
-print("F1-score: ",f1_score(val_labels,pred_labels,average="none"))
+print("F1-score: ",f1_score(val_labels,pred_labels,average=None))
 print("F1-score: ",f1_score(val_labels,pred_labels,average="macro"))
 print("F1-score: ",f1_score(val_labels,pred_labels,average="weighted"))
 print("F1-score: ",f1_score(val_labels,pred_labels,average="samples"))
