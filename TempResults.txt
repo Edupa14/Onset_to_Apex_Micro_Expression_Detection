@@ -83,3 +83,8 @@ D:\University\Detecting Forced Emotions through Micro-Expression Recognition usi
 ---------------------------
 accuracy: 0.47368421052631576
 F1-score: 0.42878503075871494
+---------------------------
+D:\University\Detecting Forced Emotions through Micro-Expression Recognition using Neural Networks\My-code\Onset_to_Apex_Micro_Expression_Detection\CAS(ME)2 kfold_UpperFace_categorical_apex_selective_128x128x2
+---------------------------
+accuracy: 0.6842105263157895
+F1-score: 0.6317143630947007
