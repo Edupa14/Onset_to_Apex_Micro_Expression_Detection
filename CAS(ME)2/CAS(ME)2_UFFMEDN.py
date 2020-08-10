@@ -68,12 +68,13 @@ def evaluate(segment_train_images, segment_validation_images, segment_train_labe
     #2
     # model.add(Dropout(0.5))
     model.add(Flatten())
-    # model.add(Dense(1024, init='normal'))
+    model.add(Dense(256, init='normal'))
     # model.add(Dropout(0.5))
     model.add(Dense(128, init='normal'))
+    # model.add(Dense(128, init='normal'))
     model.add(Dropout(0.5))
     model.add(Dense(3, init='normal'))
-    model.add(Dropout(0.5))
+    # model.add(Dropout(0.5))
     model.add(Activation('softmax'))
     opt = SGD(lr=0.1)
     model.compile(loss='categorical_crossentropy', optimizer=opt, metrics=['accuracy'])
@@ -244,7 +245,7 @@ segmentName = 'UpperFace_categorical_apex_selective'
 sizeH = 128
 sizeV = 128
 sizeD = 2
-testtype = "loocv"
+testtype = "kfold"
 ####################################
 
 # Load training images and labels that are stored in numpy array
