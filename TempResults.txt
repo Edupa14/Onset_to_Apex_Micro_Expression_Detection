@@ -88,3 +88,28 @@ D:\University\Detecting Forced Emotions through Micro-Expression Recognition usi
 ---------------------------
 accuracy: 0.6842105263157895
 F1-score: 0.6317143630947007
+---------------------------
+D:\University\Detecting Forced Emotions through Micro-Expression Recognition using Neural Networks\My-code\Onset_to_Apex_Micro_Expression_Detection\CAS(ME)2 loocv_UpperFace_categorical_apex_selective_128x128x2
+---------------------------
+accuracy: 0.7105263157894737
+F1-score: 0.6686602870813397
+---------------------------
+D:\University\Detecting Forced Emotions through Micro-Expression Recognition using Neural Networks\My-code\Onset_to_Apex_Micro_Expression_Detection\CAS(ME)2 kfold_UpperFace_categorical_apex_selective_128x128x2
+---------------------------
+accuracy: 0.7368421052631579
+F1-score: 0.7161654135338346
+---------------------------
+D:\University\Detecting Forced Emotions through Micro-Expression Recognition using Neural Networks\My-code\Onset_to_Apex_Micro_Expression_Detection\CAS(ME)2 kfold_UpperFace_categorical_apex_selective_128x128x2
+---------------------------
+accuracy: 0.6842105263157895
+F1-score: 0.6200564303841365
+---------------------------
+D:\University\Detecting Forced Emotions through Micro-Expression Recognition using Neural Networks\My-code\Onset_to_Apex_Micro_Expression_Detection\CAS(ME)2 kfold_UpperFace_categorical_apex_selective_128x128x2
+---------------------------
+accuracy: 0.6842105263157895
+F1-score: 0.6282464740282078
+---------------------------
+D:\University\Detecting Forced Emotions through Micro-Expression Recognition using Neural Networks\My-code\Onset_to_Apex_Micro_Expression_Detection\CAS(ME)2 kfold_UpperFace_categorical_apex_selective_128x128x2
+---------------------------
+accuracy: 0.5526315789473685
+F1-score: 0.39339875111507583
