@@ -4,7 +4,7 @@ from sklearn.metrics import accuracy_score,f1_score
 from keras.models import Sequential, Model
 from keras.layers.core import Dense, Dropout, Activation, Flatten
 from keras.layers.convolutional import Convolution3D, MaxPooling3D, ZeroPadding3D
-from keras.layers import LeakyReLU ,PReLU,Input,concatenate,BatchNormalization
+from keras.layers import LeakyReLU ,PReLU,Input,concatenate
 from keras.callbacks import ModelCheckpoint,EarlyStopping,ReduceLROnPlateau,Callback
 from sklearn.model_selection import train_test_split,LeaveOneOut,KFold
 from keras import backend as K
@@ -50,14 +50,11 @@ def evaluate(segment_train_images, segment_validation_images, segment_train_labe
 # # ----------------------------
     model = Sequential()
     #model.add(ZeroPadding3D((2,2,0)))
-    model.add(Convolution3D(32, (6, 6, 1), strides=1, input_shape=(1, sizeH, sizeV, sizeD), padding='Same'))
-    model.add(BatchNormalization())
-    model.add(Convolution3D(64, (12, 12, 1), strides=(3, 3, 1), input_shape=(1, sizeH, sizeV, sizeD), padding='Same'))
+    model.add(Convolution3D(32, (6, 6, 1), strides=(3, 3, 1), input_shape=(1, sizeH, sizeV, sizeD), padding='Same'))
+
+    model.add(Convolution3D(64, (12, 12, 1), strides=(6, 6, 1), input_shape=(1, sizeH, sizeV, sizeD), padding='Same'))
     model.add(PReLU())
-    model.add(Convolution3D(128, (12, 12, 1), strides=(6, 6, 1), input_shape=(1, sizeH, sizeV, sizeD), padding='Same'))
-    model.add(PReLU())
-    # model.add(Dropout(0.5))
-    # model.add(Convolution3D(256, (8, 8, 1), strides=1, input_shape=(1, sizeH, sizeV, sizeD), padding='Same'))
+    # model.add(Convolution3D(128, (8, 8, 1), strides=1, input_shape=(1, sizeH, sizeV, sizeD), padding='Same'))
     # model.add(PReLU())
     # model.add(Dropout(0.5))
     #3
@@ -86,7 +83,7 @@ def evaluate(segment_train_images, segment_validation_images, segment_train_labe
     filepath="weights_CAS(ME)2/weights-improvement"+str(test_index)+"-{epoch:02d}-{val_acc:.2f}.hdf5"
     checkpoint = ModelCheckpoint(filepath, monitor='val_acc', verbose=1, save_best_only=True, mode='max')
     EarlyStop = EarlyStopping(monitor='val_acc', min_delta=0, patience=10, restore_best_weights=True, verbose=1, mode='max')
-    reduce = ReduceLROnPlateau(monitor='val_acc', factor=0.2, patience=5,cooldown=2, verbose=1,min_delta=0, mode='max',min_lr=0.0005)
+    reduce = ReduceLROnPlateau(monitor='val_acc', factor=0.2, patience=5,cooldown=5, verbose=1,min_delta=0, mode='max',min_lr=0.0005)
     callbacks_list = [ EarlyStop, reduce,myCallback()]
 
 
@@ -247,7 +244,7 @@ segmentName = 'UpperFace_categorical_apex_selective'
 sizeH = 128
 sizeV = 128
 sizeD = 2
-testtype = "kfold"
+testtype = "loocv"
 ####################################
 
 # Load training images and labels that are stored in numpy array
