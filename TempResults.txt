@@ -133,3 +133,38 @@ F1-score: 0.44595868543850253
 ---------------------------
 accuracy: 0.25301204819277107
 F1-score: 0.10217794253938832
+---------------------------
+/home/student/Nikin/Onset_to_Apex_Micro_Expression_Detection/CASMEII kfold_UpperFace_SelectiveDivideAndConquer_128x128x2
+---------------------------
+accuracy: 0.25301204819277107
+F1-score: 0.10217794253938832
+---------------------------
+/home/student/Nikin/Onset_to_Apex_Micro_Expression_Detection/CASMEII loocv_UpperFace_SelectiveDivideAndConquer_128x128x2
+---------------------------
+accuracy: 0.2570281124497992
+F1-score: 0.11025175575983308
+---------------------------
+/home/student/Nikin/Onset_to_Apex_Micro_Expression_Detection/CASMEII kfold_UpperFace_SelectiveDivideAndConquer_128x128x2
+---------------------------
+accuracy: 0.25301204819277107
+F1-score: 0.10217794253938832
+---------------------------
+/home/student/Nikin/Onset_to_Apex_Micro_Expression_Detection/CASMEII kfold_UpperFace_SelectiveDivideAndConquer_128x128x2
+---------------------------
+accuracy: 0.25301204819277107
+F1-score: 0.10217794253938832
+---------------------------
+/home/student/Nikin/Onset_to_Apex_Micro_Expression_Detection/CASMEII kfold_UpperFace_SelectiveDivideAndConquer_128x128x2
+---------------------------
+accuracy: 0.25301204819277107
+F1-score: 0.10217794253938832
+---------------------------
+/home/student/Nikin/Onset_to_Apex_Micro_Expression_Detection/CAS(ME)2 kfold_UpperFace_categorical_apex_Selective_128x128x2
+---------------------------
+accuracy: 0.5526315789473685
+F1-score: 0.43700159489633184
+---------------------------
+/home/student/Nikin/Onset_to_Apex_Micro_Expression_Detection/CASMEII kfold_UpperFace_SelectiveDivideAndConquer_128x128x2
+---------------------------
+accuracy: 0.5421686746987951
+F1-score: 0.48997495255408263
