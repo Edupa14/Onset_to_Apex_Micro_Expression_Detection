@@ -40,19 +40,19 @@ def evaluate(segment_train_images, segment_validation_images, segment_train_labe
 
     add2 = Add()([ract_5, add1])
 
-    # conv6 = Convolution3D(32, (3, 3, 3), strides=1, padding='Same')(add2)
-    # # bn2=BatchNormalization()(conv2)
-    # ract_6 = PReLU()(conv6)
-    # conv7 = Convolution3D(64, (3, 3, 3), strides=1, padding='Same')(ract_6)
-    # # bn3=BatchNormalization()(conv3)
-    # ract_7 = PReLU()(conv7)
-    #
-    # add3 = Add()([ract_7, add2])
-    #
+    conv6 = Convolution3D(96, (3, 3, 3), strides=1, padding='Same')(add2)
+    # bn2=BatchNormalization()(conv2)
+    ract_6 = PReLU()(conv6)
+    conv7 = Convolution3D(128, (3, 3, 3), strides=1, padding='Same')(ract_6)
+    # bn3=BatchNormalization()(conv3)
+    ract_7 = PReLU()(conv7)
+
+    add3 = Add()([ract_7, add2])
+
     # conv3 = Convolution3D(32, (3, 3, 3), strides=1, padding='Same')(add3)
     # # bn3 = BatchNormalization()(conv3)
     # ract_x = PReLU()(conv3)
-    flatten_1 = Flatten()(add2)
+    flatten_1 = Flatten()(add3)
     dense_1 = Dense(5, init='normal')(flatten_1)
     # drop1 = Dropout(0.5)(dense_1)
     activation = Activation('softmax')(dense_1)
