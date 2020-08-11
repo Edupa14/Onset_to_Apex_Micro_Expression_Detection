@@ -241,7 +241,7 @@ def kfold():
 # edit params
 K.set_image_dim_ordering('th')
 
-segmentName = 'UpperFace_categorical_apex_selective'
+segmentName = 'UpperFace_categorical_apex_Selective'
 sizeH = 128
 sizeV = 128
 sizeD = 2
