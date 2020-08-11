@@ -40,14 +40,14 @@ def annotate_landmarks(img, landmarks, font_scale=0.4):
         cv2.circle(img, pos, 3, color=(0, 255, 255))
     return img
 
-path='../../CAS(ME)2_categorical_apex_DivideAndConquer/'
+path='../../CAS(ME)2_categorical_apex_SelectiveDivideAndConquer/'
 negativepath =path+'negative/'
 positivepath = path+'positive/'
 surprisepath = path+'surprise/'
 
-segmentName = 'UpperFace2_categorical_apex_DivideAndConquer'
-sizeH=32
-sizeV=32
+segmentName = 'UpperFace_categorical_apex_SelectiveDivideAndConquer'
+sizeH=128
+sizeV=128
 sizeD=2
 
 paths=[negativepath,positivepath, surprisepath]
@@ -64,16 +64,20 @@ for typepath in (paths):
         print(videopath)
         segment_frames = []
         framelisting = os.listdir(videopath)
-        if sizeD<len(framelisting):
-            val=int((len(framelisting)/2)-(sizeD/2))
-            framerange = [x+val for x in range(sizeD)]
+        if sizeD <= len(framelisting):
+            val = int((len(framelisting) / 2) - (sizeD / 2))
+            framerange = [x + val for x in range(sizeD)]
         else:
-            tempD1=sizeD//len(framelisting)
-            tempD2 = sizeD%len(framelisting)
+            tempD1 = sizeD // len(framelisting)
+            tempD2 = sizeD % len(framelisting)
             framerange = []
-            for y in range (tempD1):
-                framerange.extend([x for x in range(len(framelisting))])
-            framerange.extend([y for y in range(tempD2)])
+            # for y in range (len(framelisting)):
+            #     framerange.extend([y for _ in range(tempD1)])
+            #     if y<tempD2:
+            #         framerange.append(y)
+            framerange.extend([y for y in range(len(framelisting))])
+
+            framerange.extend([-1 for _ in range(sizeD - len(framelisting))])
 
 
         for frame in framerange:
