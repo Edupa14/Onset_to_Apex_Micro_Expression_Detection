@@ -41,7 +41,7 @@ def annotate_landmarks(img, landmarks, font_scale=0.4):
     return img
 
 
-path='../../CASMEII_categorical_apex2/'
+path='../../CASMEII_categorical_apex_SelectiveDivideAndConquer/'
 disgustpath = path+'disgust/'
 # fearpath = path+'fear/'
 happinesspath = path+'happiness/'
@@ -50,9 +50,9 @@ repressionpath = path+'repression/'
 # sadnesspath = path+'sadness/'
 surprisepath =path+'surprise/'
 
-segmentName = 'FullFace2'
-sizeH=32
-sizeV=32
+segmentName = 'UpperFace_SelectiveDivideAndConquer'
+sizeH=128
+sizeV=128
 sizeD=2
 
 paths=[disgustpath,  happinesspath,otherspath,repressionpath,surprisepath]
@@ -69,16 +69,20 @@ for typepath in (paths):
         print(videopath)
         segment_frames = []
         framelisting = os.listdir(videopath)
-        if sizeD<len(framelisting):
-            val=int((len(framelisting)/2)-(sizeD/2))
-            framerange = [x+val for x in range(sizeD)]
+        if sizeD <= len(framelisting):
+            val = int((len(framelisting) / 2) - (sizeD / 2))
+            framerange = [x + val for x in range(sizeD)]
         else:
-            tempD1=sizeD//len(framelisting)
-            tempD2 = sizeD%len(framelisting)
+            tempD1 = sizeD // len(framelisting)
+            tempD2 = sizeD % len(framelisting)
             framerange = []
-            for y in range (tempD1):
-                framerange.extend([x for x in range(len(framelisting))])
-            framerange.extend([y for y in range(tempD2)])
+            # for y in range (len(framelisting)):
+            #     framerange.extend([y for _ in range(tempD1)])
+            #     if y<tempD2:
+            #         framerange.append(y)
+            framerange.extend([y for y in range(len(framelisting))])
+
+            framerange.extend([-1 for _ in range(sizeD - len(framelisting))])
 
 
         for frame in framerange:
