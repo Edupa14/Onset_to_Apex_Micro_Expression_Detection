@@ -51,14 +51,15 @@ def find_max(imgs):
     landmark_list.extend([x for x in range(36, 68)])
     broken=[]
     for image in viddirectorylisting:
-        img_pos.append([])
-        image = cv2.imread(videopath + '/' + image)
+
+        im = cv2.imread(videopath + '/' + image)
         try:
-            landmarks = get_landmark(image)
+            landmarks = get_landmark(im)
         except:
             print("broken",image)
             broken.append(image)
             continue
+        img_pos.append([])
         numpylandmarks = np.asarray(landmarks)
         count += 1
         img_pos[count - 1] = [1] * landmarksNos
@@ -71,7 +72,7 @@ def find_max(imgs):
     max_diff = 0
     max_diff_image = None
     count2 = 0
-    print(broken)
+    print(broken,viddirectorylisting)
     for image in viddirectorylisting:
         if image not in broken:
             diff = []
