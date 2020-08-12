@@ -1,10 +1,10 @@
 import numpy
 import os
 
-segmentName='Eyes'
-sizeH=32
-sizeV=32
-sizeD=24
+segmentName = 'UpperFace_SelectiveDivideAndConquer'
+sizeH = 128
+sizeV = 128
+sizeD = 2
 
 
 segment_traininglabels = numpy.load('numpy_training_datasets/{0}_labels_{1}x{2}x{3}.npy'.format(segmentName,sizeH, sizeV,sizeD))
@@ -22,8 +22,8 @@ print(cat)
 
 cat=[0]*7
 dir=0
-for typepath in os.listdir('../../../Datasets/CASMEII_categorical_apex/'):
-    directorylisting = os.listdir('../../../Datasets/CASMEII_categorical_apex/'+typepath)
+for typepath in os.listdir('../../CASMEII_categorical_apex_SelectiveDivideAndConquer/'):
+    directorylisting = os.listdir('../../CASMEII_categorical_apex_SelectiveDivideAndConquer/'+typepath)
     for video in directorylisting:
         cat[dir]+=1
     dir+=1
