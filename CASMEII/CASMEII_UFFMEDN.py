@@ -41,6 +41,7 @@ def evaluate(segment_train_images, segment_validation_images, segment_train_labe
     model.add(Dense(256, init='normal'))
     # model.add(Dropout(0.5))
     model.add(Dense(128, init='normal'))
+    # model.add(PReLU())
     # model.add(Dense(128, init='normal'))`
     model.add(Dropout(0.5))
     model.add(Dense(5, init='normal'))
@@ -53,7 +54,8 @@ def evaluate(segment_train_images, segment_validation_images, segment_train_labe
 
     filepath = "weights_CAS(ME)2/weights-improvement" + str(test_index) + "-{epoch:02d}-{val_acc:.2f}.hdf5"
     checkpoint = ModelCheckpoint(filepath, monitor='val_acc', verbose=1, save_best_only=True, mode='max')
-    EarlyStop = EarlyStopping(monitor='val_acc', min_delta=0, patience=40, restore_best_weights=True, verbose=1,
+    EarlyStop = EarlyStopping(monitor='val_acc', min_delta=0, patience=3
+                              , restore_best_weights=True, verbose=1,
                               mode='max')
     reduce = ReduceLROnPlateau(monitor='val_acc', factor=0.2, patience=15, cooldown=5, verbose=1, min_delta=0,
                                mode='max', min_lr=0.0005)
@@ -166,7 +168,7 @@ def split():
 # k-fold(10)
 
 def kfold():
-    kf = KFold(n_splits=10, random_state=42, shuffle=True)
+    kf = KFold(n_splits=10, random_state=42, shuffle=False)
     # kf.get_n_splits(segment_training_set)
     tot = 0
     count = 0
