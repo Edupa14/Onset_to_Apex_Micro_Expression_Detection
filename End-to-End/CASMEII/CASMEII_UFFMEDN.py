@@ -15,7 +15,7 @@ import os
 
 class myCallback(Callback):
     def on_epoch_end(self, epoch, logs={}):
-        if(logs.get('val_loss') <= 0.0001):
+        if(logs.get('val_loss') <= 0.1):
             print("\nReached %2.2f%% accuracy, so stopping training!!" %(1.0*100))
             self.model.stop_training = True
 
@@ -52,8 +52,8 @@ def evaluate(segment_train_images, segment_validation_images, segment_train_labe
 
     filepath="weights_CASMEII/weights-improvement"+str(test_index)+"-{epoch:02d}-{val_loss:.2f}.hdf5"
     checkpoint = ModelCheckpoint(filepath, monitor='val_loss', verbose=1, save_best_only=True, mode='min')
-    EarlyStop = EarlyStopping(monitor='val_loss', min_delta=0, patience=50, restore_best_weights=True, verbose=1, mode='min')
-    reduce = ReduceLROnPlateau(monitor='val_loss', factor=0.5, patience=30,cooldown=10, verbose=1,min_delta=0, mode='min',min_lr=0.0005)
+    EarlyStop = EarlyStopping(monitor='val_loss', min_delta=0, patience=20, restore_best_weights=True, verbose=1, mode='min')
+    reduce = ReduceLROnPlateau(monitor='val_loss', factor=0.5, patience=10,cooldown=5, verbose=1,min_delta=0, mode='min',min_lr=0.0005)
     callbacks_list = [ EarlyStop, reduce,myCallback()]
 
 
@@ -78,13 +78,13 @@ def evaluate(segment_train_images, segment_validation_images, segment_train_labe
     # predictions_labels = numpy.argmax(predictions, axis=1)
     # validation_labels = numpy.argmax(segment_validation_labels, axis=1)
     print("----------------")
-    print(int(predictions[0][0]))
-    print(segment_validation_labels[0])
+    print(predictions)
+    print(segment_validation_labels)
     # cfm = confusion_matrix(validation_labels, predictions_labels)
     # print (cfm)
     # print("accuracy: ",accuracy_score(validation_labels, predictions_labels))
     print("----------------")
-    return segment_validation_labels[0],int(round(predictions[0][0]))
+    return segment_validation_labels,predictions
 
 
 
@@ -144,8 +144,8 @@ def split():
                                                                                                 test_size=0.2,random_state=1)
 
     # Save validation set in a numpy array
-    numpy.save('numpy_validation_datasets/{0}_images_{1}x{2}.npy'.format(segmentName,sizeH, sizeV), segment_validation_images)
-    numpy.save('numpy_validation_datasets/{0}_images_{1}x{2}.npy'.format(segmentName,sizeH, sizeV), segment_validation_labels)
+    # numpy.save('numpy_validation_datasets/{0}_images_{1}x{2}.npy'.format(segmentName,sizeH, sizeV), segment_validation_images)
+    # numpy.save('numpy_validation_datasets/{0}_images_{1}x{2}.npy'.format(segmentName,sizeH, sizeV), segment_validation_labels)
 
     # Loading Load validation set from numpy array
     #
@@ -154,8 +154,11 @@ def split():
 
     vals,preds=evaluate(segment_train_images, segment_validation_images,segment_train_labels, segment_validation_labels ,0)
     diffs=[]
-    for i in range(len(vals)):
-        diffs.append(abs(vals[i]-preds[i]))
+    print(vals)
+    print(preds)
+    for i in range(vals.shape[0]):
+        diffs.append(abs(vals[i]-int(round(preds[i][0]))))
+        print(vals[i],preds[i],abs(vals[i]-int(round(preds[i][0]))))
     print("MAE: ", (sum(diffs)) / len(diffs))
     print("SD: ", stat.stdev(diffs))
     print("SE: ", stat.stdev(diffs) / (math.sqrt(len(diffs))))
@@ -207,7 +210,7 @@ sizeH=32
 sizeV=32
 sizeD=140
 
-testtype = "kfold"
+testtype = "split"
 ####################################
 
 # Load training images and labels that are stored in numpy array
