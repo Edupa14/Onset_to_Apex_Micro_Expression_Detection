@@ -42,15 +42,15 @@ def annotate_landmarks(img, landmarks, font_scale=0.4):
     return img
 
 
-disgustpath = '../../CASMEII_categorical/disgust/'
-fearpath = '../../CASMEII_categorical/fear/'
-happinesspath = '../../CASMEII_categorical/happiness/'
-otherspath = '../../CASMEII_categorical/others/'
-repressionpath = '../../CASMEII_categorical/repression/'
-sadnesspath = '../../CASMEII_categorical/sadness/'
-surprisepath = '../../CASMEII_categorical/surprise/'
+disgustpath = '../../../CASMEII_categorical/disgust/'
+fearpath = '../../../CASMEII_categorical/fear/'
+happinesspath = '../../../CASMEII_categorical/happiness/'
+otherspath = '../../../CASMEII_categorical/others/'
+repressionpath = '../../../CASMEII_categorical/repression/'
+sadnesspath = '../../../CASMEII_categorical/sadness/'
+surprisepath = '../../../CASMEII_categorical/surprise/'
 
-segmentName = 'UpperFace2'
+segmentName = 'UpperFace'
 sizeH=32
 sizeV=32
 sizeD=140
@@ -164,12 +164,30 @@ for pi in range(len(paths)):
                     count+=1
                     break
 
+
+#-----------------
+
+
+segment_traininglabels_cat = numpy.zeros((segment_trainingsamples,), dtype=int)
+
+count=0
+for pi in range(len(paths)):
+    directorylisting = os.listdir(paths[pi])
+    print(pi)
+    for video in range(len(directorylisting)):
+        segment_traininglabels[count] = pi
+        count+=1
+
+
+segment_traininglabels_cat = np_utils.to_categorical(segment_traininglabels_cat, len(paths))
+#-----------------
+
 segment_traininglabels = np_utils.to_categorical(segment_traininglabels, sizeD)
 
 # print(segment_traininglabels)
 
-segment_training_data = [segment_training_list, segment_traininglabels]
-(segment_trainingframes, segment_traininglabels) = (segment_training_data[0], segment_training_data[1])
+segment_training_data = [segment_training_list, segment_traininglabels,segment_traininglabels_cat]
+(segment_trainingframes, segment_traininglabels,segment_traininglabels_cat) = (segment_training_data[0], segment_training_data[1],segment_training_data[2])
 segment_training_set = numpy.zeros((segment_trainingsamples, 1,sizeH, sizeV, sizeD))
 for h in range(segment_trainingsamples):
     segment_training_set[h][0][:][:][:] = segment_trainingframes[h, :, :, :]
@@ -181,6 +199,7 @@ segment_training_set /= numpy.max(segment_training_set)
 
 numpy.save('numpy_training_datasets/{0}_images_{1}x{2}x{3}.npy'.format(segmentName,sizeH, sizeV,sizeD), segment_training_set)
 numpy.save('numpy_training_datasets/{0}_labels_{1}x{2}x{3}.npy'.format(segmentName,sizeH, sizeV,sizeD), segment_traininglabels)
+numpy.save('numpy_training_datasets/{0}_labels_cat_{1}x{2}x{3}.npy'.format(segmentName,sizeH, sizeV,sizeD), segment_traininglabels_cat)
 
 """
 ----------------------------
