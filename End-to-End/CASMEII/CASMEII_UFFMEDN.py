@@ -84,6 +84,16 @@ def new_evaluate(segment_train_images, segment_validation_images, segment_train_
     # print (cfm)
     # print("accuracy: ",accuracy_score(validation_labels, predictions_labels))
     print("----------------")
+    print(segment_train_images.shape,segment_train_labels.shape)
+    #generate apex data for train
+    segment_train_images_cat=numpy.zeros(segment_train_images.shape[0])
+    for i in range(segment_train_images.shape[0]):
+        print(segment_train_labels[i])
+        # print(segment_train_images[i])
+        segment_train_images_cat[i][0][:][:][:]=segment_train_images[i,:,:,:,segment_train_labels[i]]
+    print("sssssssssssssssssssssssssssssssssss",segment_train_images_cat.shape)
+
+
     return segment_validation_labels,predictions
 
 
@@ -177,7 +187,7 @@ def kfold():
         # print(segment_traininglabels[train_index])
         # print(segment_traininglabels[test_index])
         print(test_index)
-        val,pred = new_evaluate(segment_training_set[train_index], segment_training_set[test_index],segment_traininglabels[train_index], segment_traininglabels[test_index] ,test_index,tempsegment_traininglabels_cat[train_index],tempsegment_traininglabels_cat[test_index])
+        val,pred = new_evaluate(segment_training_set[train_index], segment_training_set[test_index],segment_traininglabels[train_index], segment_traininglabels[test_index] ,test_index,tempsegment_traininglabels_cat,tempsegment_traininglabels_cat)
         # tot+=val_acc
         for i in range(val.shape[0]):
             diffs.append(abs(val[i] - int(round(pred[i][0]))))
@@ -212,7 +222,8 @@ testtype = "kfold"
 
 segment_training_set = numpy.load('numpy_training_datasets/{0}_images_{1}x{2}x{3}.npy'.format(segmentName,sizeH, sizeV,sizeD))
 tempsegment_traininglabels = numpy.load('numpy_training_datasets/{0}_labels_{1}x{2}x{3}.npy'.format(segmentName,sizeH, sizeV,sizeD))
-tempsegment_traininglabels_cat = numpy.load('numpy_training_datasets/{0}_labels_cat_{1}x{2}x{3}.npy'.format(segmentName,sizeH, sizeV,sizeD))
+tempsegment_traininglabels_cat = []
+    # numpy.load('numpy_training_datasets/{0}_labels_cat_{1}x{2}x{3}.npy'.format(segmentName,sizeH, sizeV,sizeD))
 
 segment_traininglabels=[]
 for item in tempsegment_traininglabels:
