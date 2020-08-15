@@ -86,12 +86,12 @@ def new_evaluate(segment_train_images, segment_validation_images, segment_train_
     print("----------------")
     print(segment_train_images.shape,segment_train_labels.shape)
     #generate apex data for train
-    segment_train_images_cat= numpy.zeros((segment_train_images.shape[0],segment_train_images.shape[1],segment_train_images.shape[2],segment_train_images.shape[3],1))
-    print(segment_train_images_cat.shape)
+    segment_train_images_cat= numpy.zeros((segment_train_images.shape[0],segment_train_images.shape[1],segment_train_images.shape[2],segment_train_images.shape[3]))
+    print(segment_train_images_cat)
     for i in range(segment_train_images.shape[0]):
         # print(segment_train_labels[i])
         # print(segment_train_images[i])
-        print(segment_train_images[i,:,:,:,segment_train_labels[i]].shape)
+        print(segment_train_images[i,:,:,:,[segment_train_labels[i]]].shape)
         segment_train_images_cat[i][:][:][:]=segment_train_images[i,:,:,:,segment_train_labels[i]]
     print("sssssssssssssssssssssssssssssssssss",segment_train_images_cat.shape)
 
