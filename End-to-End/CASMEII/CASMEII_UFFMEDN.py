@@ -19,7 +19,7 @@ class myCallback(Callback):
             print("\nReached %2.2f%% accuracy, so stopping training!!" %(1.0*100))
             self.model.stop_training = True
 
-def evaluate(segment_train_images, segment_validation_images, segment_train_labels, segment_validation_labels,test_index ):
+def new_evaluate(segment_train_images, segment_validation_images, segment_train_labels, segment_validation_labels,test_index,segment_train_labels_cat, segment_validation_labels_cat ):
 
     model = Sequential()
     #model.add(ZeroPadding3D((2,2,0)))
@@ -109,9 +109,8 @@ def loocv():
         print(test_index)
         val,pred = evaluate(segment_training_set[train_index], segment_training_set[test_index],segment_traininglabels[train_index], segment_traininglabels[test_index] ,test_index)
         # tot+=val_acc
-        vals.append(val)
-        preds.append(pred)
-        diffs.append(abs(val-pred))
+        for i in range(val.shape[0]):
+            diffs.append(abs(val[i] - int(round(pred[i][0]))))
         # accs.append(val_acc)
         accs2.append(segment_traininglabels[test_index])
         count+=1
@@ -144,21 +143,18 @@ def split():
                                                                                                 test_size=0.2,random_state=1)
 
     # Save validation set in a numpy array
-    # numpy.save('numpy_validation_datasets/{0}_images_{1}x{2}.npy'.format(segmentName,sizeH, sizeV), segment_validation_images)
-    # numpy.save('numpy_validation_datasets/{0}_images_{1}x{2}.npy'.format(segmentName,sizeH, sizeV), segment_validation_labels)
+    numpy.save('numpy_validation_datasets/{0}_images_{1}x{2}.npy'.format(segmentName,sizeH, sizeV), segment_validation_images)
+    numpy.save('numpy_validation_datasets/{0}_images_{1}x{2}.npy'.format(segmentName,sizeH, sizeV), segment_validation_labels)
 
     # Loading Load validation set from numpy array
     #
     # eimg = numpy.load('numpy_validation_datasets/{0}_images_{1}x{2}.npy'.format(segmentName,sizeH, sizeV))
     # labels = numpy.load('numpy_validation_datasets/{0}_images_{1}x{2}.npy'.format(segmentName,sizeH, sizeV))
 
-    vals,preds=evaluate(segment_train_images, segment_validation_images,segment_train_labels, segment_validation_labels ,0)
+    val,pred=evaluate(segment_train_images, segment_validation_images,segment_train_labels, segment_validation_labels ,0)
     diffs=[]
-    print(vals)
-    print(preds)
-    for i in range(vals.shape[0]):
-        diffs.append(abs(vals[i]-int(round(preds[i][0]))))
-        print(vals[i],preds[i],abs(vals[i]-int(round(preds[i][0]))))
+    for i in range(val.shape[0]):
+        diffs.append(abs(val[i] - int(round(pred[i][0]))))
     print("MAE: ", (sum(diffs)) / len(diffs))
     print("SD: ", stat.stdev(diffs))
     print("SE: ", stat.stdev(diffs) / (math.sqrt(len(diffs))))
@@ -168,29 +164,28 @@ def split():
 #-----------------------------------------------------------------------------------------------------------------
 #k-fold
 def kfold():
-    kf = KFold(n_splits=10, random_state=42, shuffle=True)
+    kf = KFold(n_splits=2, random_state=42, shuffle=True)
     tot=0
     count=0
     accs=[]
     accs2=[]
     vals=[]
     preds=[]
-
+    diffs = []
     for train_index, test_index in kf.split(segment_training_set):
 
         # print(segment_traininglabels[train_index])
         # print(segment_traininglabels[test_index])
         print(test_index)
-        val,pred = evaluate(segment_training_set[train_index], segment_training_set[test_index],segment_traininglabels[train_index], segment_traininglabels[test_index] ,test_index)
+        val,pred = new_evaluate(segment_training_set[train_index], segment_training_set[test_index],segment_traininglabels[train_index], segment_traininglabels[test_index] ,test_index,tempsegment_traininglabels_cat[train_index],tempsegment_traininglabels_cat[test_index])
         # tot+=val_acc
-        vals.append(val)
-        preds.append(pred)
+        for i in range(val.shape[0]):
+            diffs.append(abs(val[i] - int(round(pred[i][0]))))
         # accs.append(val_acc)
         accs2.append(segment_traininglabels[test_index])
         count+=1
-    diffs = []
-    for i in range(len(vals)):
-        diffs.append(abs(vals[i] - preds[i]))
+
+
     print("MAE: ", (sum(diffs)) / len(diffs))
     print("SD: ", stat.stdev(diffs))
     print("SE: ", stat.stdev(diffs) / (math.sqrt(len(diffs))))
@@ -210,7 +205,7 @@ sizeH=32
 sizeV=32
 sizeD=140
 
-testtype = "split"
+testtype = "kfold"
 ####################################
 
 # Load training images and labels that are stored in numpy array
