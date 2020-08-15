@@ -10,5 +10,8 @@
 **/CASMEII/weights_CASMEII/
 **/CASMEII/numpy_validation_datasets/
 **/CASMEII/numpy_training_datasets/
+**/End-to-End/CASMEII/weights_CASMEII/
+**/End-to-End/CASMEII/numpy_validation_datasets/
+**/End-to-End/CASMEII/numpy_training_datasets/
 **/venv/
 **/.idea
