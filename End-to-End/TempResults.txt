@@ -1,0 +1,10 @@
+---------------------------
+/home/student/Nikin/Onset_to_Apex_Micro_Expression_Detection/End-to-End/CASMEII split_UpperFaceDual_32x32x140
+---------------------------
+MAE: 12.16
+SE:1.4966629547095767
+---------------------------
+/home/student/Nikin/Onset_to_Apex_Micro_Expression_Detection/End-to-End/CASMEII split_UpperFaceDual_32x32x140
+---------------------------
+MAE: 19.46
+SE:1.3341664064126333
