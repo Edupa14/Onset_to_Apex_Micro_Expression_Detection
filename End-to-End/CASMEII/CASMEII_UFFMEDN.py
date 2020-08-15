@@ -4,7 +4,7 @@ from sklearn.metrics import accuracy_score
 from keras.models import Sequential, Model
 from keras.layers.core import Dense, Dropout, Activation, Flatten
 from keras.layers.convolutional import Convolution3D, MaxPooling3D, ZeroPadding3D
-from keras.layers import LeakyReLU ,PReLU
+from keras.layers import LeakyReLU ,PReLU,concatenate,Input
 from keras.callbacks import ModelCheckpoint,EarlyStopping,ReduceLROnPlateau,Callback
 from sklearn.model_selection import train_test_split,LeaveOneOut,KFold
 from keras import backend as K
@@ -20,6 +20,33 @@ class myCallback(Callback):
             self.model.stop_training = True
 
 def new_evaluate(segment_train_images, segment_validation_images, segment_train_labels, segment_validation_labels,test_index,segment_train_labels_cat, segment_validation_labels_cat ):
+
+    # generate apex data for train
+    segment_train_images_cat = numpy.zeros((segment_train_images.shape[0], segment_train_images.shape[1],
+                                            segment_train_images.shape[2], segment_train_images.shape[3]))
+    # print(segment_train_images_cat)
+    for i in range(segment_train_images.shape[0]):
+        # print(segment_train_labels[i])
+        # print(segment_train_images[i])
+        # print(segment_train_images[i,:,:,:,[segment_train_labels[i]]].shape)
+        segment_train_images_cat[i][:][:][:] = segment_train_images[i, :, :, :, segment_train_labels[i]]
+
+    segment_train_images_cat2 = numpy.zeros((segment_train_images.shape[0], segment_train_images.shape[1],
+                                             segment_train_images.shape[2], segment_train_images.shape[3]))
+    # print(segment_train_images_cat2)
+    print("aaaaaaaaaaaaaaaaaas", segment_train_images_cat.shape)
+    for i in range(segment_train_images.shape[0]):
+        # print(segment_train_labels[i])
+        # print(segment_train_images[i])
+        # print(segment_train_images[i, :, :, :, [segment_train_labels[i]]].shape)
+        segment_train_images_cat2[i][:][:][:] = segment_train_images[i, :, :, :, 0]
+    segment_train_images_cat = numpy.stack([ segment_train_images_cat2,segment_train_images_cat], axis=4)
+    # print("sssssssssssssssssssssssssssssssssss", segment_train_images_cat.shape)
+    #
+    # print(segment_train_images[0, :, :, :, 0])
+    # print(segment_train_images_cat[0, :, :, :, 0])
+
+
 
     model = Sequential()
     #model.add(ZeroPadding3D((2,2,0)))
@@ -85,18 +112,95 @@ def new_evaluate(segment_train_images, segment_validation_images, segment_train_
     # print("accuracy: ",accuracy_score(validation_labels, predictions_labels))
     print("----------------")
     print(segment_train_images.shape,segment_train_labels.shape)
-    #generate apex data for train
-    segment_train_images_cat= numpy.zeros((segment_train_images.shape[0],segment_train_images.shape[1],segment_train_images.shape[2],segment_train_images.shape[3]))
-    print(segment_train_images_cat)
-    for i in range(segment_train_images.shape[0]):
+
+
+
+
+
+
+
+    # generate apex data for test
+    segment_test_images_cat = numpy.zeros((segment_validation_images.shape[0], segment_validation_images.shape[1],
+                                            segment_validation_images.shape[2], segment_validation_images.shape[3]))
+    # print(segment_train_images_cat)
+    for i in range(segment_validation_images.shape[0]):
         # print(segment_train_labels[i])
         # print(segment_train_images[i])
-        print(segment_train_images[i,:,:,:,[segment_train_labels[i]]].shape)
-        segment_train_images_cat[i][:][:][:]=segment_train_images[i,:,:,:,segment_train_labels[i]]
-    print("sssssssssssssssssssssssssssssssssss",segment_train_images_cat.shape)
+        # print(segment_train_images[i,:,:,:,[segment_train_labels[i]]].shape)
+        segment_test_images_cat[i][:][:][:] = segment_validation_images[i, :, :, :,predictions[i]]
 
+    segment_test_images_cat2 = numpy.zeros((segment_validation_images.shape[0], segment_validation_images.shape[1],
+                                             segment_validation_images.shape[2], segment_validation_images.shape[3]))
+    # print(segment_train_images_cat2)
+    print("aaaaaaaaaaaaaaaaaas", segment_train_images_cat.shape)
+    for i in range(segment_validation_images.shape[0]):
+        # print(segment_train_labels[i])
+        # print(segment_train_images[i])
+        # print(segment_train_images[i, :, :, :, [segment_train_labels[i]]].shape)
+        segment_test_images_cat2[i][:][:][:] = segment_validation_images[i, :, :, :, 0]
+    segment_validation_images_cat = numpy.stack([segment_test_images_cat2, segment_test_images_cat], axis=4)
+    print("sssssssssssssssssssssssssssssssssss", segment_test_images_cat.shape)
+    #
+    # print(segment_train_images[0, :, :, :, 0])
+    # print(segment_train_images_cat[0, :, :, :, 0])
 
-    return segment_validation_labels,predictions
+    #-------------------------------------------
+    layer_in = Input(shape=(1, sizeH, sizeV, 2))
+    # conv1 = Convolution3D(256, (20, 20, 9), strides=(10, 10, 3), padding='Same')(input)
+    # # bn1=BatchNormalization()(conv1)
+    # ract_1 = PReLU()(conv1)
+    conv1 = Convolution3D(96, (20, 20, 1), strides=(10, 10, 1), padding='same', activation='relu')(layer_in)
+    # 3x3 conv
+    conv3 = Convolution3D(256, (20, 20, 1), strides=(10, 10, 1), padding='same', activation='relu')(layer_in)
+    conv3 = Convolution3D(512, (3, 3, 1), padding='same', activation='relu')(conv3)
+    # 5x5 conv
+    # conv5 = Convolution3D(16, (20, 20, 1), strides=(10, 10, 1), padding='same', activation='relu')(layer_in)
+    # conv5 = Convolution3D(32, (5, 5, 1), padding='same', activation='relu')(conv5)
+    # 3x3 max pooling
+    pool = MaxPooling3D((3, 3, 3), strides=(1, 1, 1), padding='same')(layer_in)
+    pool = Convolution3D(32, (20, 20, 1), strides=(10, 10, 1), padding='same', activation='relu')(pool)
+    # concatenate filters, assumes filters/channels last
+    layer_out = concatenate([conv1, conv3,  pool], axis=-4)
+    # add1= Add() ([conv3,ract_1])
+    # drop0 = Dropout(0.5)(layer_out)
+    # conv6 = Convolution3D(512, (3, 3, 3), strides=1, padding='Same')(drop0)
+    # # bn3 = BatchNormalization()(conv3)
+    ract_4 = PReLU()(layer_out)
+    flatten_1 = Flatten()(ract_4)
+    # dense_1 = Dense(1024, init='normal')(flatten_1)
+    # dense_2 = Dense(128, init='normal')(dense_1)
+    dense_3 = Dense(5, init='normal')(flatten_1)
+    # drop1 = Dropout(0.5)(dense_3)
+    activation = Activation('softmax')(dense_3)
+    opt = SGD(lr=0.01)
+    model_cat = Model(inputs=[layer_in], outputs=activation)
+    model_cat.compile(loss='categorical_crossentropy', optimizer=opt, metrics=['accuracy'])
+
+    model_cat.summary()
+
+    filepath = "weights_CAS(ME)2/weights-improvement" + str(test_index) + "-{epoch:02d}-{val_acc:.2f}.hdf5"
+    checkpoint = ModelCheckpoint(filepath, monitor='val_acc', verbose=1, save_best_only=True, mode='max')
+    EarlyStop = EarlyStopping(monitor='val_acc', min_delta=0, patience=10, restore_best_weights=True, verbose=1,
+                              mode='max')
+    reduce = ReduceLROnPlateau(monitor='val_acc', factor=0.2, patience=5, cooldown=1, verbose=1, min_delta=0,
+                               mode='max', min_lr=0.0005)
+    callbacks_list_cat = [EarlyStop, reduce, myCallback()]
+
+    # Training the model
+
+    history = model_cat.fit(segment_train_images_cat, segment_train_labels_cat,
+                        validation_data=(segment_validation_images_cat, segment_validation_labels_cat),
+                        callbacks=callbacks_list_cat, batch_size=8, nb_epoch=500, shuffle=True, verbose=1)
+
+    # Finding Confusion Matrix using pretrained weights
+
+    predictions = model_cat.predict([segment_validation_images_cat])
+    predictions_labels = numpy.argmax(predictions, axis=1)
+    validation_labels = numpy.argmax(segment_validation_labels_cat, axis=1)
+    cfm = confusion_matrix(validation_labels, predictions_labels)
+    print(cfm)
+    print("accuracy: ", accuracy_score(validation_labels, predictions_labels))
+    return accuracy_score(validation_labels, predictions_labels), validation_labels, predictions_labels
 
 
 
@@ -189,7 +293,7 @@ def kfold():
         # print(segment_traininglabels[train_index])
         # print(segment_traininglabels[test_index])
         print(test_index)
-        val,pred = new_evaluate(segment_training_set[train_index], segment_training_set[test_index],segment_traininglabels[train_index], segment_traininglabels[test_index] ,test_index,tempsegment_traininglabels_cat,tempsegment_traininglabels_cat)
+        val,pred = new_evaluate(segment_training_set[train_index], segment_training_set[test_index],segment_traininglabels[train_index], segment_traininglabels[test_index] ,test_index,tempsegment_traininglabels_cat[train_index],tempsegment_traininglabels_cat[test_index])
         # tot+=val_acc
         for i in range(val.shape[0]):
             diffs.append(abs(val[i] - int(round(pred[i][0]))))
