@@ -330,6 +330,8 @@ segment_training_set = numpy.load('numpy_training_datasets/{0}_images_{1}x{2}x{3
 tempsegment_traininglabels = numpy.load('numpy_training_datasets/{0}_labels_{1}x{2}x{3}.npy'.format(segmentName,sizeH, sizeV,sizeD))
 tempsegment_traininglabels_cat = numpy.load('numpy_training_datasets/{0}_labels_cat_{1}x{2}x{3}.npy'.format(segmentName,sizeH, sizeV,sizeD))
 
+print(tempsegment_traininglabels,len(tempsegment_traininglabels[0]))
+print(tempsegment_traininglabels_cat,tempsegment_traininglabels_cat.size)
 segment_traininglabels=[]
 for item in tempsegment_traininglabels:
     for cat in range(len(item)):
