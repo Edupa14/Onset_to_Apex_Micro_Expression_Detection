@@ -203,3 +203,8 @@ F1-score: 0.19058823529411764
 ---------------------------
 accuracy: 0.44
 F1-score: 0.37200000000000005
+---------------------------
+/home/student/Nikin/Onset_to_Apex_Micro_Expression_Detection/End-to-End/CASMEII kfold_UpperFace_128x128x140
+---------------------------
+accuracy: 0.532258064516129
+F1-score: 0.4736999524244855
