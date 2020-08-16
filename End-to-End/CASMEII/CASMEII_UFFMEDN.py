@@ -15,7 +15,7 @@ import os
 
 class myCallback(Callback):
     def on_epoch_end(self, epoch, logs={}):
-        if(logs.get('val_loss') <= 0.01):
+        if(logs.get('val_loss') <= 0.0001):
             print("\nReached %2.2f%% accuracy, so stopping training!!" %(1.0*100))
             self.model.stop_training = True
 class myCallback2(Callback):
@@ -96,8 +96,8 @@ def new_evaluate(segment_train_images, segment_validation_images, segment_train_
 
     filepath="weights_CASMEII/weights-improvement"+str(test_index)+"-{epoch:02d}-{val_loss:.2f}.hdf5"
     checkpoint = ModelCheckpoint(filepath, monitor='val_loss', verbose=1, save_best_only=True, mode='min')
-    EarlyStop = EarlyStopping(monitor='val_loss', min_delta=0, patience=5, restore_best_weights=True, verbose=1, mode='min')
-    reduce = ReduceLROnPlateau(monitor='val_loss', factor=0.5, patience=2,cooldown=0, verbose=1,min_delta=0, mode='min',min_lr=0.0005)
+    EarlyStop = EarlyStopping(monitor='val_loss', min_delta=0, patience=20, restore_best_weights=True, verbose=1, mode='min')
+    reduce = ReduceLROnPlateau(monitor='val_loss', factor=0.5, patience=10,cooldown=5, verbose=1,min_delta=0, mode='min',min_lr=0.0005)
     callbacks_list = [ EarlyStop, reduce,myCallback()]
 
 
@@ -196,9 +196,8 @@ def new_evaluate(segment_train_images, segment_validation_images, segment_train_
     ract_4 = PReLU()(drop0)
     flatten_1 = Flatten()(ract_4)
     # dense_1 = Dense(1024, init='normal')(flatten_1)
-    dense_2 = Dense(128, init='normal')(flatten_1)
-    drop1 = Dropout(0.5)(dense_2)
-    dense_3 = Dense(5, init='normal')(drop1)
+    # dense_2 = Dense(128, init='normal')(dense_1)
+    dense_3 = Dense(5, init='normal')(flatten_1)
     # drop1 = Dropout(0.5)(dense_3)
     activation = Activation('softmax')(dense_3)
     opt = SGD(lr=0.01)
@@ -287,27 +286,33 @@ def loocv():
         # print(segment_traininglabels[train_index])
         # print(segment_traininglabels[test_index])
         print(test_index)
-        val,pred = evaluate(segment_training_set[train_index], segment_training_set[test_index],segment_traininglabels[train_index], segment_traininglabels[test_index] ,test_index)
-        # tot+=val_acc
-        for i in range(val.shape[0]):
-            diffs.append(abs(val[i] - int(round(pred[i][0]))))
-        # accs.append(val_acc)
+        val_acc, val_label, pred_label = new_evaluate(segment_training_set[train_index], segment_training_set[test_index],segment_traininglabels[train_index], segment_traininglabels[test_index] ,test_index,tempsegment_traininglabels_cat[train_index],tempsegment_traininglabels_cat[test_index])
+        tot += val_acc
+        val_labels.extend(val_label)
+        pred_labels.extend(pred_label)
+        accs.append(val_acc)
         accs2.append(segment_traininglabels[test_index])
-        count+=1
+        count += 1
         print("------------------------------------------------------------------------")
-        # print("validation acc:",val_acc)
-        print("current average diffs:",(sum(diffs)) / len(diffs))
+        print("validation acc:", val_acc)
         print("------------------------------------------------------------------------")
-    print(tot/count)
-    print('depth: ',sizeD)
-    print(accs)
-    print('9')
-    print(segmentName)
-    print(diffs)
-    print("MAE: ",(sum(diffs))/len(diffs))
-    print("SD: ",stat.stdev(diffs))
-    print("SE: ",stat.stdev(diffs)/(math.sqrt(len(diffs))))
-    return (sum(diffs))/len(diffs) , stat.stdev(diffs)/(math.sqrt(len(diffs)))
+    print("accuracy: ", accuracy_score(val_labels, pred_labels))
+    cfm = confusion_matrix(val_labels, pred_labels)
+    # tp_and_fn = sum(cfm.sum(1))
+    # tp_and_fp = sum(cfm.sum(0))
+    # tp = sum(cfm.diagonal())
+    print("cfm: \n", cfm)
+    # print("tp_and_fn: ",tp_and_fn)
+    # print("tp_and_fp: ",tp_and_fp)
+    # print("tp: ",tp)
+    #
+    # precision = tp / tp_and_fp
+    # recall = tp / tp_and_fn
+    # print("precision: ",precision)
+    # print("recall: ",recall)
+    # print("F1-score: ",f1_score(val_labels,pred_labels,average="macro"))
+    print("F1-score: ", f1_score(val_labels, pred_labels, average="weighted"))
+    return val_labels, pred_labels
 
 
 
@@ -389,7 +394,7 @@ sizeH=128
 sizeV=128
 sizeD=140
 
-testtype = "split"
+testtype = "loocv"
 ####################################
 
 # Load training images and labels that are stored in numpy array
