@@ -43,3 +43,8 @@ SE:0.7156093726283553
 ---------------------------
 MAE: 14.963709677419354
 SE:0.9069623173877128
+---------------------------
+/home/student/Nikin/Onset_to_Apex_Micro_Expression_Detection/End-to-End/CASMEII split_UpperFace_32x32x140
+---------------------------
+accuracy: 0.54
+F1-score: 0.4994747474747475
