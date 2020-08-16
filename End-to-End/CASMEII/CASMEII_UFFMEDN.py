@@ -15,7 +15,7 @@ import os
 
 class myCallback(Callback):
     def on_epoch_end(self, epoch, logs={}):
-        if(logs.get('val_loss') <= 0.1):
+        if(logs.get('val_loss') <= 0.0001):
             print("\nReached %2.2f%% accuracy, so stopping training!!" %(1.0*100))
             self.model.stop_training = True
 
@@ -316,7 +316,7 @@ def kfold():
 # edit params
 K.set_image_dim_ordering('th')
 
-segmentName = 'UpperFaceDual'
+segmentName = 'UpperFace'
 sizeH=32
 sizeV=32
 sizeD=140
@@ -328,8 +328,7 @@ testtype = "kfold"
 
 segment_training_set = numpy.load('numpy_training_datasets/{0}_images_{1}x{2}x{3}.npy'.format(segmentName,sizeH, sizeV,sizeD))
 tempsegment_traininglabels = numpy.load('numpy_training_datasets/{0}_labels_{1}x{2}x{3}.npy'.format(segmentName,sizeH, sizeV,sizeD))
-tempsegment_traininglabels_cat = []
-    # numpy.load('numpy_training_datasets/{0}_labels_cat_{1}x{2}x{3}.npy'.format(segmentName,sizeH, sizeV,sizeD))
+tempsegment_traininglabels_cat = numpy.load('numpy_training_datasets/{0}_labels_cat_{1}x{2}x{3}.npy'.format(segmentName,sizeH, sizeV,sizeD))
 
 segment_traininglabels=[]
 for item in tempsegment_traininglabels:
