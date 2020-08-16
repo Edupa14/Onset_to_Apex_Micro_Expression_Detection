@@ -1,6 +1,6 @@
 import numpy
 from sklearn.metrics import confusion_matrix
-from sklearn.metrics import accuracy_score
+from sklearn.metrics import accuracy_score,f1_score
 from keras.models import Sequential, Model
 from keras.layers.core import Dense, Dropout, Activation, Flatten
 from keras.layers.convolutional import Convolution3D, MaxPooling3D, ZeroPadding3D
@@ -16,6 +16,11 @@ import os
 class myCallback(Callback):
     def on_epoch_end(self, epoch, logs={}):
         if(logs.get('val_loss') <= 0.0001):
+            print("\nReached %2.2f%% accuracy, so stopping training!!" %(1.0*100))
+            self.model.stop_training = True
+class myCallback2(Callback):
+    def on_epoch_end(self, epoch, logs={}):
+        if(logs.get('val_acc') >= 1.0):
             print("\nReached %2.2f%% accuracy, so stopping training!!" %(1.0*100))
             self.model.stop_training = True
 
@@ -127,7 +132,7 @@ def new_evaluate(segment_train_images, segment_validation_images, segment_train_
         # print(segment_train_labels[i])
         # print(segment_train_images[i])
         # print(segment_train_images[i,:,:,:,[segment_train_labels[i]]].shape)
-        segment_test_images_cat[i][:][:][:] = segment_validation_images[i, :, :, :,predictions[i]]
+        segment_test_images_cat[i][:][:][:] = segment_validation_images[i, :, :, :,int(float(predictions[i]))]
 
     segment_test_images_cat2 = numpy.zeros((segment_validation_images.shape[0], segment_validation_images.shape[1],
                                              segment_validation_images.shape[2], segment_validation_images.shape[3]))
@@ -184,11 +189,11 @@ def new_evaluate(segment_train_images, segment_validation_images, segment_train_
                               mode='max')
     reduce = ReduceLROnPlateau(monitor='val_acc', factor=0.2, patience=5, cooldown=1, verbose=1, min_delta=0,
                                mode='max', min_lr=0.0005)
-    callbacks_list_cat = [EarlyStop, reduce, myCallback()]
+    callbacks_list_cat = [EarlyStop, reduce, myCallback2()]
 
     # Training the model
 
-    history = model_cat.fit(segment_train_images_cat, segment_train_labels_cat,
+    history2= model_cat.fit(segment_train_images_cat, segment_train_labels_cat,
                         validation_data=(segment_validation_images_cat, segment_validation_labels_cat),
                         callbacks=callbacks_list_cat, batch_size=8, nb_epoch=500, shuffle=True, verbose=1)
 
@@ -254,62 +259,66 @@ def loocv():
 
 def split():
     # Spliting the dataset into training and validation sets
-    segment_train_images, segment_validation_images, segment_train_labels, segment_validation_labels = train_test_split(segment_training_set,
-                                                                                                segment_traininglabels,
+    segment_train_images, segment_validation_images, segment_train_labels, segment_validation_labels,segment_traininglabes_cat,segment_validlabels_cat = train_test_split(segment_training_set,
+                                                                                                segment_traininglabels,tempsegment_traininglabels_cat,
                                                                                                 test_size=0.2,random_state=1)
 
     # Save validation set in a numpy array
-    numpy.save('numpy_validation_datasets/{0}_images_{1}x{2}.npy'.format(segmentName,sizeH, sizeV), segment_validation_images)
-    numpy.save('numpy_validation_datasets/{0}_images_{1}x{2}.npy'.format(segmentName,sizeH, sizeV), segment_validation_labels)
+    # numpy.save('numpy_validation_datasets/{0}_images_{1}x{2}.npy'.format(segmentName,sizeH, sizeV), segment_validation_images)
+    # numpy.save('numpy_validation_datasets/{0}_images_{1}x{2}.npy'.format(segmentName,sizeH, sizeV), segment_validation_labels)
 
     # Loading Load validation set from numpy array
     #
     # eimg = numpy.load('numpy_validation_datasets/{0}_images_{1}x{2}.npy'.format(segmentName,sizeH, sizeV))
     # labels = numpy.load('numpy_validation_datasets/{0}_images_{1}x{2}.npy'.format(segmentName,sizeH, sizeV))
 
-    val,pred=evaluate(segment_train_images, segment_validation_images,segment_train_labels, segment_validation_labels ,0)
-    diffs=[]
-    for i in range(val.shape[0]):
-        diffs.append(abs(val[i] - int(round(pred[i][0]))))
-    print("MAE: ", (sum(diffs)) / len(diffs))
-    print("SD: ", stat.stdev(diffs))
-    print("SE: ", stat.stdev(diffs) / (math.sqrt(len(diffs))))
-    return (sum(diffs)) / len(diffs), stat.stdev(diffs) / (math.sqrt(len(diffs)))
+    _, val_labels, pred_labels =new_evaluate(segment_train_images, segment_validation_images,segment_train_labels, segment_validation_labels ,0,segment_traininglabes_cat,segment_validlabels_cat)
+    return val_labels, pred_labels
 
 
 #-----------------------------------------------------------------------------------------------------------------
 #k-fold
 def kfold():
-    kf = KFold(n_splits=2, random_state=42, shuffle=True)
-    tot=0
-    count=0
-    accs=[]
-    accs2=[]
-    vals=[]
-    preds=[]
-    diffs = []
+    kf = KFold(n_splits=10, random_state=42, shuffle=True)
+    tot = 0
+    count = 0
+    accs = []
+    accs2 = []
+
+    val_labels = []
+    pred_labels = []
     for train_index, test_index in kf.split(segment_training_set):
 
         # print(segment_traininglabels[train_index])
         # print(segment_traininglabels[test_index])
         print(test_index)
-        val,pred = new_evaluate(segment_training_set[train_index], segment_training_set[test_index],segment_traininglabels[train_index], segment_traininglabels[test_index] ,test_index,tempsegment_traininglabels_cat[train_index],tempsegment_traininglabels_cat[test_index])
-        # tot+=val_acc
-        for i in range(val.shape[0]):
-            diffs.append(abs(val[i] - int(round(pred[i][0]))))
-        # accs.append(val_acc)
+        val_acc, val_label, pred_label = new_evaluate(segment_training_set[train_index], segment_training_set[test_index],segment_traininglabels[train_index], segment_traininglabels[test_index] ,test_index,tempsegment_traininglabels_cat[train_index],tempsegment_traininglabels_cat[test_index])
+        tot += val_acc
+        val_labels.extend(val_label)
+        pred_labels.extend(pred_label)
+        accs.append(val_acc)
         accs2.append(segment_traininglabels[test_index])
-        count+=1
-
-
-    print("MAE: ", (sum(diffs)) / len(diffs))
-    print("SD: ", stat.stdev(diffs))
-    print("SE: ", stat.stdev(diffs) / (math.sqrt(len(diffs))))
-    print(diffs)
-    print("MAE: ",(sum(diffs))/len(diffs))
-    print("SD: ",stat.stdev(diffs))
-    print("SE: ",stat.stdev(diffs)/(math.sqrt(len(diffs))))
-    return (sum(diffs)) / len(diffs), stat.stdev(diffs) / (math.sqrt(len(diffs)))
+        count += 1
+        print("------------------------------------------------------------------------")
+        print("validation acc:", val_acc)
+        print("------------------------------------------------------------------------")
+    print("accuracy: ", accuracy_score(val_labels, pred_labels))
+    cfm = confusion_matrix(val_labels, pred_labels)
+    # tp_and_fn = sum(cfm.sum(1))
+    # tp_and_fp = sum(cfm.sum(0))
+    # tp = sum(cfm.diagonal())
+    print("cfm: \n", cfm)
+    # print("tp_and_fn: ",tp_and_fn)
+    # print("tp_and_fp: ",tp_and_fp)
+    # print("tp: ",tp)
+    #
+    # precision = tp / tp_and_fp
+    # recall = tp / tp_and_fn
+    # print("precision: ",precision)
+    # print("recall: ",recall)
+    # print("F1-score: ",f1_score(val_labels,pred_labels,average="macro"))
+    print("F1-score: ", f1_score(val_labels, pred_labels, average="weighted"))
+    return val_labels, pred_labels
 
 
 ####################################
@@ -321,7 +330,7 @@ sizeH=32
 sizeV=32
 sizeD=140
 
-testtype = "kfold"
+testtype = "split"
 ####################################
 
 # Load training images and labels that are stored in numpy array
@@ -331,7 +340,7 @@ tempsegment_traininglabels = numpy.load('numpy_training_datasets/{0}_labels_{1}x
 tempsegment_traininglabels_cat = numpy.load('numpy_training_datasets/{0}_labels_cat_{1}x{2}x{3}.npy'.format(segmentName,sizeH, sizeV,sizeD))
 
 print(tempsegment_traininglabels,len(tempsegment_traininglabels[0]))
-print(tempsegment_traininglabels_cat,tempsegment_traininglabels_cat.size)
+print(tempsegment_traininglabels_cat,tempsegment_traininglabels_cat[0].size)
 segment_traininglabels=[]
 for item in tempsegment_traininglabels:
     for cat in range(len(item)):
@@ -351,11 +360,11 @@ print(segment_traininglabels,len(segment_traininglabels),len(segment_training_se
 
 
 if testtype == "kfold":
-    mae,se = kfold()
+    val_labels, pred_labels = kfold()
 elif testtype == "loocv":
-    mae,se = loocv()
+    val_labels, pred_labels = loocv()
 elif testtype == "split":
-    mae,se = split()
+    val_labels, pred_labels= split()
 else:
     print("error")
 
@@ -368,5 +377,5 @@ full_path = os.path.realpath(__file__)
 results.write(
     str(os.path.dirname(full_path)) + " {0}_{1}_{2}x{3}x{4}\n".format(testtype, segmentName, sizeH, sizeV, sizeD))
 results.write("---------------------------\n")
-results.write("MAE: " + str(mae)+ "\n")
-results.write("SE:" + str(se) + "\n")
+results.write("accuracy: " + str(accuracy_score(val_labels, pred_labels)) + "\n")
+results.write("F1-score: " + str(f1_score(val_labels, pred_labels, average="weighted")) + "\n")
