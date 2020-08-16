@@ -154,18 +154,18 @@ def new_evaluate(segment_train_images, segment_validation_images, segment_train_
     # conv1 = Convolution3D(256, (20, 20, 9), strides=(10, 10, 3), padding='Same')(input)
     # # bn1=BatchNormalization()(conv1)
     # ract_1 = PReLU()(conv1)
-    conv1 = Convolution3D(32, (20, 20, 1), strides=(10, 10, 1), padding='same', activation='relu')(layer_in)
+    conv1 = Convolution3D(96, (20, 20, 1), strides=(10, 10, 1), padding='same', activation='relu')(layer_in)
     # 3x3 conv
-    conv3 = Convolution3D(32, (20, 20, 1), strides=(10, 10, 1), padding='same', activation='relu')(layer_in)
-    conv3 = Convolution3D(64, (3, 3, 1), padding='same', activation='relu')(conv3)
+    conv3 = Convolution3D(256, (20, 20, 1), strides=(10, 10, 1), padding='same', activation='relu')(layer_in)
+    conv3 = Convolution3D(512, (3, 3, 1), padding='same', activation='relu')(conv3)
     # 5x5 conv
-    conv5 = Convolution3D(96, (20, 20, 1), strides=(10, 10, 1), padding='same', activation='relu')(layer_in)
-    conv5 = Convolution3D(128, (5, 5, 1), padding='same', activation='relu')(conv5)
+    # conv5 = Convolution3D(96, (20, 20, 1), strides=(10, 10, 1), padding='same', activation='relu')(layer_in)
+    # conv5 = Convolution3D(128, (5, 5, 1), padding='same', activation='relu')(conv5)
     # 3x3 max pooling
     pool = MaxPooling3D((3, 3, 3), strides=(1, 1, 1), padding='same')(layer_in)
     pool = Convolution3D(32, (20, 20, 1), strides=(10, 10, 1), padding='same', activation='relu')(pool)
     # concatenate filters, assumes filters/channels last
-    layer_out = concatenate([conv1, conv3,conv5,  pool], axis=-4)
+    layer_out = concatenate([conv1, conv3,  pool], axis=-4)
     # add1= Add() ([conv3,ract_1])
     drop0 = Dropout(0.5)(layer_out)
     # conv6 = Convolution3D(512, (3, 3, 3), strides=1, padding='Same')(drop0)
@@ -174,11 +174,25 @@ def new_evaluate(segment_train_images, segment_validation_images, segment_train_
     flatten_1 = Flatten()(ract_4)
     # dense_1 = Dense(1024, init='normal')(flatten_1)
     # dense_2 = Dense(128, init='normal')(dense_1)
-    dense_3 = Dense(5, init='normal')(flatten_1)
+
+
+
+    layer_in2 = Input(shape=(1, sizeH, sizeV, sizeD))
+    conv21 =  Convolution3D(32, (20, 20,50), strides=(10, 10, 25), padding='Same')(layer_in2)
+    ract_21 = PReLU()(conv21)
+    conv22 = Convolution3D(32, (3, 3, 3), strides=1, padding='Same')(ract_21)
+    ract_22 = PReLU()(conv22)
+    flatten_2 = Flatten()(ract_22)
+
+    drop11 = Dropout(0.5)(flatten_1)
+    drop21 = Dropout(0.5)(flatten_2)
+    concat = concatenate([drop11,drop21], axis=-1)
+
+    dense_3 = Dense(5, init='normal')(concat)
     # drop1 = Dropout(0.5)(dense_3)
     activation = Activation('softmax')(dense_3)
     opt = SGD(lr=0.01)
-    model_cat = Model(inputs=[layer_in], outputs=activation)
+    model_cat = Model(inputs=[layer_in,layer_in2], outputs=activation)
     model_cat.compile(loss='categorical_crossentropy', optimizer=opt, metrics=['accuracy'])
 
 
@@ -227,13 +241,13 @@ def new_evaluate(segment_train_images, segment_validation_images, segment_train_
 
     # Training the model
 
-    history2= model_cat.fit(segment_train_images_cat, segment_train_labels_cat,
-                        validation_data=(segment_validation_images_cat, segment_validation_labels_cat),
+    history2= model_cat.fit([segment_train_images_cat,segment_train_images], segment_train_labels_cat,
+                        validation_data=([segment_validation_images_cat,segment_validation_images], segment_validation_labels_cat),
                         callbacks=callbacks_list_cat, batch_size=8, nb_epoch=500, shuffle=True, verbose=1)
 
     # Finding Confusion Matrix using pretrained weights
 
-    predictions = model_cat.predict([segment_validation_images_cat])
+    predictions = model_cat.predict([segment_validation_images_cat,segment_validation_images])
     predictions_labels = numpy.argmax(predictions, axis=1)
     validation_labels = numpy.argmax(segment_validation_labels_cat, axis=1)
     cfm = confusion_matrix(validation_labels, predictions_labels)
@@ -295,7 +309,7 @@ def split():
     # Spliting the dataset into training and validation sets
     segment_train_images, segment_validation_images, segment_train_labels, segment_validation_labels,segment_traininglabes_cat,segment_validlabels_cat = train_test_split(segment_training_set,
                                                                                                 segment_traininglabels,tempsegment_traininglabels_cat,
-                                                                                                test_size=0.2,random_state=1)
+                                                                                                test_size=0.1,random_state=42)
 
     # Save validation set in a numpy array
     # numpy.save('numpy_validation_datasets/{0}_images_{1}x{2}.npy'.format(segmentName,sizeH, sizeV), segment_validation_images)
@@ -360,11 +374,11 @@ def kfold():
 K.set_image_dim_ordering('th')
 
 segmentName = 'UpperFace'
-sizeH=32
-sizeV=32
+sizeH=128
+sizeV=128
 sizeD=140
 
-testtype = "split"
+testtype = "kfold"
 ####################################
 
 # Load training images and labels that are stored in numpy array
