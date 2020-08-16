@@ -133,3 +133,28 @@ F1-score: 0.0929032258064516
 ---------------------------
 accuracy: 0.36
 F1-score: 0.19058823529411764
+---------------------------
+/home/student/Nikin/Onset_to_Apex_Micro_Expression_Detection/End-to-End/CASMEII split_UpperFace_128x128x140
+---------------------------
+accuracy: 0.32
+F1-score: 0.23384615384615384
+---------------------------
+/home/student/Nikin/Onset_to_Apex_Micro_Expression_Detection/End-to-End/CASMEII split_UpperFace_128x128x140
+---------------------------
+accuracy: 0.36
+F1-score: 0.19058823529411764
+---------------------------
+/home/student/Nikin/Onset_to_Apex_Micro_Expression_Detection/End-to-End/CASMEII split_UpperFace_128x128x140
+---------------------------
+accuracy: 0.24
+F1-score: 0.0929032258064516
+---------------------------
+/home/student/Nikin/Onset_to_Apex_Micro_Expression_Detection/End-to-End/CASMEII split_UpperFace_128x128x140
+---------------------------
+accuracy: 0.24
+F1-score: 0.0929032258064516
+---------------------------
+/home/student/Nikin/Onset_to_Apex_Micro_Expression_Detection/End-to-End/CASMEII split_UpperFace_128x128x140
+---------------------------
+accuracy: 0.24
+F1-score: 0.0929032258064516
