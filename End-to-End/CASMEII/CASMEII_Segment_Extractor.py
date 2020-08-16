@@ -133,7 +133,7 @@ segment_trainingsamples = len(segment_training_list)
 
 segment_traininglabels = []
 
-catdatafile = pd.read_excel('../../cat_apex.xlsx')
+catdatafile = pd.read_excel('../../../cat_apex.xlsx')
 data = numpy.array(catdatafile)
 
 count=0
@@ -175,8 +175,9 @@ for pi in range(len(paths)):
     directorylisting = os.listdir(paths[pi])
     print(pi)
     for video in range(len(directorylisting)):
-        segment_traininglabels[count] = pi
-        count+=1
+        if directorylisting[video] != "4_EP12_01f":
+            segment_traininglabels[count] = pi
+            count+=1
 
 
 segment_traininglabels_cat = np_utils.to_categorical(segment_traininglabels_cat, len(paths))
