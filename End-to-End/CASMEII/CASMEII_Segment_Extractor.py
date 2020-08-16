@@ -56,7 +56,7 @@ sizeV=32
 sizeD=140
 
 paths=[disgustpath,  happinesspath,otherspath,repressionpath,surprisepath]
-
+# paths=['../../../CASMEII_categorical/fear/']
 segment_training_list = []
 counting = 0
 framelistinglist=[]
@@ -176,7 +176,7 @@ for pi in range(len(paths)):
     print(pi)
     for video in range(len(directorylisting)):
         if directorylisting[video] != "4_EP12_01f":
-            segment_traininglabels[count] = pi
+            segment_traininglabels_cat[count] = pi
             count+=1
 
 
@@ -196,7 +196,8 @@ for h in range(segment_trainingsamples):
 segment_training_set = segment_training_set.astype('float32')
 segment_training_set -= numpy.mean(segment_training_set)
 segment_training_set /= numpy.max(segment_training_set)
-# print(segment_traininglabels)
+print(segment_traininglabels)
+print(segment_traininglabels_cat)
 
 numpy.save('numpy_training_datasets/{0}_images_{1}x{2}x{3}.npy'.format(segmentName,sizeH, sizeV,sizeD), segment_training_set)
 numpy.save('numpy_training_datasets/{0}_labels_{1}x{2}x{3}.npy'.format(segmentName,sizeH, sizeV,sizeD), segment_traininglabels)
