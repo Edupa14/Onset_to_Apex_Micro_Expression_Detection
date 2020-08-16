@@ -147,7 +147,7 @@ def new_evaluate(segment_train_images, segment_validation_images, segment_train_
         segment_test_images_cat[i][:][:][:] = segment_validation_images[i, :, :, :,int(float(predictions[i]))]
 
     segment_test_images_cat2 = numpy.zeros((segment_validation_images.shape[0], segment_validation_images.shape[1],
-                                             segment_validation_images.shape[2], segment_validation_images.shape[3]))
+                                            segment_validation_images.shape[2], segment_validation_images.shape[3]))
     # print(segment_train_images_cat2)
     print("aaaaaaaaaaaaaaaaaas", segment_train_images_cat.shape)
     for i in range(segment_validation_images.shape[0]):
@@ -155,83 +155,96 @@ def new_evaluate(segment_train_images, segment_validation_images, segment_train_
         # print(segment_train_images[i])
         # print(segment_train_images[i, :, :, :, [segment_train_labels[i]]].shape)
         segment_test_images_cat2[i][:][:][:] = segment_validation_images[i, :, :, :, 0]
-    segment_validation_images_cat = numpy.stack([segment_test_images_cat2, segment_test_images_cat], axis=4)
+
+    segment_test_images_cat3 = numpy.zeros((segment_validation_images.shape[0], segment_validation_images.shape[1],
+                                            segment_validation_images.shape[2], segment_validation_images.shape[3]))
+    # print(segment_train_images_cat2)
+    print("aaaaaaaaaaaaaaaaaas", segment_train_images_cat.shape)
+    for i in range(segment_validation_images.shape[0]):
+        # print(segment_train_labels[i])
+        # print(segment_train_images[i])
+        # print(segment_train_images[i, :, :, :, [segment_train_labels[i]]].shape)
+        segment_test_images_cat3[i][:][:][:] = segment_validation_images[i, :, :, :, 139]
+
+    segment_validation_images_cat = numpy.stack([segment_test_images_cat2, segment_test_images_cat,segment_test_images_cat3], axis=4)
     print("sssssssssssssssssssssssssssssssssss", segment_test_images_cat.shape)
     #
     # print(segment_train_images[0, :, :, :, 0])
     # print(segment_train_images_cat[0, :, :, :, 0])
 
     #-------------------------------------------
-    # layer_in = Input(shape=(1, sizeH, sizeV, 2))
-    # # conv1 = Convolution3D(256, (20, 20, 9), strides=(10, 10, 3), padding='Same')(input)
-    # # # bn1=BatchNormalization()(conv1)
-    # # ract_1 = PReLU()(conv1)
-    # conv1 = Convolution3D(32, (20, 20, 1), strides=(10, 10, 1), padding='same', activation='relu')(layer_in)
-    # # 3x3 conv
-    # conv3 = Convolution3D(32, (20, 20, 1), strides=(10, 10, 1), padding='same', activation='relu')(layer_in)
-    # conv3 = Convolution3D(64, (3, 3, 1), padding='same', activation='relu')(conv3)
-    # # 5x5 conv
-    # # conv5 = Convolution3D(96, (20, 20, 1), strides=(10, 10, 1), padding='same', activation='relu')(layer_in)
-    # # conv5 = Convolution3D(128, (5, 5, 1), padding='same', activation='relu')(conv5)
-    # # 3x3 max pooling
-    # pool = MaxPooling3D((3, 3, 3), strides=(1, 1, 1), padding='same')(layer_in)
-    # pool = Convolution3D(32, (20, 20, 1), strides=(10, 10, 1), padding='same', activation='relu')(pool)
-    # # concatenate filters, assumes filters/channels last
-    # layer_out = concatenate([conv1, conv3,  pool], axis=-4)
-    # # add1= Add() ([conv3,ract_1])
-    # drop0 = Dropout(0.5)(layer_out)
-    # # conv6 = Convolution3D(512, (3, 3, 3), strides=1, padding='Same')(drop0)
-    # # # bn3 = BatchNormalization()(conv3)
-    # ract_4 = PReLU()(drop0)
-    # flatten_1 = Flatten()(ract_4)
-    # # dense_1 = Dense(1024, init='normal')(flatten_1)
-    # # dense_2 = Dense(128, init='normal')(dense_1)
-    # dense_3 = Dense(5, init='normal')(flatten_1)
-    # # drop1 = Dropout(0.5)(dense_3)
-    # activation = Activation('softmax')(dense_3)
-    # opt = SGD(lr=0.01)
-    # model_cat = Model(inputs=[layer_in], outputs=activation)
-    # model_cat.compile(loss='categorical_crossentropy', optimizer=opt, metrics=['accuracy'])
+    layer_in = Input(shape=(1, sizeH, sizeV, 3))
+    # conv1 = Convolution3D(256, (20, 20, 9), strides=(10, 10, 3), padding='Same')(input)
+    # # bn1=BatchNormalization()(conv1)
+    # ract_1 = PReLU()(conv1)
+    conv1 = Convolution3D(32, (20, 20, 1), strides=(10, 10, 1), padding='same', activation='relu')(layer_in)
+    # 3x3 conv
+    conv3 = Convolution3D(32, (20, 20, 1), strides=(10, 10, 1), padding='same', activation='relu')(layer_in)
+    conv3 = Convolution3D(64, (3, 3, 1), padding='same', activation='relu')(conv3)
+    # 5x5 conv
+    conv5 = Convolution3D(96, (20, 20, 1), strides=(10, 10, 1), padding='same', activation='relu')(layer_in)
+    conv5 = Convolution3D(128, (5, 5, 1), padding='same', activation='relu')(conv5)
+    # 3x3 max pooling
+    pool = MaxPooling3D((3, 3, 3), strides=(1, 1, 1), padding='same')(layer_in)
+    pool = Convolution3D(32, (20, 20, 1), strides=(10, 10, 1), padding='same', activation='relu')(pool)
+    # concatenate filters, assumes filters/channels last
+    layer_out = concatenate([conv1, conv3,  pool], axis=-4)
+    # add1= Add() ([conv3,ract_1])
+    drop0 = Dropout(0.5)(layer_out)
+    # conv6 = Convolution3D(512, (3, 3, 3), strides=1, padding='Same')(drop0)
+    # # bn3 = BatchNormalization()(conv3)
+    ract_4 = PReLU()(drop0)
+    flatten_1 = Flatten()(ract_4)
+    # dense_1 = Dense(1024, init='normal')(flatten_1)
+    dense_2 = Dense(128, init='normal')(flatten_1)
+    drop1 = Dropout(0.5)(dense_2)
+    dense_3 = Dense(5, init='normal')(drop1)
+    # drop1 = Dropout(0.5)(dense_3)
+    activation = Activation('softmax')(dense_3)
+    opt = SGD(lr=0.01)
+    model_cat = Model(inputs=[layer_in], outputs=activation)
+    model_cat.compile(loss='categorical_crossentropy', optimizer=opt, metrics=['accuracy'])
 
 
 #__________________________________________
-    model_cat = Sequential()
-    # model_cat.add(ZeroPadding3D((2,2,0)))
-    model_cat.add(Convolution3D(32, (9, 9, 1), strides=(3, 3, 1), input_shape=(1, sizeH, sizeV, 2), padding='Same'))
-    model_cat.add(PReLU())
-    model_cat.add(Convolution3D(64, (30, 30, 1), strides=(10,10,1) , padding='Same'))
-    model_cat.add(PReLU())
-    # model_cat.add(Convolution3D(128, (8, 8, 1), strides=1, input_shape=(1, sizeH, sizeV, sizeD), padding='Same'))
+    # model_cat = Sequential()
+    # # model_cat.add(ZeroPadding3D((2,2,0)))
+    # model_cat.add(Convolution3D(32, (9, 9, 1), strides=(3, 3, 1), input_shape=(1, sizeH, sizeV, 3), padding='Same'))
     # model_cat.add(PReLU())
-    model_cat.add(Dropout(0.5))
-    # 3
-    # model_cat.add(Convolution3D(32, (3, 3, 2), strides=1, padding='Same'))
+    # model_cat.add(Dropout(0.5))
+    # model_cat.add(Convolution3D(64, (30, 30, 1), strides=(10,10,1) , padding='Same'))
     # model_cat.add(PReLU())
-    # 40
+    # # model_cat.add(Convolution3D(128, (8, 8, 1), strides=1, input_shape=(1, sizeH, sizeV, sizeD), padding='Same'))
+    # # model_cat.add(PReLU())
     # model_cat.add(Dropout(0.5))
-    # 1
-    model_cat.add(MaxPooling3D(pool_size=(3, 3, 2)))
-    model_cat.add(PReLU())
-    # 2
-    # model_cat.add(Dropout(0.5))
-    model_cat.add(Flatten())
-    # model_cat.add(Dense(256, init='normal'))
-    # model_cat.add(Dropout(0.5))
-    model_cat.add(Dense(128, init='normal'))
+    # # 3
+    # # model_cat.add(Convolution3D(32, (3, 3, 2), strides=1, padding='Same'))
+    # # model_cat.add(PReLU())
+    # # 40
+    # # model_cat.add(Dropout(0.5))
+    # # 1
+    # model_cat.add(MaxPooling3D(pool_size=(3, 3, 2)))
     # model_cat.add(PReLU())
-    # model_cat.add(Dense(128, init='normal'))`
-    model_cat.add(Dropout(0.5))
-    model_cat.add(Dense(5, init='normal'))
-    # model.add(Dropout(0.5))
-    model_cat.add(Activation('softmax'))
-    opt = SGD(lr=0.1)
-    model_cat.compile(loss='categorical_crossentropy', optimizer=opt, metrics=['accuracy'])
+    # # 2
+    # # model_cat.add(Dropout(0.5))
+    # model_cat.add(Flatten())
+    # # model_cat.add(Dense(256, init='normal'))
+    # # model_cat.add(Dropout(0.5))
+    # model_cat.add(Dense(128, init='normal'))
+    # # model_cat.add(PReLU())
+    # # model_cat.add(Dense(128, init='normal'))`
+    # model_cat.add(Dropout(0.5))
+    # model_cat.add(Dense(5, init='normal'))
+    # # model.add(Dropout(0.5))
+    # model_cat.add(Activation('softmax'))
+    # opt = SGD(lr=0.1)
+    # model_cat.compile(loss='categorical_crossentropy', optimizer=opt, metrics=['accuracy'])
 
     model_cat.summary()
 
     filepath = "weights_CAS(ME)2/weights-improvement" + str(test_index) + "-{epoch:02d}-{val_acc:.2f}.hdf5"
     checkpoint = ModelCheckpoint(filepath, monitor='val_acc', verbose=1, save_best_only=True, mode='max')
-    EarlyStop = EarlyStopping(monitor='val_acc', min_delta=0, patience=40, restore_best_weights=True, verbose=1,
+    EarlyStop = EarlyStopping(monitor='val_acc', min_delta=0, patience=20, restore_best_weights=True, verbose=1,
                               mode='max')
     reduce = ReduceLROnPlateau(monitor='val_acc', factor=0.2, patience=10, cooldown=5, verbose=1, min_delta=0,
                                mode='max', min_lr=0.0005)
