@@ -274,13 +274,13 @@ def new_evaluate(segment_train_images, segment_validation_images, segment_train_
 def loocv():
     loo = LeaveOneOut()
     loo.get_n_splits(segment_training_set)
-    tot=0
-    count=0
-    accs=[]
-    accs2=[]
-    vals=[]
-    preds=[]
-    diffs=[]
+    tot = 0
+    count = 0
+    accs = []
+    accs2 = []
+
+    val_labels = []
+    pred_labels = []
     for train_index, test_index in loo.split(segment_training_set):
 
         # print(segment_traininglabels[train_index])
