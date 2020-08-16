@@ -186,7 +186,7 @@ def new_evaluate(segment_train_images, segment_validation_images, segment_train_
 
     drop11 = Dropout(0.5)(flatten_1)
     drop21 = Dropout(0.5)(flatten_2)
-    concat = concatenate([drop11,drop21], axis=-1)
+    concat = concatenate([drop11,drop21,layer_in2], axis=-1)
 
     dense_3 = Dense(5, init='normal')(concat)
     # drop1 = Dropout(0.5)(dense_3)
@@ -378,7 +378,7 @@ sizeH=128
 sizeV=128
 sizeD=140
 
-testtype = "kfold"
+testtype = "split"
 ####################################
 
 # Load training images and labels that are stored in numpy array
