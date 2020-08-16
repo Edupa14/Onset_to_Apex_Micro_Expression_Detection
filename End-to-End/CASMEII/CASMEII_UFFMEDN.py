@@ -15,7 +15,7 @@ import os
 
 class myCallback(Callback):
     def on_epoch_end(self, epoch, logs={}):
-        if(logs.get('val_loss') <= 0.0001):
+        if(logs.get('val_loss') <= 0.01):
             print("\nReached %2.2f%% accuracy, so stopping training!!" %(1.0*100))
             self.model.stop_training = True
 class myCallback2(Callback):
@@ -84,8 +84,8 @@ def new_evaluate(segment_train_images, segment_validation_images, segment_train_
 
     filepath="weights_CASMEII/weights-improvement"+str(test_index)+"-{epoch:02d}-{val_loss:.2f}.hdf5"
     checkpoint = ModelCheckpoint(filepath, monitor='val_loss', verbose=1, save_best_only=True, mode='min')
-    EarlyStop = EarlyStopping(monitor='val_loss', min_delta=0, patience=20, restore_best_weights=True, verbose=1, mode='min')
-    reduce = ReduceLROnPlateau(monitor='val_loss', factor=0.5, patience=10,cooldown=5, verbose=1,min_delta=0, mode='min',min_lr=0.0005)
+    EarlyStop = EarlyStopping(monitor='val_loss', min_delta=0, patience=5, restore_best_weights=True, verbose=1, mode='min')
+    reduce = ReduceLROnPlateau(monitor='val_loss', factor=0.5, patience=2,cooldown=0, verbose=1,min_delta=0, mode='min',min_lr=0.0005)
     callbacks_list = [ EarlyStop, reduce,myCallback()]
 
 
@@ -159,13 +159,13 @@ def new_evaluate(segment_train_images, segment_validation_images, segment_train_
     conv3 = Convolution3D(32, (20, 20, 1), strides=(10, 10, 1), padding='same', activation='relu')(layer_in)
     conv3 = Convolution3D(64, (3, 3, 1), padding='same', activation='relu')(conv3)
     # 5x5 conv
-    conv5 = Convolution3D(96, (20, 20, 1), strides=(10, 10, 1), padding='same', activation='relu')(layer_in)
-    conv5 = Convolution3D(128, (5, 5, 1), padding='same', activation='relu')(conv5)
+    # conv5 = Convolution3D(96, (20, 20, 1), strides=(10, 10, 1), padding='same', activation='relu')(layer_in)
+    # conv5 = Convolution3D(128, (5, 5, 1), padding='same', activation='relu')(conv5)
     # 3x3 max pooling
     pool = MaxPooling3D((3, 3, 3), strides=(1, 1, 1), padding='same')(layer_in)
     pool = Convolution3D(32, (20, 20, 1), strides=(10, 10, 1), padding='same', activation='relu')(pool)
     # concatenate filters, assumes filters/channels last
-    layer_out = concatenate([conv1, conv3,conv5,  pool], axis=-4)
+    layer_out = concatenate([conv1, conv3,  pool], axis=-4)
     # add1= Add() ([conv3,ract_1])
     drop0 = Dropout(0.5)(layer_out)
     # conv6 = Convolution3D(512, (3, 3, 3), strides=1, padding='Same')(drop0)
@@ -295,7 +295,7 @@ def split():
     # Spliting the dataset into training and validation sets
     segment_train_images, segment_validation_images, segment_train_labels, segment_validation_labels,segment_traininglabes_cat,segment_validlabels_cat = train_test_split(segment_training_set,
                                                                                                 segment_traininglabels,tempsegment_traininglabels_cat,
-                                                                                                test_size=0.2,random_state=1)
+                                                                                                test_size=0.1,random_state=42)
 
     # Save validation set in a numpy array
     # numpy.save('numpy_validation_datasets/{0}_images_{1}x{2}.npy'.format(segmentName,sizeH, sizeV), segment_validation_images)
@@ -360,8 +360,8 @@ def kfold():
 K.set_image_dim_ordering('th')
 
 segmentName = 'UpperFace'
-sizeH=32
-sizeV=32
+sizeH=128
+sizeV=128
 sizeD=140
 
 testtype = "split"
