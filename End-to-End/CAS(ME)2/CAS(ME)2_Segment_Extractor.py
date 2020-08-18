@@ -54,7 +54,7 @@ paths=[negativepath,positivepath, surprisepath]
 segmentName = 'UpperFace'
 sizeH=128
 sizeV=128
-sizeD=140
+sizeD=30
 
 segment_training_list = []
 counting = 0
@@ -64,67 +64,66 @@ for typepath in (paths):
     print(typepath)
 
     for video in directorylisting:
-        if video!="4_EP12_01f":
 
-            videopath = typepath + video
-            segment_frames = []
+        videopath = typepath + video
+        segment_frames = []
 
-            framelisting = os.listdir(videopath)
-            if sizeD<=len(framelisting):
-                val=int((len(framelisting)/2)-(sizeD/2))
-                framerange = [x+val for x in range(sizeD)]
+        framelisting = os.listdir(videopath)
+        if sizeD <= len(framelisting):
+            val = int((len(framelisting) / 2) - (sizeD / 2))
+            framerange = [x + val for x in range(sizeD)]
+        else:
+            tempD1 = sizeD // len(framelisting)
+            tempD2 = sizeD % len(framelisting)
+            framerange = []
+            # for y in range (len(framelisting)):
+            #     framerange.extend([y for _ in range(tempD1)])
+            #     if y<tempD2:
+            #         framerange.append(y)
+            framerange.extend([y for y in range(len(framelisting))])
+
+            framerange.extend([-1 for _ in range(sizeD - len(framelisting))])
+            # framerange.extend([y for y in range(tempD2)])
+        print(framerange, len(framerange))
+        framelistinglist.append(framerange)
+        for frame in framerange:
+            if frame == -1:
+                segment_image = [[0 for _ in range(sizeH)] for _ in range(sizeV)]
+                # print(len(segment_image),len(segment_image[0]))
+                # print(segment_image)
+                segment_frames.append(segment_image)
             else:
-                tempD1=sizeD//len(framelisting)
-                tempD2 = sizeD%len(framelisting)
-                framerange = []
-                # for y in range (len(framelisting)):
-                #     framerange.extend([y for _ in range(tempD1)])
-                #     if y<tempD2:
-                #         framerange.append(y)
-                framerange.extend([y for y in range(len(framelisting))])
+                imagepath = videopath + "/" + framelisting[frame]
+                image = cv2.imread(imagepath)
+                landmarks = get_landmark(image)
+                if counting < 1:
+                    img = annotate_landmarks(image, landmarks)
+                    imgplot = plt.imshow(img)
+                    plt.show()
+                numpylandmarks = numpy.asarray(landmarks)
+                up = min(numpylandmarks[18][1], numpylandmarks[19][1], numpylandmarks[23][1],
+                         numpylandmarks[24][1]) - 20
+                down = max(numpylandmarks[7][1], numpylandmarks[8][1], numpylandmarks[9][1], numpylandmarks[10][1],
+                           numpylandmarks[6][1])
+                left = min(numpylandmarks[17][0], numpylandmarks[18][0], numpylandmarks[36][0])
+                right = max(numpylandmarks[26][0], numpylandmarks[25][0], numpylandmarks[45][0])
+                segment_image = image[up:down, left:right]
+                if counting < 1:
+                    img = annotate_landmarks(segment_image, landmarks)
+                    imgplot = plt.imshow(img)
+                    plt.show()
+                    counting += 1
+                segment_image = cv2.resize(segment_image, (sizeH, sizeV), interpolation=cv2.INTER_AREA)
+                segment_image = cv2.cvtColor(segment_image, cv2.COLOR_BGR2GRAY)
 
-                framerange.extend([-1 for _ in range(sizeD-len(framelisting))])
-                # framerange.extend([y for y in range(tempD2)])
-            print(framerange,len(framerange))
-            framelistinglist.append(framerange)
-            for frame in framerange:
-                if frame==-1:
-                    segment_image = [[0 for _ in range(sizeH)] for _ in range(sizeV)]
-                    # print(len(segment_image),len(segment_image[0]))
-                    # print(segment_image)
-                    segment_frames.append(segment_image)
-                else:
-                    imagepath = videopath + "/" + framelisting[frame]
-                    image = cv2.imread(imagepath)
-                    landmarks = get_landmark(image)
-                    if counting < 1:
-                        img = annotate_landmarks(image, landmarks)
-                        imgplot = plt.imshow(img)
-                        plt.show()
-                    numpylandmarks = numpy.asarray(landmarks)
-                    up = min(numpylandmarks[18][1], numpylandmarks[19][1], numpylandmarks[23][1], numpylandmarks[24][1]) - 20
-                    down = max(numpylandmarks[31][1], numpylandmarks[32][1], numpylandmarks[33][1], numpylandmarks[34][1],
-                               numpylandmarks[35][1]) + 5
-                    left = min(numpylandmarks[17][0], numpylandmarks[18][0], numpylandmarks[36][0])
-                    right = max(numpylandmarks[26][0], numpylandmarks[25][0], numpylandmarks[45][0])
-                    segment_image = image[up:down, left:right]
-                    if counting < 1:
-                        img = annotate_landmarks(segment_image, landmarks)
-                        imgplot = plt.imshow(img)
-                        plt.show()
-                        counting += 1
-                    segment_image = cv2.resize(segment_image, (sizeH, sizeV), interpolation=cv2.INTER_AREA)
-                    segment_image = cv2.cvtColor(segment_image, cv2.COLOR_BGR2GRAY)
+                segment_frames.append(segment_image)
 
-                    segment_frames.append(segment_image)
-
-
-            segment_frames = numpy.asarray(segment_frames)
-            segment_videoarray = numpy.rollaxis(numpy.rollaxis(segment_frames, 2, 0), 2, 0)
-            # print('aaaa', segment_frames)
-            # print('bbbb', segment_videoarray)
-            # print('cccc',segment_image)
-            segment_training_list.append(segment_videoarray)
+        segment_frames = numpy.asarray(segment_frames)
+        segment_videoarray = numpy.rollaxis(numpy.rollaxis(segment_frames, 2, 0), 2, 0)
+        # print('aaaa', segment_frames)
+        # print('bbbb', segment_videoarray)
+        # print('cccc',segment_image)
+        segment_training_list.append(segment_videoarray)
 
 segment_training_list = numpy.asarray(segment_training_list)
 
@@ -134,35 +133,44 @@ segment_traininglabels = []
 
 catdatafile = pd.read_excel('../../../CAS(ME)^2code_final(Updated).xlsx')
 data = numpy.array(catdatafile)
+namedatafile = pd.read_excel('../../../name.xlsx')
+namedata = numpy.array(namedatafile)
+count=0
+for item in data:
+    for item2 in namedata:
+        # print(str(item2[0]),"s"+str(item[0]))
+        if str(item2[1])==str(item[0]):
+            # print(item2[0])
+            item[0]=item2[0]
+            break
 
 count=0
 for pi in range(len(paths)):
     directorylisting = os.listdir(paths[pi])
     print(pi)
     for video in range(len(directorylisting)):
-        if directorylisting[video]!="4_EP12_01f":
 
-            for item in data:
-                # print(str(item[0])+"_"+str(item[1]),directorylisting[video])
-                if str(item[0])+"_"+str(item[1])==directorylisting[video]:
-                    # Framefound=False
-                    # first=None
-                    # last=None
-                    # print(framelistinglist[count])
-                    # for frame in range(len(framelistinglist[count])):
-                    #     if framelistinglist[count][frame]==item[4]-item[3]:
-                    #         Framefound=True
-                    #         first=frame-1
-                    #     # elif Framefound==True:
-                    #     #     last=frame-1
-                    #         break
-                    segment_traininglabels.append(int(item[4])-int(item[3]))
-                    # print(first)
-                    # print(framelistinglist[count][first-1:last+2],framelistinglist[count][first],framelistinglist[count][last])
-                    # print(item[4]-item[3])
-                    count+=1
-                    break
-
+        for item in data:
+            print(str(item[0])+"_"+str(item[1]),directorylisting[video])
+            if str(item[0]) + "_" + str(item[1]) == directorylisting[video]:
+                print("nnnn")
+                # Framefound=False
+                # first=None
+                # last=None
+                # print(framelistinglist[count])
+                # for frame in range(len(framelistinglist[count])):
+                #     if framelistinglist[count][frame]==item[4]-item[3]:
+                #         Framefound=True
+                #         first=frame-1
+                #     # elif Framefound==True:
+                #     #     last=frame-1
+                #         break
+                segment_traininglabels.append(int(item[4]) - int(item[3]))
+                # print(first)
+                # print(framelistinglist[count][first-1:last+2],framelistinglist[count][first],framelistinglist[count][last])
+                # print(item[4]-item[3])
+                count += 1
+                break
 
 #-----------------
 
@@ -174,17 +182,16 @@ for pi in range(len(paths)):
     directorylisting = os.listdir(paths[pi])
     print(pi)
     for video in range(len(directorylisting)):
-        if directorylisting[video] != "4_EP12_01f":
             segment_traininglabels_cat[count] = pi
             count+=1
 
 
 segment_traininglabels_cat = np_utils.to_categorical(segment_traininglabels_cat, len(paths))
 #-----------------
-
+print(segment_traininglabels)
 segment_traininglabels = np_utils.to_categorical(segment_traininglabels, sizeD)
 
-# print(segment_traininglabels)
+print(segment_traininglabels)
 
 segment_training_data = [segment_training_list, segment_traininglabels,segment_traininglabels_cat]
 (segment_trainingframes, segment_traininglabels,segment_traininglabels_cat) = (segment_training_data[0], segment_training_data[1],segment_training_data[2])
