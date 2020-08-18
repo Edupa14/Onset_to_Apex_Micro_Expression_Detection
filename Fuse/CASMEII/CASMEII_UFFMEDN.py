@@ -270,7 +270,9 @@ segmentName2 = 'UpperFace_cat'
 sizeH2 = 32
 sizeV2 = 32
 sizeD2 = 30
-testtype = "loocv"
+testtype = "kfold"
+###################################
+notes="96x256x512"
 ####################################
 
 # Load training images and labels that are stored in numpy array
@@ -307,7 +309,7 @@ results = open("../TempResults.txt", 'a')
 results.write("---------------------------\n")
 full_path = os.path.realpath(__file__)
 results.write(
-    str(os.path.dirname(full_path)) + " {0}_{1}_{2}x{3}x{4}\n".format(testtype, segmentName, sizeH, sizeV, sizeD))
+    str(os.path.dirname(full_path)) + " {0}_{1}_{2}x{3}x{4}   {5}\n".format(testtype, segmentName, sizeH, sizeV, sizeD,notes))
 results.write("---------------------------\n")
 results.write("accuracy: " + str(accuracy_score(val_labels, pred_labels)) + "\n")
 results.write("F1-score: " + str(f1_score(val_labels, pred_labels, average="weighted")) + "\n")
