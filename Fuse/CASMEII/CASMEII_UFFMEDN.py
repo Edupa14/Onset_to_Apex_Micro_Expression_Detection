@@ -98,9 +98,9 @@ def evaluate(segment_train_images, segment_validation_images, segment_train_labe
 
     filepath = "weights_CAS(ME)2/weights-improvement" + str(test_index) + "-{epoch:02d}-{val_acc:.2f}.hdf5"
     checkpoint = ModelCheckpoint(filepath, monitor='val_acc', verbose=1, save_best_only=True, mode='max')
-    EarlyStop = EarlyStopping(monitor='val_acc', min_delta=0, patience=10, restore_best_weights=True, verbose=1,
+    EarlyStop = EarlyStopping(monitor='val_acc', min_delta=0, patience=40, restore_best_weights=True, verbose=1,
                               mode='max')
-    reduce = ReduceLROnPlateau(monitor='val_acc', factor=0.2, patience=5, cooldown=1, verbose=1, min_delta=0,
+    reduce = ReduceLROnPlateau(monitor='val_acc', factor=0.2, patience=10, cooldown=5, verbose=1, min_delta=0,
                                mode='max', min_lr=0.0005)
     callbacks_list = [EarlyStop, reduce, myCallback()]
 
@@ -154,7 +154,8 @@ def loocv():
         val_acc, val_label, pred_label = evaluate(segment_training_set[train_index], segment_training_set[test_index],
                                                   segment_traininglabels[train_index],
                                                   segment_traininglabels[test_index],
-                                                  test_index)
+                                                  test_index,segment_training_set_cat[train_index],segment_training_set_cat[test_index]
+                                                  )
         tot += val_acc
         val_labels.extend(val_label)
         pred_labels.extend(pred_label)
@@ -262,14 +263,14 @@ def kfold():
 K.set_image_dim_ordering('th')
 
 segmentName = 'UpperFace_SelectiveDivideAndConquer'
-sizeH = 128
-sizeV = 128
+sizeH = 32
+sizeV = 32
 sizeD = 2
 segmentName2 = 'UpperFace_cat'
 sizeH2 = 32
 sizeV2 = 32
 sizeD2 = 30
-testtype = "kfold"
+testtype = "loocv"
 ####################################
 
 # Load training images and labels that are stored in numpy array
