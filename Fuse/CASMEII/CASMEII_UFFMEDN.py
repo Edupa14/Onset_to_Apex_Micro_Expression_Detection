@@ -154,8 +154,11 @@ def loocv():
         val_acc, val_label, pred_label = evaluate(segment_training_set[train_index], segment_training_set[test_index],
                                                   segment_traininglabels[train_index],
                                                   segment_traininglabels[test_index],
-                                                  test_index,segment_training_set_cat[train_index],segment_training_set_cat[test_index]
+                                                  test_index, segment_training_set_cat[train_index],
+                                                  segment_training_set_cat[test_index]
                                                   )
+
+
         tot += val_acc
         val_labels.extend(val_label)
         pred_labels.extend(pred_label)
@@ -272,7 +275,7 @@ sizeV2 = 32
 sizeD2 = 30
 testtype = "kfold"
 ###################################
-notes="96x256x512"
+notes="32*30"
 ####################################
 
 # Load training images and labels that are stored in numpy array
