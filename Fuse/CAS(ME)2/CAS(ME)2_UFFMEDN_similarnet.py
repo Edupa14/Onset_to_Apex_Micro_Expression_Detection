@@ -43,15 +43,39 @@ def evaluate(segment_train_images, segment_validation_images, segment_train_labe
     # dense_1 = Dense(1024, init='normal')(flatten_1)
     # dense_2 = Dense(128, init='normal')(dense_1)
     layer_in2 = Input(shape=(1, sizeH2, sizeV2, sizeD2))
-    conv21 = Convolution3D(32, (20, 20, 50), strides=(10, 10, 25), padding='Same')(layer_in2)
-    ract_21 = PReLU()(conv21)
-    conv22 = Convolution3D(32, (3, 3, 3), strides=1, padding='Same')(ract_21)
-    ract_22 = PReLU()(conv22)
-    flatten_2 = Flatten()(ract_22)
+    # conv21 = Convolution3D(32, (20, 20, 50), strides=(10, 10, 25), padding='Same')(layer_in2)
+    # ract_21 = PReLU()(conv21)
+    # conv22 = Convolution3D(32, (3, 3, 3), strides=1, padding='Same')(ract_21)
+    # ract_22 = PReLU()(conv22)
+    # flatten_2 = Flatten()(ract_22)
+
+
+
+    conv12 = Convolution3D(96, (20, 20, 1), strides=(10, 10, 1), padding='same', activation='relu')(layer_in2)
+    # 3x3 conv
+    conv32 = Convolution3D(256, (20, 20, 1), strides=(10, 10, 1), padding='same', activation='relu')(layer_in2)
+    conv32 = Convolution3D(512, (3, 3, 1), padding='same', activation='relu')(conv3)
+    # 5x5 conv
+    # conv5 = Convolution3D(16, (20, 20, 1), strides=(10, 10, 1), padding='same', activation='relu')(layer_in)
+    # conv5 = Convolution3D(32, (5, 5, 1), padding='same', activation='relu')(conv5)
+    # 3x3 max pooling
+    pool2 = MaxPooling3D((3, 3, 3), strides=(1, 1, 1), padding='same')(layer_in2)
+    pool2 = Convolution3D(32, (20, 20, 1), strides=(10, 10, 1), padding='same', activation='relu')(pool)
+    # concatenate filters, assumes filters/channels last
+    layer_out2 = concatenate([conv12, conv32,  pool2], axis=-4)
+    # add1= Add() ([conv3,ract_1])
+    # drop0 = Dropout(0.5)(layer_out)
+    # conv6 = Convolution3D(512, (3, 3, 3), strides=1, padding='Same')(drop0)
+    # # bn3 = BatchNormalization()(conv3)
+    ract_42 = PReLU()(layer_out2)
+    flatten_12 = Flatten()(ract_42)
+
+
+
 
     flatten_3 = Flatten()(layer_in2)
     drop11 = Dropout(0.5)(flatten_1)
-    drop21 = Dropout(0.5)(flatten_2)
+    drop21 = Dropout(0.5)(flatten_12)
     drop31 = Dropout(0.5)(flatten_3)
     concat = concatenate([drop11, drop21, drop31], axis=-1)
 
