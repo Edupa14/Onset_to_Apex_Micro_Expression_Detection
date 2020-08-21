@@ -54,13 +54,13 @@ def evaluate(segment_train_images, segment_validation_images, segment_train_labe
     conv12 = Convolution3D(96, (20, 20, 1), strides=(10, 10, 1), padding='same', activation='relu')(layer_in2)
     # 3x3 conv
     conv32 = Convolution3D(256, (20, 20, 1), strides=(10, 10, 1), padding='same', activation='relu')(layer_in2)
-    conv32 = Convolution3D(512, (3, 3, 1), padding='same', activation='relu')(conv3)
+    conv32 = Convolution3D(512, (3, 3, 1), padding='same', activation='relu')(conv32)
     # 5x5 conv
     # conv5 = Convolution3D(16, (20, 20, 1), strides=(10, 10, 1), padding='same', activation='relu')(layer_in)
     # conv5 = Convolution3D(32, (5, 5, 1), padding='same', activation='relu')(conv5)
     # 3x3 max pooling
     pool2 = MaxPooling3D((3, 3, 3), strides=(1, 1, 1), padding='same')(layer_in2)
-    pool2 = Convolution3D(32, (20, 20, 1), strides=(10, 10, 1), padding='same', activation='relu')(pool)
+    pool2 = Convolution3D(32, (20, 20, 1), strides=(10, 10, 1), padding='same', activation='relu')(pool2)
     # concatenate filters, assumes filters/channels last
     layer_out2 = concatenate([conv12, conv32,  pool2], axis=-4)
     # add1= Add() ([conv3,ract_1])
