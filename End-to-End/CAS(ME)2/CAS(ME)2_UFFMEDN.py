@@ -54,7 +54,7 @@ def new_evaluate(segment_train_images, segment_validation_images, segment_train_
         # print(segment_train_labels[i])
         # print(segment_train_images[i])
         # print(segment_train_images[i, :, :, :, [segment_train_labels[i]]].shape)
-        segment_train_images_cat3[i][:][:][:] = segment_train_images[i, :, :, :, 139]
+        segment_train_images_cat3[i][:][:][:] = segment_train_images[i, :, :, :, sizeD-1]
 
     segment_train_images_cat = numpy.stack([segment_train_images_cat2, segment_train_images_cat,segment_train_images_cat3], axis=4)
 
@@ -164,7 +164,7 @@ def new_evaluate(segment_train_images, segment_validation_images, segment_train_
         # print(segment_train_labels[i])
         # print(segment_train_images[i])
         # print(segment_train_images[i, :, :, :, [segment_train_labels[i]]].shape)
-        segment_test_images_cat3[i][:][:][:] = segment_validation_images[i, :, :, :, 139]
+        segment_test_images_cat3[i][:][:][:] = segment_validation_images[i, :, :, :, sizeD-1]
 
     segment_validation_images_cat = numpy.stack([segment_test_images_cat2, segment_test_images_cat,segment_test_images_cat3], axis=4)
     print("sssssssssssssssssssssssssssssssssss", segment_test_images_cat.shape)
@@ -182,8 +182,8 @@ def new_evaluate(segment_train_images, segment_validation_images, segment_train_
     conv3 = Convolution3D(32, (20, 20, 1), strides=(10, 10, 1), padding='same', activation='relu')(layer_in)
     conv3 = Convolution3D(64, (3, 3, 1), padding='same', activation='relu')(conv3)
     # 5x5 conv
-    conv5 = Convolution3D(96, (20, 20, 1), strides=(10, 10, 1), padding='same', activation='relu')(layer_in)
-    conv5 = Convolution3D(128, (5, 5, 1), padding='same', activation='relu')(conv5)
+    # conv5 = Convolution3D(96, (20, 20, 1), strides=(10, 10, 1), padding='same', activation='relu')(layer_in)
+    # conv5 = Convolution3D(128, (5, 5, 1), padding='same', activation='relu')(conv5)
     # 3x3 max pooling
     pool = MaxPooling3D((3, 3, 3), strides=(1, 1, 1), padding='same')(layer_in)
     pool = Convolution3D(32, (20, 20, 1), strides=(10, 10, 1), padding='same', activation='relu')(pool)
@@ -197,7 +197,7 @@ def new_evaluate(segment_train_images, segment_validation_images, segment_train_
     flatten_1 = Flatten()(ract_4)
     # dense_1 = Dense(1024, init='normal')(flatten_1)
     # dense_2 = Dense(128, init='normal')(dense_1)
-    dense_3 = Dense(5, init='normal')(flatten_1)
+    dense_3 = Dense(3, init='normal')(flatten_1)
     # drop1 = Dropout(0.5)(dense_3)
     activation = Activation('softmax')(dense_3)
     opt = SGD(lr=0.01)
@@ -243,7 +243,7 @@ def new_evaluate(segment_train_images, segment_validation_images, segment_train_
 
     filepath = "weights_CAS(ME)2/weights-improvement" + str(test_index) + "-{epoch:02d}-{val_acc:.2f}.hdf5"
     checkpoint = ModelCheckpoint(filepath, monitor='val_acc', verbose=1, save_best_only=True, mode='max')
-    EarlyStop = EarlyStopping(monitor='val_acc', min_delta=0, patience=20, restore_best_weights=True, verbose=1,
+    EarlyStop = EarlyStopping(monitor='val_acc', min_delta=0, patience=40, restore_best_weights=True, verbose=1,
                               mode='max')
     reduce = ReduceLROnPlateau(monitor='val_acc', factor=0.2, patience=10, cooldown=5, verbose=1, min_delta=0,
                                mode='max', min_lr=0.0005)
@@ -392,9 +392,9 @@ K.set_image_dim_ordering('th')
 segmentName = 'UpperFace'
 sizeH=128
 sizeV=128
-sizeD=140
+sizeD=30
 
-testtype = "kfold"
+testtype = "loocv"
 ####################################
 
 # Load training images and labels that are stored in numpy array
