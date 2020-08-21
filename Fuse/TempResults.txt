@@ -278,3 +278,33 @@ F1-score: 0.5801743686384958
 ---------------------------
 accuracy: 0.631578947368421
 F1-score: 0.545933014354067
+---------------------------
+/home/student/Nikin/Onset_to_Apex_Micro_Expression_Detection/Fuse/SIMC kfold_UpperFace_32x32x2   32x96x128
+---------------------------
+accuracy: 0.7261146496815286
+F1-score: 0.7216245586896438
+---------------------------
+/home/student/Nikin/Onset_to_Apex_Micro_Expression_Detection/Fuse/SIMC kfold_UpperFace_32x32x2   32x96x128
+---------------------------
+accuracy: 0.7070063694267515
+F1-score: 0.7010895800704717
+---------------------------
+/home/student/Nikin/Onset_to_Apex_Micro_Expression_Detection/Fuse/SIMC kfold_UpperFace_32x32x2   30
+---------------------------
+accuracy: 0.7261146496815286
+F1-score: 0.7216342583221564
+---------------------------
+/home/student/Nikin/Onset_to_Apex_Micro_Expression_Detection/Fuse/SIMC kfold_UpperFace_32x32x2   100
+---------------------------
+accuracy: 0.6687898089171974
+F1-score: 0.6648434215640393
+---------------------------
+/home/student/Nikin/Onset_to_Apex_Micro_Expression_Detection/Fuse/SIMC kfold_UpperFace_128x128x2   128*100
+---------------------------
+accuracy: 0.5159235668789809
+F1-score: 0.46193743917012653
+---------------------------
+/home/student/Nikin/Onset_to_Apex_Micro_Expression_Detection/Fuse/SIMC kfold_UpperFace_128x128x2   128*30
+---------------------------
+accuracy: 0.5923566878980892
+F1-score: 0.586129540263041
