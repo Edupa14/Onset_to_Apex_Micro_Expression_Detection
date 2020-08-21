@@ -22,10 +22,10 @@ def evaluate(segment_train_images, segment_validation_images, segment_train_labe
     # conv1 = Convolution3D(256, (20, 20, 9), strides=(10, 10, 3), padding='Same')(input)
     # # bn1=BatchNormalization()(conv1)
     # ract_1 = PReLU()(conv1)
-    conv1 = Convolution3D(32, (20, 20, 1), strides=(10, 10, 1), padding='same', activation='relu')(layer_in)
+    conv1 = Convolution3D(96, (20, 20, 1), strides=(10, 10, 1), padding='same', activation='relu')(layer_in)
     # 3x3 conv
-    conv3 = Convolution3D(96, (20, 20, 1), strides=(10, 10, 1), padding='same', activation='relu')(layer_in)
-    conv3 = Convolution3D(128, (3, 3, 1), padding='same', activation='relu')(conv3)
+    conv3 = Convolution3D(256, (20, 20, 1), strides=(10, 10, 1), padding='same', activation='relu')(layer_in)
+    conv3 = Convolution3D(512, (3, 3, 1), padding='same', activation='relu')(conv3)
     # 5x5 conv
     # conv5 = Convolution3D(16, (20, 20, 1), strides=(10, 10, 1), padding='same', activation='relu')(layer_in)
     # conv5 = Convolution3D(32, (5, 5, 1), padding='same', activation='relu')(conv5)
@@ -54,8 +54,8 @@ def evaluate(segment_train_images, segment_validation_images, segment_train_labe
     drop21 = Dropout(0.5)(flatten_2)
     drop31 = Dropout(0.5)(flatten_3)
     concat = concatenate([drop11, drop21, drop31], axis=-1)
-
-    dense_3 = Dense(3, init='normal')(concat)
+    # dense_5 = Dense(128, init='normal')(concat)
+    dense_3 = Dense(3, init='nor-......mal')(dense_5)
     # drop1 = Dropout(0.5)(dense_3)
     activation = Activation('softmax')(dense_3)
     opt = SGD(lr=0.01)
@@ -275,7 +275,7 @@ sizeV2 = 32
 sizeD2 = 30
 testtype = "kfold"
 ####################################
-notes="32x96x128"
+notes="128   "
 ####################################
 
 # Load training images and labels that are stored in numpy array
