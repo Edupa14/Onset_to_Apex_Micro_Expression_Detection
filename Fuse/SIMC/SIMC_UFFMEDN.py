@@ -265,17 +265,17 @@ def kfold():
 # edit params
 K.set_image_dim_ordering('th')
 
-segmentName = 'UpperFace_SelectiveDivideAndConquer'
+segmentName = 'UpperFace'
 sizeH = 32
 sizeV = 32
 sizeD = 2
 segmentName2 = 'UpperFace_cat'
 sizeH2 = 32
 sizeV2 = 32
-sizeD2 = 30
+sizeD2 = 100
 testtype = "kfold"
 ###################################
-notes="32x96x128"
+notes="30"
 ####################################
 
 # Load training images and labels that are stored in numpy array
