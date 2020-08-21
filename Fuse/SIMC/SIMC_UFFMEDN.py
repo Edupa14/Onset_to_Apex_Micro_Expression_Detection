@@ -22,10 +22,10 @@ def evaluate(segment_train_images, segment_validation_images, segment_train_labe
     # conv1 = Convolution3D(256, (20, 20, 9), strides=(10, 10, 3), padding='Same')(input)
     # # bn1=BatchNormalization()(conv1)
     # ract_1 = PReLU()(conv1)
-    conv1 = Convolution3D(96, (20, 20, 1), strides=(10, 10, 1), padding='same', activation='relu')(layer_in)
+    conv1 = Convolution3D(32, (20, 20, 1), strides=(10, 10, 1), padding='same', activation='relu')(layer_in)
     # 3x3 conv
-    conv3 = Convolution3D(256, (20, 20, 1), strides=(10, 10, 1), padding='same', activation='relu')(layer_in)
-    conv3 = Convolution3D(512, (3, 3, 1), padding='same', activation='relu')(conv3)
+    conv3 = Convolution3D(96, (20, 20, 1), strides=(10, 10, 1), padding='same', activation='relu')(layer_in)
+    conv3 = Convolution3D(128, (3, 3, 1), padding='same', activation='relu')(conv3)
     # 5x5 conv
     # conv5 = Convolution3D(16, (20, 20, 1), strides=(10, 10, 1), padding='same', activation='relu')(layer_in)
     # conv5 = Convolution3D(32, (5, 5, 1), padding='same', activation='relu')(conv5)
@@ -55,7 +55,7 @@ def evaluate(segment_train_images, segment_validation_images, segment_train_labe
     drop31 = Dropout(0.5)(flatten_3)
     concat = concatenate([drop11, drop21, drop31], axis=-1)
 
-    dense_3 = Dense(3, init='normal')(concat)
+    dense_3 = Dense(5, init='normal')(concat)
     # drop1 = Dropout(0.5)(dense_3)
     activation = Activation('softmax')(dense_3)
     opt = SGD(lr=0.01)
@@ -265,7 +265,7 @@ def kfold():
 # edit params
 K.set_image_dim_ordering('th')
 
-segmentName = 'UpperFace_categorical_apex_SelectiveDivideAndConquer'
+segmentName = 'UpperFace_SelectiveDivideAndConquer'
 sizeH = 32
 sizeV = 32
 sizeD = 2
@@ -273,7 +273,9 @@ segmentName2 = 'UpperFace_cat'
 sizeH2 = 32
 sizeV2 = 32
 sizeD2 = 30
-testtype = "loocv"
+testtype = "kfold"
+###################################
+notes="32x96x128"
 ####################################
 
 # Load training images and labels that are stored in numpy array
@@ -310,7 +312,7 @@ results = open("../TempResults.txt", 'a')
 results.write("---------------------------\n")
 full_path = os.path.realpath(__file__)
 results.write(
-    str(os.path.dirname(full_path)) + " {0}_{1}_{2}x{3}x{4}\n".format(testtype, segmentName, sizeH, sizeV, sizeD))
+    str(os.path.dirname(full_path)) + " {0}_{1}_{2}x{3}x{4}   {5}\n".format(testtype, segmentName, sizeH, sizeV, sizeD,notes))
 results.write("---------------------------\n")
 results.write("accuracy: " + str(accuracy_score(val_labels, pred_labels)) + "\n")
 results.write("F1-score: " + str(f1_score(val_labels, pred_labels, average="weighted")) + "\n")
