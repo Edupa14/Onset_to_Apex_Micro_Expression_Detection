@@ -54,8 +54,8 @@ def evaluate(segment_train_images, segment_validation_images, segment_train_labe
     drop21 = Dropout(0.5)(flatten_2)
     drop31 = Dropout(0.5)(flatten_3)
     concat = concatenate([drop11, drop21, drop31], axis=-1)
-    # dense_5 = Dense(128, init='normal')(concat)
-    dense_3 = Dense(3, init='nor-......mal')(dense_5)
+
+    dense_3 = Dense(3, init='normal')(concat)
     # drop1 = Dropout(0.5)(dense_3)
     activation = Activation('softmax')(dense_3)
     opt = SGD(lr=0.01)
@@ -266,16 +266,16 @@ def kfold():
 K.set_image_dim_ordering('th')
 
 segmentName = 'UpperFace_categorical_apex_SelectiveDivideAndConquer'
-sizeH = 32
-sizeV = 32
+sizeH = 128
+sizeV = 128
 sizeD = 2
 segmentName2 = 'UpperFace_cat'
 sizeH2 = 32
 sizeV2 = 32
 sizeD2 = 30
 testtype = "kfold"
-####################################
-notes="128   "
+###################################
+notes="128*30"
 ####################################
 
 # Load training images and labels that are stored in numpy array
