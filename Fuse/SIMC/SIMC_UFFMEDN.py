@@ -27,13 +27,13 @@ def evaluate(segment_train_images, segment_validation_images, segment_train_labe
     conv3 = Convolution3D(256, (20, 20, 1), strides=(10, 10, 1), padding='same', activation='relu')(layer_in)
     conv3 = Convolution3D(512, (3, 3, 1), padding='same', activation='relu')(conv3)
     # 5x5 conv
-    # conv5 = Convolution3D(16, (20, 20, 1), strides=(10, 10, 1), padding='same', activation='relu')(layer_in)
-    # conv5 = Convolution3D(32, (5, 5, 1), padding='same', activation='relu')(conv5)
+    # conv5 = Convolution3D(256, (20, 20, 1), strides=(10, 10, 1), padding='same', activation='relu')(layer_in)
+    # conv5 = Convolution3D(512, (5, 5, 1), padding='same', activation='relu')(conv5)
     # 3x3 max pooling
     pool = MaxPooling3D((3, 3, 3), strides=(1, 1, 1), padding='same')(layer_in)
     pool = Convolution3D(32, (20, 20, 1), strides=(10, 10, 1), padding='same', activation='relu')(pool)
     # concatenate filters, assumes filters/channels last
-    layer_out = concatenate([conv1, conv3,  pool], axis=-4)
+    layer_out = concatenate([conv1,   conv3,pool], axis=-4)
     # add1= Add() ([conv3,ract_1])
     # drop0 = Dropout(0.5)(layer_out)
     # conv6 = Convolution3D(512, (3, 3, 3), strides=1, padding='Same')(drop0)
@@ -43,31 +43,31 @@ def evaluate(segment_train_images, segment_validation_images, segment_train_labe
     # dense_1 = Dense(1024, init='normal')(flatten_1)
     # dense_2 = Dense(128, init='normal')(dense_1)
     layer_in2 = Input(shape=(1, sizeH2, sizeV2, sizeD2))
-    conv21 = Convolution3D(32, (20, 20, 50), strides=(10, 10, 25), padding='Same')(layer_in2)
+    conv21 = Convolution3D(32, (20, 20, 30), strides=(10, 10, 15), padding='Same')(layer_in2)
     ract_21 = PReLU()(conv21)
     conv22 = Convolution3D(32, (3, 3, 3), strides=1, padding='Same')(ract_21)
     ract_22 = PReLU()(conv22)
     flatten_2 = Flatten()(ract_22)
 
     flatten_3 = Flatten()(layer_in2)
-    drop11 = Dropout(0.5)(flatten_1)
-    drop21 = Dropout(0.5)(flatten_2)
-    drop31 = Dropout(0.5)(flatten_3)
-    concat = concatenate([drop11, drop21, drop31], axis=-1)
-
-    dense_3 = Dense(3, init='normal')(concat)
+    # drop11 = Dropout(0.8)(flatten_1)
+    # drop21 = Dropout(0.8)(flatten_2)
+    # drop31 = Dropout(0.8)(flatten_3)
+    concat = concatenate([flatten_1, flatten_2, flatten_3], axis=-1)
+    drop51 = Dropout(0.5)(concat)
+    dense_3 = Dense(3, init='normal')(drop51)
     # drop1 = Dropout(0.5)(dense_3)
     activation = Activation('softmax')(dense_3)
     opt = SGD(lr=0.01)
     model = Model(inputs=[layer_in,layer_in2], outputs=activation)
     model.compile(loss='categorical_crossentropy', optimizer=opt, metrics=['accuracy'])
 # ----------------------------
-#     model = Sequential()
-#     # model.add(ZeroPadding3D((2,2,0)))
-#     model.add(Convolution3D(32, (6, 6, 1), strides=(3, 3, 1), input_shape=(1, sizeH, sizeV, sizeD), padding='Same'))
-#
-#     model.add(Convolution3D(64, (12, 12, 1), strides=(6, 6, 1), input_shape=(1, sizeH, sizeV, sizeD), padding='Same'))
-#     model.add(PReLU())
+    #     model = Sequential()`
+    #     # model.add(ZeroPadding3D((2,2,0)))
+    #     model.add(Convolution3D(32, (6, 6, 1), strides=(3, 3, 1), input_shape=(1, sizeH, sizeV, sizeD), padding='Same'))
+    #
+    #     model.add(Convolution3D(64, (12, 12, 1), strides=(6, 6, 1), input_shape=(1, sizeH, sizeV, sizeD), padding='Same'))
+    #     model.add(PReLU())`
 #     # model.add(Convolution3D(128, (8, 8, 1), strides=1, input_shape=(1, sizeH, sizeV, sizeD), padding='Same'))
 #     # model.add(PReLU())
 #     # model.add(Dropout(0.5))
@@ -272,10 +272,10 @@ sizeD = 2
 segmentName2 = 'UpperFace_cat'
 sizeH2 = 32
 sizeV2 = 32
-sizeD2 = 100
-testtype = "kfold"
+sizeD2 = 30
+testtype = "loocv"
 ###################################
-notes="30"
+notes="ori"
 ####################################
 
 # Load training images and labels that are stored in numpy array
