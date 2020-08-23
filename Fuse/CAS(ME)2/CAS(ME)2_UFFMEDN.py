@@ -265,17 +265,17 @@ def kfold():
 # edit params
 K.set_image_dim_ordering('th')
 
-segmentName = 'UpperFace_categorical_apex_SelectiveDivideAndConquer'
-sizeH = 32
-sizeV = 32
+segmentName = 'FullFace_categorical_apex_SelectiveDivideAndConquer'
+sizeH = 64
+sizeV = 64
 sizeD = 2
-segmentName2 = 'UpperFace_cat'
-sizeH2 = 32
-sizeV2 = 32
+segmentName2 = 'FullFace_cat'
+sizeH2 = 64
+sizeV2 = 64
 sizeD2 = 30
 testtype = "kfold"
 ###################################
-notes="32*30"
+notes=""
 ####################################
 
 # Load training images and labels that are stored in numpy array
