@@ -628,3 +628,38 @@ F1-score: 0.9744772730137636
 ---------------------------
 accuracy: 0.8995983935742972
 F1-score: 0.8990700892583604
+---------------------------
+/home/student/Nikin/Onset_to_Apex_Micro_Expression_Detection/Fuse/SIMC kfold_UpperFace_32x32x2   adam
+---------------------------
+accuracy: 0.3057324840764331
+F1-score: 0.28246457818796306
+---------------------------
+/home/student/Nikin/Onset_to_Apex_Micro_Expression_Detection/Fuse/SIMC kfold_UpperFace_32x32x2   pool
+---------------------------
+accuracy: 0.7261146496815286
+F1-score: 0.7232328400788756
+---------------------------
+/home/student/Nikin/Onset_to_Apex_Micro_Expression_Detection/Fuse/SIMC kfold_UpperFace_32x32x2   96*256
+---------------------------
+accuracy: 0.7133757961783439
+F1-score: 0.7059605326210437
+---------------------------
+/home/student/Nikin/Onset_to_Apex_Micro_Expression_Detection/Fuse/SIMC kfold_UpperFace_32x32x2   9*3
+---------------------------
+accuracy: 0.7261146496815286
+F1-score: 0.7167125504314159
+---------------------------
+/home/student/Nikin/Onset_to_Apex_Micro_Expression_Detection/Fuse/CAS(ME)2 kfold_FullFace_categorical_apex_SelectiveDivideAndConquer_32x32x2   
+---------------------------
+accuracy: 0.7894736842105263
+F1-score: 0.7539812577356044
+---------------------------
+/home/student/Nikin/Onset_to_Apex_Micro_Expression_Detection/Fuse/CAS(ME)2 kfold_FullFace_categorical_apex_SelectiveDivideAndConquer_32x32x2   
+---------------------------
+accuracy: 0.7894736842105263
+F1-score: 0.7855434039644567
+---------------------------
+/home/student/Nikin/Onset_to_Apex_Micro_Expression_Detection/Fuse/SIMC kfold_UpperFace_32x32x2   ori
+---------------------------
+accuracy: 0.7070063694267515
+F1-score: 0.6996825289844251
