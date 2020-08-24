@@ -54,9 +54,9 @@ def evaluate(segment_train_images, segment_validation_images, segment_train_labe
     # drop21 = Dropout(0.8)(flatten_2)
     # drop31 = Dropout(0.8)(flatten_3)
     concat = concatenate([flatten_1, flatten_2, flatten_3], axis=-1)
-    drop51 = Dropout(0.5)(concat)
+    drop51 = Dropout(0.6)(concat)
     dense_3 = Dense(3, init='normal')(drop51)
-    # drop1 = Dropout(0.5)(dense_3)
+    # drop1 = Dropout(0.5)(dense_3
     activation = Activation('softmax')(dense_3)
     opt = SGD(lr=0.01)
     model = Model(inputs=[layer_in,layer_in2], outputs=activation)
@@ -265,11 +265,11 @@ def kfold():
 # edit params
 K.set_image_dim_ordering('th')
 
-segmentName = 'FullFace'
+segmentName = 'UpperFace'
 sizeH = 32
 sizeV = 32
 sizeD = 2
-segmentName2 = 'FullFace_cat'
+segmentName2 = 'UpperFace_cat'
 sizeH2 = 32
 sizeV2 = 32
 sizeD2 = 30
