@@ -55,14 +55,14 @@ def evaluate(segment_train_images, segment_validation_images, segment_train_labe
     # drop31 = Dropout(0.8)(flatten_3)
 
     SegmentThree_input = Input(shape=(1, sizeH3, sizeV3, sizeD3))
-    SegmentThree_conv = Convolution3D(32, (20, 20, 9), strides=(10, 10, 3), padding='Same')(SegmentThree_input)
+    SegmentThree_conv = Convolution3D(32, (20, 20, 30), strides=(10, 10, 15), padding='Same')(SegmentThree_input)
     ract_54 = PReLU()(SegmentThree_conv)
     SegmentThree_conv_Two = Convolution3D(32, (3, 3, 3), strides=1, padding='Same')(ract_54)
     ract_64 = PReLU()(SegmentThree_conv_Two)
     flatten_34 = Flatten()(ract_64)
 
     concat = concatenate([flatten_1, flatten_2, flatten_3,flatten_34], axis=-1)
-    drop51 = Dropout(0.5)(concat)
+    drop51 = Dropout(0.6)(concat)
     dense_3 = Dense(3, init='normal')(drop51)
     # drop1 = Dropout(0.5)(dense_3)
     activation = Activation('softmax')(dense_3)
