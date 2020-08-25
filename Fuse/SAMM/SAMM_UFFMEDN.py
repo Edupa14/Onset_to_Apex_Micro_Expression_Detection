@@ -4,7 +4,7 @@ from sklearn.metrics import accuracy_score,f1_score
 from keras.models import Sequential, Model
 from keras.layers.core import Dense, Dropout, Activation, Flatten
 from keras.layers.convolutional import Convolution3D, MaxPooling3D, ZeroPadding3D
-from keras.layers import LeakyReLU ,PReLU,BatchNormalization,concatenate,Input
+from keras.layers import LeakyReLU ,LeakyReLU,BatchNormalization,concatenate,Input
 from keras.callbacks import ModelCheckpoint,EarlyStopping,ReduceLROnPlateau,Callback
 from sklearn.model_selection import train_test_split,LeaveOneOut,KFold
 from keras import backend as K
@@ -21,7 +21,7 @@ def evaluate(segment_train_images, segment_validation_images, segment_train_labe
     layer_in = Input(shape=(1, sizeH, sizeV, sizeD))
     # conv1 = Convolution3D(256, (20, 20, 9), strides=(10, 10, 3), padding='Same')(input)
     # # bn1=BatchNormalization()(conv1)
-    # ract_1 = PReLU()(conv1)
+    # ract_1 = LeakyReLU()(conv1)
     conv1 = Convolution3D(96, (20, 20, 1), strides=(10, 10, 1), padding='same', activation='relu')(layer_in)
     # 3x3 conv
     conv3 = Convolution3D(256, (20, 20, 1), strides=(10, 10, 1), padding='same', activation='relu')(layer_in)
@@ -38,15 +38,15 @@ def evaluate(segment_train_images, segment_validation_images, segment_train_labe
     # drop0 = Dropout(0.5)(layer_out)
     # conv6 = Convolution3D(512, (3, 3, 3), strides=1, padding='Same')(drop0)
     # # bn3 = BatchNormalization()(conv3)
-    ract_4 = PReLU()(layer_out)
+    ract_4 = LeakyReLU()(layer_out)
     flatten_1 = Flatten()(ract_4)
     # dense_1 = Dense(1024, init='normal')(flatten_1)
     # dense_2 = Dense(128, init='normal')(dense_1)
     layer_in2 = Input(shape=(1, sizeH2, sizeV2, sizeD2))
     conv21 = Convolution3D(32, (20, 20, 30), strides=(10, 10, 15), padding='Same')(layer_in2)
-    ract_21 = PReLU()(conv21)
+    ract_21 = LeakyReLU()(conv21)
     conv22 = Convolution3D(32, (3, 3, 3), strides=1, padding='Same')(ract_21)
-    ract_22 = PReLU()(conv22)
+    ract_22 = LeakyReLU()(conv22)
     flatten_2 = Flatten()(ract_22)
 
     flatten_3 = Flatten()(layer_in2)
@@ -67,25 +67,25 @@ def evaluate(segment_train_images, segment_validation_images, segment_train_labe
 #     model.add(Convolution3D(32, (6, 6, 1), strides=(3, 3, 1), input_shape=(1, sizeH, sizeV, sizeD), padding='Same'))
 #
 #     model.add(Convolution3D(64, (12, 12, 1), strides=(6, 6, 1), input_shape=(1, sizeH, sizeV, sizeD), padding='Same'))
-#     model.add(PReLU())
+#     model.add(LeakyReLU())
 #     # model.add(Convolution3D(128, (8, 8, 1), strides=1, input_shape=(1, sizeH, sizeV, sizeD), padding='Same'))
-#     # model.add(PReLU())
+#     # model.add(LeakyReLU())
 #     # model.add(Dropout(0.5))
 #     # 3
 #     # model.add(Convolution3D(32, (3, 3, 2), strides=1, padding='Same'))
-#     # model.add(PReLU())
+#     # model.add(LeakyReLU())
 #     # 40
 #     # model.add(Dropout(0.5))
 #     # 1
 #     model.add(MaxPooling3D(pool_size=(3, 3, 2)))
-#     model.add(PReLU())
+#     model.add(LeakyReLU())
 #     # 2
 #     # model.add(Dropout(0.5))
 #     model.add(Flatten())
 #     model.add(Dense(256, init='normal'))
 #     # model.add(Dropout(0.5))
 #     model.add(Dense(128, init='normal'))
-#     # model.add(PReLU())
+#     # model.add(LeakyReLU())
 #     # model.add(Dense(128, init='normal'))`
 #     model.add(Dropout(0.5))
 #     model.add(Dense(5, init='normal'))
@@ -273,7 +273,7 @@ segmentName2 = 'UpperFace_cat'
 sizeH2 = 32
 sizeV2 = 32
 sizeD2 = 30
-testtype = "loocv"
+testtype = "kfold"
 ###################################
 notes="ori"
 ####################################
