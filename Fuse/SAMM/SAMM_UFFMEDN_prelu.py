@@ -48,10 +48,8 @@ def evaluate(segment_train_images, segment_validation_images, segment_train_labe
     layer_in2 = Input(shape=(1, sizeH2, sizeV2, sizeD2))
     conv21 = Convolution3D(32, (20, 20, 30), strides=(10, 10, 15), padding='Same')(layer_in2)
     ract_21 = PReLU()(conv21)
-
-    conv22 = Convolution3D(32, (3,3,3), strides=1, padding='Same')(ract_21)
+    conv22 = Convolution3D(32, (3, 3, 3), strides=1, padding='Same')(ract_21)
     ract_22 = PReLU()(conv22)
-    # dense_321 = Dense(128, init='normal')(ract_22)
     flatten_2 = Flatten()(ract_22)
 
     flatten_3 = Flatten()(layer_in2)
@@ -60,9 +58,7 @@ def evaluate(segment_train_images, segment_validation_images, segment_train_labe
     # drop31 = Dropout(0.8)(flatten_3)
     concat = concatenate([flatten_1, flatten_2, flatten_3], axis=-1)
     drop51 = Dropout(0.5)(concat)
-    dense_322 = Dense(128, init='normal')(drop51)
-    ract_22 = PReLU()(dense_322)
-    dense_3 = Dense(5, init='normal')(ract_22)
+    dense_3 = Dense(5, init='normal')(drop51)
     # drop1 = Dropout(0.5)(dense_3)
     activation = Activation('softmax')(dense_3)
     opt = SGD(lr=0.01)
@@ -105,9 +101,9 @@ def evaluate(segment_train_images, segment_validation_images, segment_train_labe
 
     filepath = "weights_CAS(ME)2/weights-improvement" + str(test_index) + "-{epoch:02d}-{val_acc:.2f}.hdf5"
     checkpoint = ModelCheckpoint(filepath, monitor='val_acc', verbose=1, save_best_only=True, mode='max')
-    EarlyStop = EarlyStopping(monitor='val_acc', min_delta=0, patience=40, restore_best_weights=True, verbose=1,
+    EarlyStop = EarlyStopping(monitor='val_acc', min_delta=0, patience=50, restore_best_weights=True, verbose=1,
                               mode='max')
-    reduce = ReduceLROnPlateau(monitor='val_acc', factor=0.2, patience=10, cooldown=5, verbose=1, min_delta=0,
+    reduce = ReduceLROnPlateau(monitor='val_acc', factor=0.2, patience=10, cooldown=0, verbose=1, min_delta=0,
                                mode='max', min_lr=0.0005)
     callbacks_list = [EarlyStop, reduce, myCallback()]
 
@@ -120,7 +116,7 @@ def evaluate(segment_train_images, segment_validation_images, segment_train_labe
 
     # Training the model
 
-    history = model.fit([segment_train_images,segment_train_images_cat], segment_train_labels, validation_data = ([segment_validation_images,segment_validation_images_cat], segment_validation_labels), callbacks=callbacks_list, batch_size = 8, nb_epoch = 500, shuffle=True,verbose=1)
+    history = model.fit([segment_train_images,segment_train_images_cat], segment_train_labels, validation_data = ([segment_validation_images,segment_validation_images_cat], segment_validation_labels), callbacks=callbacks_list, batch_size = 16, nb_epoch = 500, shuffle=True,verbose=1)
 
 
 
@@ -282,7 +278,7 @@ sizeV2 = 32
 sizeD2 = 30
 testtype = "kfold"
 ###################################
-notes="combined dense 128"
+notes="30*15"
 ####################################
 
 # Load training images and labels that are stored in numpy array
