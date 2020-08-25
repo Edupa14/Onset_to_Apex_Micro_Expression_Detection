@@ -4,7 +4,7 @@ from sklearn.metrics import accuracy_score,f1_score
 from keras.models import Sequential, Model
 from keras.layers.core import Dense, Dropout, Activation, Flatten
 from keras.layers.convolutional import Convolution3D, MaxPooling3D, ZeroPadding3D
-from keras.layers import ReLU ,ReLU,BatchNormalization,concatenate,Input
+from keras.layers import ReLU ,PReLU,BatchNormalization,concatenate,Input
 from keras.callbacks import ModelCheckpoint,EarlyStopping,ReduceLROnPlateau,Callback
 from sklearn.model_selection import train_test_split,LeaveOneOut,KFold
 from keras import backend as K
@@ -21,32 +21,32 @@ def evaluate(segment_train_images, segment_validation_images, segment_train_labe
     layer_in = Input(shape=(1, sizeH, sizeV, sizeD))
     # conv1 = Convolution3D(256, (20, 20, 9), strides=(10, 10, 3), padding='Same')(input)
     # # bn1=BatchNormalization()(conv1)
-    # ract_1 = ReLU()(conv1)
-    conv1 = Convolution3D(96, (20, 20, 1), strides=(10, 10, 1), padding='same', activation='relu')(layer_in)
+    # ract_1 = PReLU()(conv1)
+    conv1 = Convolution3D(96, (20, 20, 1), strides=(10, 10, 1), padding='same', activation='PReLU')(layer_in)
     # 3x3 conv
-    conv3 = Convolution3D(256, (20, 20, 1), strides=(10, 10, 1), padding='same', activation='relu')(layer_in)
-    conv3 = Convolution3D(512, (3, 3, 1), padding='same', activation='relu')(conv3)
+    conv3 = Convolution3D(256, (20, 20, 1), strides=(10, 10, 1), padding='same', activation='PReLU')(layer_in)
+    conv3 = Convolution3D(512, (3, 3, 1), padding='same', activation='Relu')(conv3)
     # 5x5 conv
-    # conv5 = Convolution3D(16, (20, 20, 1), strides=(10, 10, 1), padding='same', activation='relu')(layer_in)
-    # conv5 = Convolution3D(32, (5, 5, 1), padding='same', activation='relu')(conv5)
+    # conv5 = Convolution3D(16, (20, 20, 1), strides=(10, 10, 1), padding='same', activation='PReLU')(layer_in)
+    # conv5 = Convolution3D(32, (5, 5, 1), padding='same', activation='PReLU')(conv5)
     # 3x3 max pooling
     pool = MaxPooling3D((3, 3, 3), strides=(1, 1, 1), padding='same')(layer_in)
-    pool = Convolution3D(32, (20, 20, 1), strides=(10, 10, 1), padding='same', activation='relu')(pool)
+    pool = Convolution3D(32, (20, 20, 1), strides=(10, 10, 1), padding='same', activation='PReLU')(pool)
     # concatenate filters, assumes filters/channels last
     layer_out = concatenate([conv1, conv3,  pool], axis=-4)
     # add1= Add() ([conv3,ract_1])
     # drop0 = Dropout(0.5)(layer_out)
     # conv6 = Convolution3D(512, (3, 3, 3), strides=1, padding='Same')(drop0)
     # # bn3 = BatchNormalization()(conv3)
-    ract_4 = ReLU()(layer_out)
+    ract_4 = PReLU()(layer_out)
     flatten_1 = Flatten()(ract_4)
     # dense_1 = Dense(1024, init='normal')(flatten_1)
     # dense_2 = Dense(128, init='normal')(dense_1)
     layer_in2 = Input(shape=(1, sizeH2, sizeV2, sizeD2))
     conv21 = Convolution3D(32, (20, 20, 30), strides=(10, 10, 15), padding='Same')(layer_in2)
-    ract_21 = ReLU()(conv21)
+    ract_21 = PReLU()(conv21)
     conv22 = Convolution3D(32, (3, 3, 3), strides=1, padding='Same')(ract_21)
-    ract_22 = ReLU()(conv22)
+    ract_22 = PReLU()(conv22)
     flatten_2 = Flatten()(ract_22)
 
     flatten_3 = Flatten()(layer_in2)
@@ -67,25 +67,25 @@ def evaluate(segment_train_images, segment_validation_images, segment_train_labe
 #     model.add(Convolution3D(32, (6, 6, 1), strides=(3, 3, 1), input_shape=(1, sizeH, sizeV, sizeD), padding='Same'))
 #
 #     model.add(Convolution3D(64, (12, 12, 1), strides=(6, 6, 1), input_shape=(1, sizeH, sizeV, sizeD), padding='Same'))
-#     model.add(ReLU())
+#     model.add(PReLU())
 #     # model.add(Convolution3D(128, (8, 8, 1), strides=1, input_shape=(1, sizeH, sizeV, sizeD), padding='Same'))
-#     # model.add(ReLU())
+#     # model.add(PReLU())
 #     # model.add(Dropout(0.5))
 #     # 3
 #     # model.add(Convolution3D(32, (3, 3, 2), strides=1, padding='Same'))
-#     # model.add(ReLU())
+#     # model.add(PReLU())
 #     # 40
 #     # model.add(Dropout(0.5))
 #     # 1
 #     model.add(MaxPooling3D(pool_size=(3, 3, 2)))
-#     model.add(ReLU())
+#     model.add(PReLU())
 #     # 2
 #     # model.add(Dropout(0.5))
 #     model.add(Flatten())
 #     model.add(Dense(256, init='normal'))
 #     # model.add(Dropout(0.5))
 #     model.add(Dense(128, init='normal'))
-#     # model.add(ReLU())
+#     # model.add(PReLU())
 #     # model.add(Dense(128, init='normal'))`
 #     model.add(Dropout(0.5))
 #     model.add(Dense(5, init='normal'))
