@@ -1143,3 +1143,43 @@ F1-score: 0.417084108401365
 ---------------------------
 accuracy: 0.8602941176470589
 F1-score: 0.8462990269061794
+---------------------------
+/home/student/Nikin/Onset_to_Apex_Micro_Expression_Detection/Fuse/SAMM kfold_UpperFace_SelectiveDivideAndConquer_32x32x2   (10, 10, 30), strides=(10, 10, 15)
+---------------------------
+accuracy: 0.5955882352941176
+F1-score: 0.5536799732327585
+---------------------------
+/home/student/Nikin/Onset_to_Apex_Micro_Expression_Detection/Fuse/SAMM kfold_UpperFace_SelectiveDivideAndConquer_32x32x2   (10, 10, 30), strides=(10, 10, 15)
+---------------------------
+accuracy: 0.625
+F1-score: 0.5948261435377007
+---------------------------
+/home/student/Nikin/Onset_to_Apex_Micro_Expression_Detection/Fuse/SAMM kfold_UpperFace_SelectiveDivideAndConquer_32x32x2   (10, 10, 30), strides=(10, 10, 15)
+---------------------------
+accuracy: 0.625
+F1-score: 0.6018897615864528
+---------------------------
+/home/student/Nikin/Onset_to_Apex_Micro_Expression_Detection/Fuse/SAMM kfold_UpperFace_SelectiveDivideAndConquer_32x32x2   (10, 10, 30), strides=(10, 10, 15)
+---------------------------
+accuracy: 0.6102941176470589
+F1-score: 0.5709623211355809
+---------------------------
+/home/student/Nikin/Onset_to_Apex_Micro_Expression_Detection/Fuse/SAMM kfold_Eyes_SelectiveDivideAndConquer_32x32x2   (10, 10, 30), strides=(10, 10, 15)
+---------------------------
+accuracy: 0.5735294117647058
+F1-score: 0.5255135407645205
+---------------------------
+/home/student/Nikin/Onset_to_Apex_Micro_Expression_Detection/Fuse/SAMM kfold_FullFace_SelectiveDivideAndConquer_32x32x2   (10, 10, 30), strides=(10, 10, 15)
+---------------------------
+accuracy: 0.6102941176470589
+F1-score: 0.5755101764701049
+---------------------------
+/home/student/Nikin/Onset_to_Apex_Micro_Expression_Detection/Fuse/SAMM kfold_Eyes_SelectiveDivideAndConquer_32x32x2   (10, 10, 30), strides=(10, 10, 15)
+---------------------------
+accuracy: 0.6323529411764706
+F1-score: 0.6146547811491233
+---------------------------
+/home/student/Nikin/Onset_to_Apex_Micro_Expression_Detection/Fuse/SAMM kfold_FullFace_SelectiveDivideAndConquer_32x32x2   (10, 10, 30), strides=(10, 10, 15)
+---------------------------
+accuracy: 0.6029411764705882
+F1-score: 0.5854696667696961
