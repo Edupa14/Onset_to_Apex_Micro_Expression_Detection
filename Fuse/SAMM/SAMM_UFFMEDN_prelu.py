@@ -41,8 +41,8 @@ def evaluate(segment_train_images, segment_validation_images, segment_train_labe
     # drop0 = Dropout(0.5)(layer_out)
     # conv6 = Convolution3D(512, (3, 3, 3), strides=1, padding='Same')(drop0)
     # # bn3 = BatchNormalization()(conv3)
-    # ract_4 = PReLU()(layer_out)
-    flatten_1 = Flatten()(layer_out)
+    ract_4 = PReLU()(layer_out)
+    flatten_1 = Flatten()(ract_4)
     # dense_1 = Dense(1024, init='normal')(flatten_1)
     # dense_2 = Dense(128, init='normal')(dense_1)
     layer_in2 = Input(shape=(1, sizeH2, sizeV2, sizeD2))
@@ -278,7 +278,7 @@ sizeV2 = 32
 sizeD2 = 30
 testtype = "kfold"
 ###################################
-notes="removeprelu"
+notes="256*512"
 ####################################
 
 # Load training images and labels that are stored in numpy array
