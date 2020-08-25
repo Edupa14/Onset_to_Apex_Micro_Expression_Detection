@@ -51,7 +51,8 @@ def evaluate(segment_train_images, segment_validation_images, segment_train_labe
 
     conv22 = Convolution3D(32, (3,3,3), strides=1, padding='Same')(ract_21)
     ract_22 = PReLU()(conv22)
-    flatten_2 = Flatten()(ract_22)
+    dense_3 = Dense(5, init='normal')(ract_22)
+    flatten_2 = Flatten()(dense_3)
 
     flatten_3 = Flatten()(layer_in2)
     # drop11 = Dropout(0.8)(flatten_1)
@@ -279,7 +280,7 @@ sizeV2 = 32
 sizeD2 = 30
 testtype = "kfold"
 ###################################
-notes="(10, 10, 30), strides=(10, 10, 15)"
+notes="full dense 5"
 ####################################
 
 # Load training images and labels that are stored in numpy array
