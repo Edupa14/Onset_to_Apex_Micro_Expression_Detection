@@ -46,13 +46,13 @@ def evaluate(segment_train_images, segment_validation_images, segment_train_labe
     # dense_1 = Dense(1024, init='normal')(flatten_1)
     # dense_2 = Dense(128, init='normal')(dense_1)
     layer_in2 = Input(shape=(1, sizeH2, sizeV2, sizeD2))
-    conv21 = Convolution3D(32, (10, 10, 30), strides=(10, 10, 15), padding='Same')(layer_in2)
-    ract_21 = PReLU()(conv21)
-    conv22 = Convolution3D(32, (5,5,5), strides=1, padding='Same')(ract_21)
+    conv21 = Convolution3D(32, (20, 20, 30), strides=(10, 10, 15), padding='Same')(layer_in2)
+    bn1 = BatchNormalization()(conv21)
+    ract_21 = PReLU()(bn1)
+
+    conv22 = Convolution3D(32, (3,3,3), strides=1, padding='Same')(ract_21)
     ract_22 = PReLU()(conv22)
-    conv222 = Convolution3D(32, (3,3,1), strides=1, padding='Same')(ract_22)
-    ract_222 = PReLU()(conv222)
-    flatten_2 = Flatten()(ract_222)
+    flatten_2 = Flatten()(ract_22)
 
     flatten_3 = Flatten()(layer_in2)
     # drop11 = Dropout(0.8)(flatten_1)
@@ -280,7 +280,7 @@ sizeV2 = 32
 sizeD2 = 30
 testtype = "kfold"
 ###################################
-notes="(10, 10, 30), strides=(10, 10, 15) add 555 and 331 layer"
+notes="(20, 20, 30), strides=(10, 10, 15) with batch "
 ####################################
 
 # Load training images and labels that are stored in numpy array
