@@ -1193,3 +1193,43 @@ F1-score: 0.5330069390694876
 ---------------------------
 accuracy: 0.6102941176470589
 F1-score: 0.5698367978770456
+---------------------------
+/home/student/Nikin/Onset_to_Apex_Micro_Expression_Detection/Fuse/SAMM kfold_UpperFace_SelectiveDivideAndConquer_32x32x2   full dense 128
+---------------------------
+accuracy: 0.5367647058823529
+F1-score: 0.48294667531442104
+---------------------------
+/home/student/Nikin/Onset_to_Apex_Micro_Expression_Detection/Fuse/SAMM kfold_UpperFace_SelectiveDivideAndConquer_32x32x2   combined dense 128
+---------------------------
+accuracy: 0.4264705882352941
+F1-score: 0.2630123229847494
+---------------------------
+/home/student/Nikin/Onset_to_Apex_Micro_Expression_Detection/Fuse/SAMM kfold_UpperFace_SelectiveDivideAndConquer_32x32x2   full dense 128
+---------------------------
+accuracy: 0.5294117647058824
+F1-score: 0.4736631016042781
+---------------------------
+/home/student/Nikin/Onset_to_Apex_Micro_Expression_Detection/Fuse/SAMM kfold_UpperFace_SelectiveDivideAndConquer_32x32x2   full dense 5
+---------------------------
+accuracy: 0.5367647058823529
+F1-score: 0.48771565562722297
+---------------------------
+/home/student/Nikin/Onset_to_Apex_Micro_Expression_Detection/Fuse/SAMM kfold_UpperFace_SelectiveDivideAndConquer_32x32x2   combined dense 128
+---------------------------
+accuracy: 0.4411764705882353
+F1-score: 0.3424726177896309
+---------------------------
+/home/student/Nikin/Onset_to_Apex_Micro_Expression_Detection/Fuse/SAMM kfold_UpperFace_SelectiveDivideAndConquer_32x32x2   full dense 5
+---------------------------
+accuracy: 0.5441176470588235
+F1-score: 0.5122070475562673
+---------------------------
+/home/student/Nikin/Onset_to_Apex_Micro_Expression_Detection/Fuse/SAMM kfold_UpperFace_SelectiveDivideAndConquer_32x32x2   full dense 1024
+---------------------------
+accuracy: 0.4117647058823529
+F1-score: 0.34452796698687704
+---------------------------
+/home/student/Nikin/Onset_to_Apex_Micro_Expression_Detection/Fuse/SAMM kfold_UpperFace_SelectiveDivideAndConquer_32x32x2   full dense 1024
+---------------------------
+accuracy: 0.41911764705882354
+F1-score: 0.3483987757078835
