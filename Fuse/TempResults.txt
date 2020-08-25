@@ -1073,3 +1073,38 @@ F1-score: 0.5452501334139452
 ---------------------------
 accuracy: 0.5735294117647058
 F1-score: 0.5416117048609562
+---------------------------
+/home/student/Nikin/Onset_to_Apex_Micro_Expression_Detection/Fuse/SAMM kfold_UpperFace_SelectiveDivideAndConquer_32x32x2   (5, 5, 30), strides=(5, 5, 15)
+---------------------------
+accuracy: 0.5367647058823529
+F1-score: 0.5129747353979809
+---------------------------
+/home/student/Nikin/Onset_to_Apex_Micro_Expression_Detection/Fuse/SAMM kfold_UpperFace_SelectiveDivideAndConquer_32x32x2   (10, 10, 30), strides=(10, 10, 15) with 64
+---------------------------
+accuracy: 0.5735294117647058
+F1-score: 0.5389518315262541
+---------------------------
+/home/student/Nikin/Onset_to_Apex_Micro_Expression_Detection/Fuse/SAMM kfold_UpperFace_SelectiveDivideAndConquer_32x32x2   (10, 10, 30), strides=(10, 10, 15)
+---------------------------
+accuracy: 0.5661764705882353
+F1-score: 0.5192374721941637
+---------------------------
+/home/student/Nikin/Onset_to_Apex_Micro_Expression_Detection/Fuse/SAMM kfold_UpperFace_SelectiveDivideAndConquer_32x32x2   (5, 5, 30), strides=(5, 5, 15)
+---------------------------
+accuracy: 0.5661764705882353
+F1-score: 0.5458033569467595
+---------------------------
+/home/student/Nikin/Onset_to_Apex_Micro_Expression_Detection/Fuse/SAMM kfold_UpperFace_SelectiveDivideAndConquer_32x32x2   (10, 10, 30), strides=(10, 10, 15) with 64
+---------------------------
+accuracy: 0.6102941176470589
+F1-score: 0.5834612105711849
+---------------------------
+/home/student/Nikin/Onset_to_Apex_Micro_Expression_Detection/Fuse/SAMM kfold_UpperFace_SelectiveDivideAndConquer_32x32x2   (20, 20, 30), strides=(1, 1, 15),
+---------------------------
+accuracy: 0.3235294117647059
+F1-score: 0.3029688646947249
+---------------------------
+/home/student/Nikin/Onset_to_Apex_Micro_Expression_Detection/Fuse/SAMM kfold_UpperFace_SelectiveDivideAndConquer_32x32x2   (20, 20, 30), strides=(1, 1, 15),
+---------------------------
+accuracy: 0.38235294117647056
+F1-score: 0.2890693590869184
