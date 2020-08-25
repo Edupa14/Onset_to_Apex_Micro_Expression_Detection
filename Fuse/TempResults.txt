@@ -1243,3 +1243,13 @@ F1-score: 0.2630123229847494
 ---------------------------
 accuracy: 0.4338235294117647
 F1-score: 0.3149417674396166
+---------------------------
+/home/student/Nikin/Onset_to_Apex_Micro_Expression_Detection/Fuse/CAS(ME)2 kfold_UpperFace_categorical_apex_SelectiveDivideAndConquer_32x32x2   16
+---------------------------
+accuracy: 0.7894736842105263
+F1-score: 0.7820138581748489
+---------------------------
+/home/student/Nikin/Onset_to_Apex_Micro_Expression_Detection/Fuse/SAMM kfold_UpperFace_SelectiveDivideAndConquer_32x32x2   30*15
+---------------------------
+accuracy: 0.5882352941176471
+F1-score: 0.5555529646671917
