@@ -878,3 +878,13 @@ F1-score: 0.5594131348191451
 ---------------------------
 accuracy: 0.7647058823529411
 F1-score: 0.7369214031766553
+---------------------------
+/home/student/Nikin/Onset_to_Apex_Micro_Expression_Detection/Fuse/SAMM loocv_UpperFace_SelectiveDivideAndConquer_32x32x2   ori
+---------------------------
+accuracy: 0.8455882352941176
+F1-score: 0.8316001200209605
+---------------------------
+/home/student/Nikin/Onset_to_Apex_Micro_Expression_Detection/Fuse/SAMM loocv_UpperFace_SelectiveDivideAndConquer_32x32x2   30*15
+---------------------------
+accuracy: 0.8235294117647058
+F1-score: 0.7948765718188582
