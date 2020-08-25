@@ -280,7 +280,7 @@ sizeV2 = 32
 sizeD2 = 30
 testtype = "kfold"
 ###################################
-notes="(20, 20, 30), strides=(10, 10, 15) with batch "
+notes="(20, 20, 30), strides=(10, 10, 15) with batch norm"
 ####################################
 
 # Load training images and labels that are stored in numpy array
