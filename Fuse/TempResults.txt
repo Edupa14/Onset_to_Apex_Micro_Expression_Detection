@@ -983,3 +983,8 @@ F1-score: 0.3100609674346691
 ---------------------------
 accuracy: 0.3235294117647059
 F1-score: 0.2869287797763733
+---------------------------
+/home/student/Nikin/Onset_to_Apex_Micro_Expression_Detection/Fuse/SAMM kfold_UpperFace_SelectiveDivideAndConquer_32x32x2   30*15
+---------------------------
+accuracy: 0.39705882352941174
+F1-score: 0.27260611683661995
