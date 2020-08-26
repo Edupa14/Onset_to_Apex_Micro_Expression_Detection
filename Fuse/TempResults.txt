@@ -1328,3 +1328,8 @@ F1-score: 0.910034048716234
 ---------------------------
 accuracy: 0.8995983935742972
 F1-score: 0.8993638574985137
+---------------------------
+/home/student/Nikin/Onset_to_Apex_Micro_Expression_Detection/Fuse/SIMC loocv_UpperFace_32x32x2   9*3
+---------------------------
+accuracy: 0.9872611464968153
+F1-score: 0.9872841131798138
