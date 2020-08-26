@@ -1283,3 +1283,48 @@ F1-score: 0.5587979682231019
 ---------------------------
 accuracy: 0.6506024096385542
 F1-score: 0.6391381105050268
+---------------------------
+/home/student/Nikin/Onset_to_Apex_Micro_Expression_Detection/Fuse/CASMEII kfold_UpperFace_SelectiveDivideAndConquer_32x32x2   8
+---------------------------
+accuracy: 0.6746987951807228
+F1-score: 0.6647164648683395
+---------------------------
+/home/student/Nikin/Onset_to_Apex_Micro_Expression_Detection/Fuse/CAS(ME)2 loocv_UpperFace_categorical_apex_SelectiveDivideAndConquer_32x32x2   16
+---------------------------
+accuracy: 0.868421052631579
+F1-score: 0.8668859649122808
+---------------------------
+/home/student/Nikin/Onset_to_Apex_Micro_Expression_Detection/Fuse/CAS(ME)2 loocv_UpperFace_categorical_apex_SelectiveDivideAndConquer_32x32x2   8
+---------------------------
+accuracy: 0.8157894736842105
+F1-score: 0.794827718349337
+---------------------------
+/home/student/Nikin/Onset_to_Apex_Micro_Expression_Detection/Fuse/SAMM loocv_UpperFace_SelectiveDivideAndConquer_32x32x2   16
+---------------------------
+accuracy: 0.8823529411764706
+F1-score: 0.8713281429016934
+---------------------------
+/home/student/Nikin/Onset_to_Apex_Micro_Expression_Detection/Fuse/SAMM loocv_UpperFace_SelectiveDivideAndConquer_32x32x2   8
+---------------------------
+accuracy: 0.8676470588235294
+F1-score: 0.8581467691440903
+---------------------------
+/home/student/Nikin/Onset_to_Apex_Micro_Expression_Detection/Fuse/SIMC loocv_UpperFace_32x32x2   16
+---------------------------
+accuracy: 0.9299363057324841
+F1-score: 0.9297460668947184
+---------------------------
+/home/student/Nikin/Onset_to_Apex_Micro_Expression_Detection/Fuse/SIMC loocv_UpperFace_32x32x2   8
+---------------------------
+accuracy: 0.9490445859872612
+F1-score: 0.949023656874167
+---------------------------
+/home/student/Nikin/Onset_to_Apex_Micro_Expression_Detection/Fuse/CASMEII loocv_UpperFace_SelectiveDivideAndConquer_32x32x2   16
+---------------------------
+accuracy: 0.9116465863453815
+F1-score: 0.910034048716234
+---------------------------
+/home/student/Nikin/Onset_to_Apex_Micro_Expression_Detection/Fuse/CASMEII loocv_UpperFace_SelectiveDivideAndConquer_32x32x2   8
+---------------------------
+accuracy: 0.8995983935742972
+F1-score: 0.8993638574985137
