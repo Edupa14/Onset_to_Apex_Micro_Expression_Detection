@@ -137,14 +137,15 @@ def evaluate(segment_train_images, segment_validation_images, segment_train_labe
     cfm = confusion_matrix(validation_labels, predictions_labels)
     print (cfm)
     print("accuracy: ",accuracy_score(validation_labels, predictions_labels))
-    layer_outputs = [layer.output for layer in model.layers[:12]]
+    # layer_outputs = [layer.output for layer in model.layers[1]]
 
     activation_model = models.Model(inputs=model.input,
-                                    outputs=layer_outputs)  # Creates a model that will return these outputs, given the model input
+                                    outputs=model.layers[11].output)
 
     activations = activation_model.predict([segment_validation_images,segment_validation_images_cat])
     first_layer_activation = activations[0]
-    plt.matshow(first_layer_activation[0, :, :, 4], cmap='viridis')
+    plt.matshow(first_layer_activation[0, :, :, 0], cmap='viridis')
+    plt.show()
 
     return accuracy_score(validation_labels, predictions_labels), validation_labels, predictions_labels
 
