@@ -10,6 +10,8 @@ from sklearn.model_selection import train_test_split,LeaveOneOut,KFold
 from keras import backend as K
 from keras.optimizers import Adam,SGD
 import os
+from tf_explain.callbacks.grad_cam import GradCAMCallback
+
 
 class myCallback(Callback):
     def on_epoch_end(self, epoch, logs={}):
@@ -64,38 +66,6 @@ def evaluate(segment_train_images, segment_validation_images, segment_train_labe
     opt = SGD(lr=0.01)
     model = Model(inputs=[layer_in,layer_in2], outputs=activation)
     model.compile(loss='categorical_crossentropy', optimizer=opt, metrics=['accuracy'])
-# ----------------------------
-    #     model = Sequential()`
-    #     # model.add(ZeroPadding3D((2,2,0)))
-    #     model.add(Convolution3D(32, (6, 6, 1), strides=(3, 3, 1), input_shape=(1, sizeH, sizeV, sizeD), padding='Same'))
-    #
-    #     model.add(Convolution3D(64, (12, 12, 1), strides=(6, 6, 1), input_shape=(1, sizeH, sizeV, sizeD), padding='Same'))
-    #     model.add(PReLU())`
-#     # model.add(Convolution3D(128, (8, 8, 1), strides=1, input_shape=(1, sizeH, sizeV, sizeD), padding='Same'))
-#     # model.add(PReLU())
-#     # model.add(Dropout(0.5))
-#     # 3
-#     # model.add(Convolution3D(32, (3, 3, 2), strides=1, padding='Same'))
-#     # model.add(PReLU())
-#     # 40
-#     # model.add(Dropout(0.5))
-#     # 1
-#     model.add(MaxPooling3D(pool_size=(3, 3, 2)))
-#     model.add(PReLU())
-#     # 2
-#     # model.add(Dropout(0.5))
-#     model.add(Flatten())
-#     model.add(Dense(256, init='normal'))
-#     # model.add(Dropout(0.5))
-#     model.add(Dense(128, init='normal'))
-#     # model.add(PReLU())
-#     # model.add(Dense(128, init='normal'))`
-#     model.add(Dropout(0.5))
-#     model.add(Dense(5, init='normal'))
-#     # model.add(Dropout(0.5))
-#     model.add(Activation('softmax'))
-#     opt = SGD(lr=0.1)
-#     model.compile(loss='categorical_crossentropy', optimizer=opt, metrics=['accuracy'])
 
     model.summary()
 
@@ -103,9 +73,14 @@ def evaluate(segment_train_images, segment_validation_images, segment_train_labe
     checkpoint = ModelCheckpoint(filepath, monitor='val_acc', verbose=1, save_best_only=True, mode='max')
     EarlyStop = EarlyStopping(monitor='val_acc', min_delta=0, patience=40, restore_best_weights=True, verbose=1,
                               mode='max')
+    GradCAMCallback(
+        validation_data=([segment_validation_images,segment_validation_images_cat], segment_validation_labels),
+        class_index=0,
+        output_dir="out/",
+    )
     reduce = ReduceLROnPlateau(monitor='val_acc', factor=0.2, patience=10, cooldown=5, verbose=1, min_delta=0,
                                mode='max', min_lr=0.0005)
-    callbacks_list = [EarlyStop, reduce, myCallback()]
+    callbacks_list = [EarlyStop, reduce, myCallback(),GradCAMCallback]
 
 
 
@@ -276,7 +251,7 @@ segmentName2 = 'UpperFace_cat'
 sizeH2 = 32
 sizeV2 = 32
 sizeD2 = 30
-testtype = "kfold"
+testtype = "loocv"
 ###################################
 notes="8"
 ####################################
