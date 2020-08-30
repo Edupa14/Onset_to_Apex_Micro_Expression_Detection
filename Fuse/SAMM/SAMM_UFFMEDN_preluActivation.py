@@ -10,7 +10,9 @@ from sklearn.model_selection import train_test_split,LeaveOneOut,KFold
 from keras import backend as K
 from keras.optimizers import Adam,SGD
 import os
-from tf_explain.callbacks.grad_cam import GradCAMCallback
+from keras_explain.grad_cam import GradCam
+
+# from tf_explain.callbacks.occlusion_sensitivity  import OcclusionSensitivityCallback
 
 
 class myCallback(Callback):
@@ -73,14 +75,15 @@ def evaluate(segment_train_images, segment_validation_images, segment_train_labe
     checkpoint = ModelCheckpoint(filepath, monitor='val_acc', verbose=1, save_best_only=True, mode='max')
     EarlyStop = EarlyStopping(monitor='val_acc', min_delta=0, patience=40, restore_best_weights=True, verbose=1,
                               mode='max')
-    GradCAMCallback(
-        validation_data=([segment_validation_images,segment_validation_images_cat], segment_validation_labels),
-        class_index=0,
-        output_dir="out/",
-    )
+    # OcclusionSensitivityCallback(
+    #     validation_data=([segment_validation_images,segment_validation_images_cat], segment_validation_labels),
+    #     class_index=0,
+    #     patch_size=4,
+    #     output_dir="out/",
+    # )
     reduce = ReduceLROnPlateau(monitor='val_acc', factor=0.2, patience=10, cooldown=5, verbose=1, min_delta=0,
                                mode='max', min_lr=0.0005)
-    callbacks_list = [EarlyStop, reduce, myCallback(),GradCAMCallback]
+    callbacks_list = [EarlyStop, reduce, myCallback()]
 
 
 
@@ -108,7 +111,9 @@ def evaluate(segment_train_images, segment_validation_images, segment_train_labe
     cfm = confusion_matrix(validation_labels, predictions_labels)
     print (cfm)
     print("accuracy: ",accuracy_score(validation_labels, predictions_labels))
-
+    explainer = GradCam(model, layer=None)
+    exp = explainer.explain([segment_validation_images,segment_validation_images_cat], 0)
+    print(exp)
     return accuracy_score(validation_labels, predictions_labels), validation_labels, predictions_labels
 
 
