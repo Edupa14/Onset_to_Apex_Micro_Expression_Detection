@@ -10,9 +10,9 @@ from sklearn.model_selection import train_test_split,LeaveOneOut,KFold
 from keras import backend as K
 from keras.optimizers import Adam,SGD
 import os
-from keras_explain.grad_cam import GradCam
+from keras import models
+from matplotlib import pyplot as plt
 
-# from tf_explain.callbacks.occlusion_sensitivity  import OcclusionSensitivityCallback
 
 
 class myCallback(Callback):
@@ -68,6 +68,38 @@ def evaluate(segment_train_images, segment_validation_images, segment_train_labe
     opt = SGD(lr=0.01)
     model = Model(inputs=[layer_in,layer_in2], outputs=activation)
     model.compile(loss='categorical_crossentropy', optimizer=opt, metrics=['accuracy'])
+# ----------------------------
+    #     model = Sequential()`
+    #     # model.add(ZeroPadding3D((2,2,0)))
+    #     model.add(Convolution3D(32, (6, 6, 1), strides=(3, 3, 1), input_shape=(1, sizeH, sizeV, sizeD), padding='Same'))
+    #
+    #     model.add(Convolution3D(64, (12, 12, 1), strides=(6, 6, 1), input_shape=(1, sizeH, sizeV, sizeD), padding='Same'))
+    #     model.add(PReLU())`
+#     # model.add(Convolution3D(128, (8, 8, 1), strides=1, input_shape=(1, sizeH, sizeV, sizeD), padding='Same'))
+#     # model.add(PReLU())
+#     # model.add(Dropout(0.5))
+#     # 3
+#     # model.add(Convolution3D(32, (3, 3, 2), strides=1, padding='Same'))
+#     # model.add(PReLU())
+#     # 40
+#     # model.add(Dropout(0.5))
+#     # 1
+#     model.add(MaxPooling3D(pool_size=(3, 3, 2)))
+#     model.add(PReLU())
+#     # 2
+#     # model.add(Dropout(0.5))
+#     model.add(Flatten())
+#     model.add(Dense(256, init='normal'))
+#     # model.add(Dropout(0.5))
+#     model.add(Dense(128, init='normal'))
+#     # model.add(PReLU())
+#     # model.add(Dense(128, init='normal'))`
+#     model.add(Dropout(0.5))
+#     model.add(Dense(5, init='normal'))
+#     # model.add(Dropout(0.5))
+#     model.add(Activation('softmax'))
+#     opt = SGD(lr=0.1)
+#     model.compile(loss='categorical_crossentropy', optimizer=opt, metrics=['accuracy'])
 
     model.summary()
 
@@ -75,12 +107,6 @@ def evaluate(segment_train_images, segment_validation_images, segment_train_labe
     checkpoint = ModelCheckpoint(filepath, monitor='val_acc', verbose=1, save_best_only=True, mode='max')
     EarlyStop = EarlyStopping(monitor='val_acc', min_delta=0, patience=40, restore_best_weights=True, verbose=1,
                               mode='max')
-    # OcclusionSensitivityCallback(
-    #     validation_data=([segment_validation_images,segment_validation_images_cat], segment_validation_labels),
-    #     class_index=0,
-    #     patch_size=4,
-    #     output_dir="out/",
-    # )
     reduce = ReduceLROnPlateau(monitor='val_acc', factor=0.2, patience=10, cooldown=5, verbose=1, min_delta=0,
                                mode='max', min_lr=0.0005)
     callbacks_list = [EarlyStop, reduce, myCallback()]
@@ -111,9 +137,15 @@ def evaluate(segment_train_images, segment_validation_images, segment_train_labe
     cfm = confusion_matrix(validation_labels, predictions_labels)
     print (cfm)
     print("accuracy: ",accuracy_score(validation_labels, predictions_labels))
-    explainer = GradCam(model, layer=None)
-    exp = explainer.explain([segment_validation_images,segment_validation_images_cat], 0)
-    print(exp)
+    layer_outputs = [layer.output for layer in model.layers[:12]]
+
+    activation_model = models.Model(inputs=model.input,
+                                    outputs=layer_outputs)  # Creates a model that will return these outputs, given the model input
+
+    activations = activation_model.predict([segment_validation_images,segment_validation_images_cat])
+    first_layer_activation = activations[0]
+    plt.matshow(first_layer_activation[0, :, :, 4], cmap='viridis')
+
     return accuracy_score(validation_labels, predictions_labels), validation_labels, predictions_labels
 
 
