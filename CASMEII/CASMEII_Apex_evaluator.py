@@ -1,30 +1,31 @@
 import pandas as pd
 import numpy
 import os
-
-disgustpath = '../../CASMEII_categorical_apex_SelectiveDivideAndConquer/disgust/'
-fearpath = '../../CASMEII_categorical_apex_SelectiveDivideAndConquer/fear/'
-happinesspath = '../../CASMEII_categorical_apex_SelectiveDivideAndConquer/happiness/'
-otherspath = '../../CASMEII_categorical_apex_SelectiveDivideAndConquer/others/'
-repressionpath = '../../CASMEII_categorical_apex_SelectiveDivideAndConquer/repression/'
-sadnesspath = '../../CASMEII_categorical_apex_SelectiveDivideAndConquer/sadness/'
-surprisepath = '../../CASMEII_categorical_apex_SelectiveDivideAndConquer/surprise/'
+import math
+import statistics as stat
+disgustpath = '../../CASMEII_categorical_apex_DivideAndConquer/disgust/'
+fearpath = '../../CASMEII_categorical_apex_DivideAndConquer/fear/'
+happinesspath = '../../CASMEII_categorical_apex_DivideAndConquer/happiness/'
+otherspath = '../../CASMEII_categorical_apex_DivideAndConquer/others/'
+repressionpath = '../../CASMEII_categorical_apex_DivideAndConquer/repression/'
+sadnesspath = '../../CASMEII_categorical_apex_DivideAndConquer/sadness/'
+surprisepath = '../../CASMEII_categorical_apex_DivideAndConquer/surprise/'
 
 
 
 paths=[disgustpath,  happinesspath,otherspath,repressionpath,surprisepath]
 catdatafile = pd.read_excel('../../cat_apex.xlsx')
 data = numpy.array(catdatafile)
-
+diffs=[]
 count=0
 for pi in range(len(paths)):
     directorylisting = os.listdir(paths[pi])
     print(pi)
     for video in range(len(directorylisting)):
         if directorylisting[video]!="4_EP12_01f":
-
+            print(directorylisting[video])
             for item in data:
-                print(str(item[0])+"_"+str(item[1]),directorylisting[video])
+                # print(str(item[0])+"_"+str(item[1]),directorylisting[video])
                 if str(item[0])+"_"+str(item[1])==directorylisting[video]:
                     # Framefound=False
                     # first=None
@@ -38,11 +39,17 @@ for pi in range(len(paths)):
                     #     #     last=frame-1
                     #         break
                     print(int(item[4]))
-                    directorylistingvid = os.listdir(video)
-                    print(directorylistingvid)
+                    directorylistingvid = os.listdir(paths[pi]+directorylisting[video])
+                    for pic in directorylistingvid:
+                        if pic[0]=='2':
+                            print(pic[4:-4])
+                            diffs.append(abs(item[4]-int(pic[4:-4])))
+                    # print(directorylistingvid)
                     # print(first)
                     # print(framelistinglist[count][first-1:last+2],framelistinglist[count][first],framelistinglist[count][last])
                     # print(item[4]-item[3])
                     count+=1
                     break
-
+print("MAE: ",(sum(diffs))/len(diffs))
+print("SD: ",stat.stdev(diffs))
+print("SE: ",stat.stdev(diffs)/(math.sqrt(len(diffs))))
