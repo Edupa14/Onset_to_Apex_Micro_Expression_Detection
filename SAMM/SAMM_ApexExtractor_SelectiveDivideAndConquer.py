@@ -39,6 +39,7 @@ def annotate_landmarks(img, landmarks, font_scale=0.4):
         cv2.circle(img, pos, 3, color=(0, 255, 255))
     return img
 
+
 def find_max(imgs):
     image = cv2.imread(videopath + '/' + imgs[0])
     landmarks = get_landmark(image)
@@ -49,17 +50,10 @@ def find_max(imgs):
     count = 0
     landmark_list = [x for x in range(17, 27)]
     landmark_list.extend([x for x in range(36, 68)])
-    broken=[]
     for image in viddirectorylisting:
-
-        im = cv2.imread(videopath + '/' + image)
-        try:
-            landmarks = get_landmark(im)
-        except:
-            print("broken",image)
-            broken.append(image)
-            continue
         img_pos.append([])
+        image = cv2.imread(videopath + '/' + image)
+        landmarks = get_landmark(image)
         numpylandmarks = np.asarray(landmarks)
         count += 1
         img_pos[count - 1] = [1] * landmarksNos
@@ -72,27 +66,25 @@ def find_max(imgs):
     max_diff = 0
     max_diff_image = None
     count2 = 0
-    print(broken,viddirectorylisting)
     for image in viddirectorylisting:
-        if image not in broken:
-            diff = []
-            # print(landmark_list,len(avg_pos))
-            for pos in landmark_list:
-                diff.append(abs(avg_pos[pos] - img_pos[count2][pos]))
-            count2 += 1
-            # print(diff,sum(diff),len(diff),sum(sum(diff)/len(diff)))
-            avg_diff = sum(sum(diff) / len(diff))
-            # print(max_diff,avg_diff)
-            if max_diff < avg_diff:
-                max_diff = avg_diff
-                max_diff_image = image
+        diff = []
+        # print(landmark_list,len(avg_pos))
+        for pos in landmark_list:
+            diff.append(abs(avg_pos[pos] - img_pos[count2][pos]))
+        count2 += 1
+        # print(diff,sum(diff),len(diff),sum(sum(diff)/len(diff)))
+        avg_diff = sum(sum(diff) / len(diff))
+        # print(max_diff,avg_diff)
+        if max_diff < avg_diff:
+            max_diff = avg_diff
+            max_diff_image = image
     return max_diff,max_diff_image
 
 
 path='../../SAMM_categorical/'
 
 
-targetpath= '../../SAMM_categorical_apex_SelectiveDivideAndConquer/'
+targetpath= '../../SAMM_categorical_apex_SelectiveDivideAndConquer_NEW/'
 if os.path.exists(targetpath ):
     shutil.rmtree(targetpath )
 os.mkdir(targetpath , mode=0o777)
