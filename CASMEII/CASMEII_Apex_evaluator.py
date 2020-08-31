@@ -3,13 +3,13 @@ import numpy
 import os
 import math
 import statistics as stat
-disgustpath = '../../CASMEII_categorical_apex_DivideAndConquer/disgust/'
-fearpath = '../../CASMEII_categorical_apex_DivideAndConquer/fear/'
-happinesspath = '../../CASMEII_categorical_apex_DivideAndConquer/happiness/'
-otherspath = '../../CASMEII_categorical_apex_DivideAndConquer/others/'
-repressionpath = '../../CASMEII_categorical_apex_DivideAndConquer/repression/'
-sadnesspath = '../../CASMEII_categorical_apex_DivideAndConquer/sadness/'
-surprisepath = '../../CASMEII_categorical_apex_DivideAndConquer/surprise/'
+disgustpath = '../../CASMEII_categorical_apex_selective/disgust/'
+fearpath = '../../CASMEII_categorical_apex_selective/fear/'
+happinesspath = '../../CASMEII_categorical_apex_selective/happiness/'
+otherspath = '../../CASMEII_categorical_apex_selective/others/'
+repressionpath = '../../CASMEII_categorical_apex_selective/repression/'
+sadnesspath = '../../CASMEII_categorical_apex_selective/sadness/'
+surprisepath = '../../CASMEII_categorical_apex_selective/surprise/'
 
 
 
