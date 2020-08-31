@@ -117,6 +117,8 @@ for subject in directorylisting:
         os.mkdir(newvideopath, mode=0o777)
         viddirectorylisting = os.listdir(videopath)
         print(videopath,viddirectorylisting)
+        viddirectorylisting.sort()
+        print(videopath, viddirectorylisting)
         count=0
         Lmax=0
         Rmax=0
