@@ -3,17 +3,17 @@ import numpy
 import os
 import math
 import statistics as stat
-disgustpath = '../../CASMEII_categorical_apex_selective/disgust/'
-fearpath = '../../CASMEII_categorical_apex_selective/fear/'
-happinesspath = '../../CASMEII_categorical_apex_selective/happiness/'
-otherspath = '../../CASMEII_categorical_apex_selective/others/'
-repressionpath = '../../CASMEII_categorical_apex_selective/repression/'
-sadnesspath = '../../CASMEII_categorical_apex_selective/sadness/'
-surprisepath = '../../CASMEII_categorical_apex_selective/surprise/'
+disgustpath = '../../CASMEII_categorical_apex_SelectiveDivideAndConquer_NEW/disgust/'
+fearpath = '../../CASMEII_categorical_apex_SelectiveDivideAndConquer_NEW/fear/'
+happinesspath = '../../CASMEII_categorical_apex_SelectiveDivideAndConquer_NEW/happiness/'
+otherspath = '../../CASMEII_categorical_apex_SelectiveDivideAndConquer_NEW/others/'
+repressionpath = '../../CASMEII_categorical_apex_SelectiveDivideAndConquer_NEW/repression/'
+sadnesspath = '../../CASMEII_categorical_apex_SelectiveDivideAndConquer_NEW/sadness/'
+surprisepath = '../../CASMEII_categorical_apex_SelectiveDivideAndConquer_NEW/surprise/'
 
 
 
-paths=[disgustpath,  happinesspath,otherspath,repressionpath,surprisepath]
+paths=[disgustpath, fearpath, happinesspath,sadnesspath,otherspath,repressionpath,surprisepath]
 catdatafile = pd.read_excel('../../cat_apex.xlsx')
 data = numpy.array(catdatafile)
 diffs=[]
