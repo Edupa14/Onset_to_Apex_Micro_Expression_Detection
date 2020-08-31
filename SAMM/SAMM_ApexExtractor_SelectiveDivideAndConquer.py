@@ -80,7 +80,6 @@ def find_max(imgs):
             max_diff_image = image
     return max_diff,max_diff_image
 
-
 path='../../SAMM_categorical/'
 
 
@@ -99,7 +98,7 @@ for item in directorylisting:
         if os.path.exists(targetpath+item):
             shutil.rmtree(targetpath+item)
         os.mkdir(targetpath+item, mode=0o777)
-
+counter01=1
 for subject in directorylisting:
     # print(subject)
     subjectdirectorylisting=os.listdir(path+subject)
@@ -115,7 +114,10 @@ for subject in directorylisting:
             shutil.rmtree(newvideopath)
         os.mkdir(newvideopath, mode=0o777)
         viddirectorylisting = os.listdir(videopath)
+        print(counter01)
         print(videopath,viddirectorylisting)
+        viddirectorylisting.sort()
+        print(videopath, viddirectorylisting)
         count=0
         Lmax=0
         Rmax=0
@@ -136,18 +138,19 @@ for subject in directorylisting:
             max_diff=Lmax
         else:
             max_diff_image=Rval
-            max_diff=Rmax
-        print(max_diff_image,max_diff)
+            # max_diff=Rmax
+        # print(max_diff_image,max_diff)
         for image in viddirectorylisting:
             if viddirectorylisting[0] == image :
                 # print(vidid, image,1)
-                print(videopath + "/" + str(image))
+                # print(videopath + "/" + str(image))
                 shutil.copyfile(videopath + "/" + str(image),
                                 newvideopath+ '/1' + str(image))
             if  max_diff_image == image:
                 # print(vidid,image,2)
-                print(videopath+"/"+str(image))
+                # print(videopath+"/"+str(image))
                 shutil.copyfile(videopath+"/"+str(image), newvideopath+'/2'+str(image))
+        counter01+=1
 
         #         if found==True:
         #             print("multiple",video,catdata[vidid])
