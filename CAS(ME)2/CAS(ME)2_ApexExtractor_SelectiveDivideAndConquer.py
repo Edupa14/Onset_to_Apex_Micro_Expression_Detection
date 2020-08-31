@@ -85,13 +85,13 @@ path='../../CAS(ME)2_categorical/'
 
 
 
-targetpath= '../../CAS(ME)2_categorical_apex_SelectiveDivideAndConquer/'
+targetpath= '../../CAS(ME)2_categorical_apex_SelectiveDivideAndConquer_NEW/'
 if os.path.exists(targetpath ):
     shutil.rmtree(targetpath )
 os.mkdir(targetpath , mode=0o777)
 directorylisting = os.listdir(path)
 
-
+counter01=1
 count=0
 cats=[]
 for item in directorylisting:
@@ -115,6 +115,7 @@ for subject in directorylisting:
         if os.path.exists(newvideopath):
             shutil.rmtree(newvideopath)
         os.mkdir(newvideopath, mode=0o777)
+        print(counter01)
         viddirectorylisting = os.listdir(videopath)
         print(videopath,viddirectorylisting)
         viddirectorylisting.sort()
@@ -151,6 +152,7 @@ for subject in directorylisting:
                 # print(vidid,image,2)
                 print(videopath+"/"+str(image))
                 shutil.copyfile(videopath+"/"+str(image), newvideopath+'/2'+str(image))
+        counter01+=1
 
         #         if found==True:
         #             print("multiple",video,catdata[vidid])
