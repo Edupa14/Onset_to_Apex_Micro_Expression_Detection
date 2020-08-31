@@ -15,14 +15,14 @@ for item in data:
             # print(item2[0])
             item[0]=item2[0]
             break
-path='../../CAS(ME)2_categorical_apex_selective/'
+path='../../CAS(ME)2_categorical_apex_SelectiveDivideAndConquer_NEW/'
 negativepath = path+'negative/'
 positivepath = path+'positive/'
 surprisepath = path+'surprise/'
 othersepath = path+'others/'
 
 
-paths=[negativepath,positivepath, surprisepath]
+paths=[negativepath,positivepath, surprisepath,othersepath]
 diffs=[]
 count=0
 for pi in range(len(paths)):
