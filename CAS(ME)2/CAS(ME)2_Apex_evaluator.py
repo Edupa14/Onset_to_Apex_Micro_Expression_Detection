@@ -3,26 +3,33 @@ import numpy
 import os
 import math
 import statistics as stat
-disgustpath = '../../CASMEII_categorical_apex_DivideAndConquer/disgust/'
-fearpath = '../../CASMEII_categorical_apex_DivideAndConquer/fear/'
-happinesspath = '../../CASMEII_categorical_apex_DivideAndConquer/happiness/'
-otherspath = '../../CASMEII_categorical_apex_DivideAndConquer/others/'
-repressionpath = '../../CASMEII_categorical_apex_DivideAndConquer/repression/'
-sadnesspath = '../../CASMEII_categorical_apex_DivideAndConquer/sadness/'
-surprisepath = '../../CASMEII_categorical_apex_DivideAndConquer/surprise/'
-
-
-
-paths=[disgustpath,  happinesspath,otherspath,repressionpath,surprisepath]
-catdatafile = pd.read_excel('../../cat_apex.xlsx')
+catdatafile = pd.read_excel('../../CAS(ME)^2code_final(Updated).xlsx')
 data = numpy.array(catdatafile)
+namedatafile = pd.read_excel('../../name.xlsx')
+namedata = numpy.array(namedatafile)
+count=0
+for item in data:
+    for item2 in namedata:
+        # print(str(item2[0]),"s"+str(item[0]))
+        if str(item2[1])==str(item[0]):
+            # print(item2[0])
+            item[0]=item2[0]
+            break
+path='../../CAS(ME)2_categorical_apex_selective/'
+negativepath = path+'negative/'
+positivepath = path+'positive/'
+surprisepath = path+'surprise/'
+othersepath = path+'others/'
+
+
+paths=[negativepath,positivepath, surprisepath]
 diffs=[]
 count=0
 for pi in range(len(paths)):
     directorylisting = os.listdir(paths[pi])
     print(pi)
     for video in range(len(directorylisting)):
-        if directorylisting[video]!="4_EP12_01f":
+        # if directorylisting[video]!="4_EP12_01f":
             print(directorylisting[video])
             for item in data:
                 # print(str(item[0])+"_"+str(item[1]),directorylisting[video])
