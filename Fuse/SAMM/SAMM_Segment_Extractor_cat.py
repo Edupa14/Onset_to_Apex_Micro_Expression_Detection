@@ -40,20 +40,25 @@ def annotate_landmarks(img, landmarks, font_scale=0.4):
         cv2.circle(img, pos, 3, color=(0, 255, 255))
     return img
 
-path='../../../CAS(ME)2_categorical/'
+path='../../../SAMM_categorical/'
 
 
-apexpath='../../../CAS(ME)2_categorical_apex_SelectiveDivideAndConquer_NEW/'
-negativepath ='negative/'
-positivepath = 'positive/'
-surprisepath = 'surprise/'
+apexpath='../../SAMM_categorical_apex_SelectiveDivideAndConquer_NEW/'
+angerpath = 'Anger/'
+# sadnesspath =path+'Sadness/'
+happinesspath ='Happiness/'
+# disgustpath =path+'Disgust/'
+# fearpath = path+'Fear/'
+surprisepath = 'Surprise/'
+contemptpath = 'Contempt/'
+otherpath = 'Other/'
 
 segmentName = 'UpperFace_cat_NEW'
 sizeH=32
 sizeV=32
 sizeD=30
 
-paths=[negativepath,  positivepath,surprisepath]
+paths=[angerpath,  happinesspath,surprisepath,contemptpath,otherpath]
 
 segment_training_list = []
 counting = 0
