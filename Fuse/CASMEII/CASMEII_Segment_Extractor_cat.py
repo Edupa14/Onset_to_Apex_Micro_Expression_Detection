@@ -40,16 +40,16 @@ def annotate_landmarks(img, landmarks, font_scale=0.4):
         cv2.circle(img, pos, 3, color=(0, 255, 255))
     return img
 
-path='../../CASMEII_categorical'
+path='../../../CASMEII_categorical'
 disgustpath ='/disgust/'
-fearpath ='fear/'
-happinesspath ='happiness/'
-otherspath = 'others/'
-repressionpath ='epression/'
-sadnesspath ='sadness/'
-surprisepath ='surprise/'
+fearpath ='/fear/'
+happinesspath ='/happiness/'
+otherspath = '/others/'
+repressionpath ='/repression/'
+sadnesspath ='/sadness/'
+surprisepath ='/surprise/'
 
-apexpath='../../CASMEII_categorical_apex_SelectiveDivideAndConquer_NEW'
+apexpath='../../../CASMEII_categorical_apex_SelectiveDivideAndConquer_NEW'
 
 
 segmentName = 'UpperFace_cat_NEW'
@@ -63,20 +63,19 @@ segment_training_list = []
 counting = 0
 for typepath in (paths):
     directorylisting = os.listdir(path+typepath)
-    print(typepath)
+    print(path+typepath)
 
     for video in directorylisting:
         videopath = path+typepath + video
         segment_frames = []
         framelisting = os.listdir(videopath)
         apexvidpath=apexpath+typepath + video
-        directorylistingvid = os.listdir(paths[pi] + directorylisting[video])
+        directorylistingvid = os.listdir(apexvidpath)
         for pic in directorylistingvid:
             if pic[0] == '2':
-                print(pic[4:-4])
-                diffs.append(abs(item[4] - int(pic[4:-4])))
+                apexframe=pic[4:-4]
         if sizeD <= len(framelisting):
-            val = max(int((len(framelisting) / 2) - (sizeD / 2)),0)
+            val = min(max((int(int(apexframe) - (sizeD / 2))),0),(len(framelisting)-sizeD))
             framerange = [x + val for x in range(sizeD)]
         else:
             tempD1 = sizeD // len(framelisting)
@@ -130,7 +129,7 @@ segment_traininglabels = numpy.zeros((segment_trainingsamples,), dtype=int)
 
 count=0
 for pi in range(len(paths)):
-    directorylisting = os.listdir(paths[pi])
+    directorylisting = os.listdir(path+paths[pi])
     print(pi)
     for video in range(len(directorylisting)):
         segment_traininglabels[count] = pi
