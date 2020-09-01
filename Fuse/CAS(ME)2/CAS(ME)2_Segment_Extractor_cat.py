@@ -40,10 +40,10 @@ def annotate_landmarks(img, landmarks, font_scale=0.4):
         cv2.circle(img, pos, 3, color=(0, 255, 255))
     return img
 
-path='../../../CAS(ME)2_categorical'
+path='../../../CAS(ME)2_categorical/'
 
 
-apexpath='../../CAS(ME)2_categorical_apex_SelectiveDivideAndConquer_NEW/'
+apexpath='../../../CAS(ME)2_categorical_apex_SelectiveDivideAndConquer_NEW/'
 negativepath ='negative/'
 positivepath = 'positive/'
 surprisepath = 'surprise/'
