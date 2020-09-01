@@ -40,18 +40,21 @@ def annotate_landmarks(img, landmarks, font_scale=0.4):
         cv2.circle(img, pos, 3, color=(0, 255, 255))
     return img
 
+path='../../CASMEII_categorical'
+disgustpath ='/disgust/'
+fearpath ='fear/'
+happinesspath ='happiness/'
+otherspath = 'others/'
+repressionpath ='epression/'
+sadnesspath ='sadness/'
+surprisepath ='surprise/'
 
-disgustpath = '../../CASMEII_categorical/disgust/'
-fearpath = '../../CASMEII_categorical/fear/'
-happinesspath = '../../CASMEII_categorical/happiness/'
-otherspath = '../../CASMEII_categorical/others/'
-repressionpath = '../../CASMEII_categorical/repression/'
-sadnesspath = '../../CASMEII_categorical/sadness/'
-surprisepath = '../../CASMEII_categorical/surprise/'
+apexpath='../../CASMEII_categorical_apex_SelectiveDivideAndConquer_NEW'
 
-segmentName = 'FullFace'
-sizeH=64
-sizeV=64
+
+segmentName = 'UpperFace_cat_NEW'
+sizeH=32
+sizeV=32
 sizeD=30
 
 paths=[disgustpath,  happinesspath,otherspath,repressionpath,surprisepath]
@@ -59,15 +62,21 @@ paths=[disgustpath,  happinesspath,otherspath,repressionpath,surprisepath]
 segment_training_list = []
 counting = 0
 for typepath in (paths):
-    directorylisting = os.listdir(typepath)
+    directorylisting = os.listdir(path+typepath)
     print(typepath)
 
     for video in directorylisting:
-        videopath = typepath + video
+        videopath = path+typepath + video
         segment_frames = []
         framelisting = os.listdir(videopath)
+        apexvidpath=apexpath+typepath + video
+        directorylistingvid = os.listdir(paths[pi] + directorylisting[video])
+        for pic in directorylistingvid:
+            if pic[0] == '2':
+                print(pic[4:-4])
+                diffs.append(abs(item[4] - int(pic[4:-4])))
         if sizeD <= len(framelisting):
-            val = int((len(framelisting) / 2) - (sizeD / 2))
+            val = max(int((len(framelisting) / 2) - (sizeD / 2)),0)
             framerange = [x + val for x in range(sizeD)]
         else:
             tempD1 = sizeD // len(framelisting)
@@ -90,8 +99,8 @@ for typepath in (paths):
                 plt.show()
             numpylandmarks = numpy.asarray(landmarks)
             up = min(numpylandmarks[18][1], numpylandmarks[19][1], numpylandmarks[23][1], numpylandmarks[24][1]) - 20
-            down = max(numpylandmarks[7][1], numpylandmarks[8][1], numpylandmarks[9][1], numpylandmarks[10][1],
-                       numpylandmarks[6][1])
+            down = max(numpylandmarks[31][1], numpylandmarks[32][1], numpylandmarks[33][1], numpylandmarks[34][1],
+                       numpylandmarks[35][1]) + 5
             left = min(numpylandmarks[17][0], numpylandmarks[18][0], numpylandmarks[36][0])
             right = max(numpylandmarks[26][0], numpylandmarks[25][0], numpylandmarks[45][0])
             segment_image = image[up:down, left:right]
