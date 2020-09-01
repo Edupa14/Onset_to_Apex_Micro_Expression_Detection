@@ -43,7 +43,7 @@ def annotate_landmarks(img, landmarks, font_scale=0.4):
 path='../../../SAMM_categorical/'
 
 
-apexpath='../../SAMM_categorical_apex_SelectiveDivideAndConquer_NEW/'
+apexpath='../../../SAMM_categorical_apex_SelectiveDivideAndConquer_NEW/'
 angerpath = 'Anger/'
 # sadnesspath =path+'Sadness/'
 happinesspath ='Happiness/'
@@ -74,7 +74,7 @@ for typepath in (paths):
         directorylistingvid = os.listdir(apexvidpath)
         for pic in directorylistingvid:
             if pic[0] == '2':
-                apexframe=pic[4:-4]
+                apexframe=pic[5:-4]
         if sizeD <= len(framelisting):
             val = min(max((int(int(apexframe) - (sizeD / 2))),0),(len(framelisting)-sizeD))
             framerange = [x + val for x in range(sizeD)]
