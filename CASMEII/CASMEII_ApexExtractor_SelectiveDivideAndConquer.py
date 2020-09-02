@@ -82,7 +82,7 @@ def new_find_max(start,end,img_pos,vidlist,landmark_list):
             diff.append(abs(avg_pos[pos] - img_pos[count2][pos]))
         count2 += 1
         # print(sum(diff),len(diff),sum(sum(diff)/len(diff)))
-        avg_diff = sum(sum(diff) / len(diff))
+        avg_diff = abs(sum(sum(diff) / len(diff)))
         # print(max_diff,avg_diff)
         if max_diff < avg_diff:
             max_diff = avg_diff
