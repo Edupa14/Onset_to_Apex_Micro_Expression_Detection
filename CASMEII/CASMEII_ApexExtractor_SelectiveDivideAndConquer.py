@@ -87,6 +87,7 @@ def new_find_max(start,end,img_pos,vidlist,landmark_list):
         if max_diff < avg_diff:
             max_diff = avg_diff
             max_diff_image = image
+    print(start,end,len(viddirectorylisting))
     return max_diff,vidlist[max_diff_image]
 
 
@@ -196,8 +197,8 @@ for subject in directorylisting:
         imgs=viddirectorylisting
         img_pos=generate_pos(imgs,landmark_list)
         start=0
-        end=len(imgs)
-        while lenght>2:
+        end=len(imgs)-1
+        while lenght>=2:
             Lmax,Lval=new_find_max(start,start+int((end-start)//2),img_pos,imgs,landmark_list)
             Rmax,Rval = new_find_max(start+int((end-start)//2)+1,end,img_pos,imgs,landmark_list)
             if Lmax>Rmax:
