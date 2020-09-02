@@ -1588,3 +1588,8 @@ F1-score: 0.5561641660712868
 ---------------------------
 accuracy: 0.7105263157894737
 F1-score: 0.695243543641713
+---------------------------
+/home/student/Nikin/Onset_to_Apex_Micro_Expression_Detection/Fuse/CAS(ME)2 loocv_UpperFace_categorical_apex_SelectiveDivideAndConquer_NEW_mod_32x32x2   modxnormal
+---------------------------
+accuracy: 0.868421052631579
+F1-score: 0.8612118531623176
