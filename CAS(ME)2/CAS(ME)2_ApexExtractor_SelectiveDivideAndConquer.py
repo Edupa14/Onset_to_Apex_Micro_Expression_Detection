@@ -4,6 +4,7 @@ import cv2
 import dlib
 from keras import backend as K
 import shutil
+import math
 
 K.set_image_dim_ordering('th')
 
@@ -121,12 +122,16 @@ def new_find_max(start,end,img_pos,vidlist,landmark_list):
         # print(sum(diff),len(diff),sum(sum(diff)/len(diff)))
         avg_diff = abs(sum(sum(diff) / len(diff)))
         # print(max_diff,avg_diff)
+        if math.isnan(avg_diff) :
+            print(avg_pos,img_pos[image])
+            print(sum(diff) . len(diff))
         if max_diff < avg_diff:
             max_diff = avg_diff
             max_diff_image = image
     print(start,end,len(viddirectorylisting))
     if max_diff_image==None:
         print(avg_diff)
+        print(avg_pos)
     return max_diff,vidlist[max_diff_image]
 
 
