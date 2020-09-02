@@ -57,11 +57,13 @@ def find_max(imgs):
         count += 1
         img_pos[count - 1] = [1] * landmarksNos
         for pos in range(landmarksNos):
-            total_pos[pos] += numpylandmarks[pos]
-            img_pos[count - 1][pos] = (numpylandmarks[pos])
+            total_pos[pos] += (numpylandmarks[pos]-numpylandmarks[8])
+            img_pos[count - 1][pos] = (numpylandmarks[pos]-numpylandmarks[8])
     avg_pos = []
+    print(total_pos)
     for pos in total_pos:
         avg_pos.append(pos / count)
+    print(avg_pos[0],img_pos[0][0],avg_pos[0]-img_pos[0][0])
     max_diff = 0
     max_diff_image = None
     count2 = 0
@@ -71,7 +73,7 @@ def find_max(imgs):
         for pos in landmark_list:
             diff.append(abs(avg_pos[pos] - img_pos[count2][pos]))
         count2 += 1
-        # print(diff,sum(diff),len(diff),sum(sum(diff)/len(diff)))
+        print(sum(diff),len(diff),sum(sum(diff)/len(diff)))
         avg_diff = sum(sum(diff) / len(diff))
         # print(max_diff,avg_diff)
         if max_diff < avg_diff:
@@ -83,7 +85,7 @@ def find_max(imgs):
 path='../../CASMEII_categorical/'
 
 
-targetpath= '../../CASMEII_categorical_apex_SelectiveDivideAndConquer_NEW/'
+targetpath= '../../CASMEII_categorical_apex_SelectiveDivideAndConquer_NEW_mod/'
 if os.path.exists(targetpath ):
     shutil.rmtree(targetpath )
 os.mkdir(targetpath , mode=0o777)
