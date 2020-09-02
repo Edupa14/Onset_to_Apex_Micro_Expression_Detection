@@ -20,26 +20,26 @@ class myCallback(Callback):
 def evaluate(segment_train_images, segment_validation_images, segment_train_labels, segment_validation_labels,test_index,segment_train_images_cat ,segment_validation_images_cat):
     layer_in = Input(shape=(1, sizeH, sizeV, sizeD))
 
-    conv01 = Convolution3D(16, (20, 20, 1), strides=(4, 4, 1), padding='same')(layer_in)
-    ract_0211 = PReLU()(conv01)
+    mp = MaxPooling3D((4, 4, 1), strides=(4, 4, 1), padding='same')(layer_in)
+
     # conv1 = Convolution3D(256, (20, 20, 9), strides=(10, 10, 3), padding='Same')(input)
     # # bn1=BatchNormalization()(conv1)
     # ract_1 = PReLU()(conv1)
-    conv1 = Convolution3D(32, (20, 20, 1), strides=(10, 10, 1), padding='same')(ract_0211)
+    conv1 = Convolution3D(32, (20, 20, 1), strides=(10, 10, 1), padding='same')(mp)
     ract_211 = PReLU()(conv1)
     # 3x3 conv
-    conv3 = Convolution3D(32, (20, 20, 1), strides=(10, 10, 1), padding='same')(ract_0211)
+    conv3 = Convolution3D(32, (20, 20, 1), strides=(10, 10, 1), padding='same')(mp)
     conv3 = Convolution3D(64, (3, 3, 1), padding='same')(conv3)
     ract_212 = PReLU()(conv3)
     # 5x5 conv
     # conv5 = Convolution3D(16, (20, 20, 1), strides=(10, 10, 1), padding='same', activation='relu')(layer_in)
     # conv5 = Convolution3D(32, (5, 5, 1), padding='same', activation='relu')(conv5)
     # 3x3 max pooling
-    pool = MaxPooling3D((3, 3, 3), strides=(1, 1, 1), padding='same')(ract_0211)
+    pool = MaxPooling3D((3, 3, 3), strides=(1, 1, 1), padding='same')(mp)
     pool = Convolution3D(32, (20, 20, 1), strides=(10, 10, 1), padding='same')(pool)
     ract_213 = PReLU()(pool)
     # concatenate filters, assumes filters/channels last
-    layer_out = concatenate([ract_211, ract_212,  ract_213,ract_0211], axis=-4)
+    layer_out = concatenate([ract_211, ract_212,  ract_213], axis=-4)
     # add1= Add() ([conv3,ract_1])
     # drop0 = Dropout(0.5)(layer_out)
     # conv6 = Convolution3D(512, (3, 3, 3), strides=1, padding='Same')(drop0)
@@ -49,7 +49,7 @@ def evaluate(segment_train_images, segment_validation_images, segment_train_labe
     # dense_1 = Dense(1024, init='normal')(flatten_1)
     # dense_2 = Dense(128, init='normal')(dense_1)
     layer_in2 = Input(shape=(1, sizeH2, sizeV2, sizeD2))
-    conv011 = Convolution3D(96, (20, 20, 1), strides=(4, 4, 1), padding='same')(layer_in2)
+    conv011 = MaxPooling3D( (20, 20, 1), strides=(4, 4, 1), padding='same')(layer_in2)
     ract_02111 = PReLU()(conv011)
     conv21 = Convolution3D(32, (20, 20, 30), strides=(10, 10, 15), padding='Same')(ract_02111)
     ract_21 = PReLU()(conv21)
@@ -283,7 +283,7 @@ sizeV2 = 128
 sizeD2 = 30
 testtype = "loocv"
 ###################################
-notes="128 test"
+notes="128 test both max pool previous max pool x 16 before that max pool x 96"
 ####################################
 
 # Load training images and labels that are stored in numpy array
