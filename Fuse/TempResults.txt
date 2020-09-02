@@ -1558,3 +1558,33 @@ F1-score: 0.9193502581293259
 ---------------------------
 accuracy: 0.6052631578947368
 F1-score: 0.530161943319838
+---------------------------
+/home/student/Nikin/Onset_to_Apex_Micro_Expression_Detection/Fuse/CASMEII loocv_UpperFace_SelectiveDivideAndConquer_NEW_32x32x2   NEW
+---------------------------
+accuracy: 0.9116465863453815
+F1-score: 0.9101686183797001
+---------------------------
+/home/student/Nikin/Onset_to_Apex_Micro_Expression_Detection/Fuse/CAS(ME)2 loocv_UpperFace_categorical_apex_SelectiveDivideAndConquer_128x128x2   128 test both max pool previous max pool x 16 before that max pool x 96
+---------------------------
+accuracy: 0.7105263157894737
+F1-score: 0.682758031442242
+---------------------------
+/home/student/Nikin/Onset_to_Apex_Micro_Expression_Detection/Fuse/SAMM loocv_UpperFace_SelectiveDivideAndConquer_NEW_32x32x2   8
+---------------------------
+accuracy: 0.8529411764705882
+F1-score: 0.838188541694181
+---------------------------
+/home/student/Nikin/Onset_to_Apex_Micro_Expression_Detection/Fuse/SAMM loocv_UpperFace_SelectiveDivideAndConquer_NEW_32x32x2   NEW
+---------------------------
+accuracy: 0.8308823529411765
+F1-score: 0.8166042720200729
+---------------------------
+/home/student/Nikin/Onset_to_Apex_Micro_Expression_Detection/Fuse/CAS(ME)2 loocv_UpperFace_categorical_apex_SelectiveDivideAndConquer_128x128x2   128 test
+---------------------------
+accuracy: 0.6052631578947368
+F1-score: 0.5561641660712868
+---------------------------
+/home/student/Nikin/Onset_to_Apex_Micro_Expression_Detection/Fuse/CAS(ME)2 loocv_UpperFace_categorical_apex_SelectiveDivideAndConquer_128x128x2   128 test
+---------------------------
+accuracy: 0.7105263157894737
+F1-score: 0.695243543641713
