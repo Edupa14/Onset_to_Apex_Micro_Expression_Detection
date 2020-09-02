@@ -113,13 +113,11 @@ def new_find_max(start,end,img_pos,vidlist,landmark_list):
     # print(avg_pos[0],img_pos[0][0],avg_pos[0]-img_pos[0][0])
     max_diff = 0
     max_diff_image = None
-    count2 = 0
     for image in range(start,end+1,1):
         diff = []
         # print(landmark_list,len(avg_pos))
         for pos in landmark_list:
-            diff.append(abs(avg_pos[pos] - img_pos[count2][pos]))
-        count2 += 1
+            diff.append(abs(avg_pos[pos] - img_pos[image][pos]))
         # print(sum(diff),len(diff),sum(sum(diff)/len(diff)))
         avg_diff = abs(sum(sum(diff) / len(diff)))
         # print(max_diff,avg_diff)
@@ -127,6 +125,8 @@ def new_find_max(start,end,img_pos,vidlist,landmark_list):
             max_diff = avg_diff
             max_diff_image = image
     print(start,end,len(viddirectorylisting))
+    if max_diff_image==None:
+        print(avg_diff)
     return max_diff,vidlist[max_diff_image]
 
 
