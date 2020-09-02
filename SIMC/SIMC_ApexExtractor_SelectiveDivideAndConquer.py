@@ -92,11 +92,12 @@ def find_max(imgs):
 path='../../SIMC_E_categorical/'
 
 
-targetpath= '../../SIMC_categorical_apex_SelectiveDivideAndConquer/'
+targetpath= '../../SIMC_categorical_apex_SelectiveDivideAndConquer_NEW_mod/'
 if os.path.exists(targetpath ):
     shutil.rmtree(targetpath )
 os.mkdir(targetpath , mode=0o777)
 directorylisting = os.listdir(path)
+
 
 
 count=0
@@ -107,6 +108,10 @@ for item in directorylisting:
         if os.path.exists(targetpath+item):
             shutil.rmtree(targetpath+item)
         os.mkdir(targetpath+item, mode=0o777)
+counter01=1
+
+landmark_list = [x for x in range(17, 27)]
+landmark_list.extend([x for x in range(36, 68)])
 
 for subject in directorylisting:
     # print(subject)
@@ -115,6 +120,7 @@ for subject in directorylisting:
         videopath = path+subject +'/'+ video
         newvideopath=targetpath+subject +'/'+ video
         found=False
+
         # for vidid in range(len(catdata)):
             # if catdata[vidid][1]==str(video) and ("sub"+str(catdata[vidid][0])==subject or "sub0"+str(catdata[vidid][0])==subject):
             #     print(video,catdata[vidid][2],catdata[vidid])
@@ -123,7 +129,10 @@ for subject in directorylisting:
             shutil.rmtree(newvideopath)
         os.mkdir(newvideopath, mode=0o777)
         viddirectorylisting = os.listdir(videopath)
+        print(counter01)
         print(videopath,viddirectorylisting)
+        viddirectorylisting.sort()
+        print(videopath, viddirectorylisting)
         count=0
         Lmax=0
         Rmax=0
@@ -131,31 +140,35 @@ for subject in directorylisting:
         Rval=None
         lenght=len(viddirectorylisting)
         imgs=viddirectorylisting
-        while lenght>2:
-            Lmax,Lval=find_max(imgs[:int(len(imgs)//2)])
-            Rmax,Rval = find_max(imgs[int(len(imgs)//2):])
+        img_pos=generate_pos(imgs,landmark_list)
+        start=0
+        end=len(imgs)-1
+        while lenght>=2:
+            Lmax,Lval=new_find_max(start,start+int((end-start)//2),img_pos,imgs,landmark_list)
+            Rmax,Rval = new_find_max(start+int((end-start)//2)+1,end,img_pos,imgs,landmark_list)
             if Lmax>Rmax:
-                imgs=imgs[:int(len(imgs)//2)]
+                end=start+int((end-start)//2)
             else:
-                imgs=imgs[int(len(imgs)//2):]
-            lenght=len(imgs)
+                start=start+int((end-start)//2)
+            lenght=end-start
         if Lmax > Rmax:
             max_diff_image=Lval
             max_diff=Lmax
         else:
             max_diff_image=Rval
-            max_diff=Rmax
-        print(max_diff_image,max_diff)
+            # max_diff=Rmax
+        # print(max_diff_image,max_diff)
         for image in viddirectorylisting:
             if viddirectorylisting[0] == image :
                 # print(vidid, image,1)
-                print(videopath + "/" + str(image))
+                # print(videopath + "/" + str(image))
                 shutil.copyfile(videopath + "/" + str(image),
                                 newvideopath+ '/1' + str(image))
             if  max_diff_image == image:
                 # print(vidid,image,2)
-                print(videopath+"/"+str(image))
+                # print(videopath+"/"+str(image))
                 shutil.copyfile(videopath+"/"+str(image), newvideopath+'/2'+str(image))
+        counter01+=1
 
         #         if found==True:
         #             print("multiple",video,catdata[vidid])
