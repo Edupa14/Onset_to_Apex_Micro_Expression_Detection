@@ -1608,3 +1608,13 @@ F1-score: 0.654817652894256
 ---------------------------
 accuracy: 0.6265060240963856
 F1-score: 0.6227598355351808
+---------------------------
+/home/student/Nikin/Onset_to_Apex_Micro_Expression_Detection/Fuse/SAMM kfold_UpperFace_SelectiveDivideAndConquer_NEW_mod_32x32x2   modx norm
+---------------------------
+accuracy: 0.5367647058823529
+F1-score: 0.495467166966289
+---------------------------
+/home/student/Nikin/Onset_to_Apex_Micro_Expression_Detection/Fuse/SAMM kfold_UpperFace_SelectiveDivideAndConquer_NEW_mod_32x32x2   modx mod.
+---------------------------
+accuracy: 0.5735294117647058
+F1-score: 0.5453342245989306
