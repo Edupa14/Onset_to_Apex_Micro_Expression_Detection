@@ -69,7 +69,7 @@ for typepath in (paths):
         directorylistingvid = os.listdir(apexvidpath)
         for pic in directorylistingvid:
             if pic[0] == '2':
-                apexframe=pic[5:-4]
+                apexframe=pic[6:-4]
         if sizeD <= len(framelisting):
             val = min(max((int(int(apexframe) - (sizeD / 2))),0),(len(framelisting)-sizeD))
             framerange = [x + val for x in range(sizeD)]
