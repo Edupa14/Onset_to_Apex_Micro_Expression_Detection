@@ -1618,3 +1618,8 @@ F1-score: 0.495467166966289
 ---------------------------
 accuracy: 0.5735294117647058
 F1-score: 0.5453342245989306
+---------------------------
+/home/student/Nikin/Onset_to_Apex_Micro_Expression_Detection/Fuse/SIMC kfold_UpperFace_NEW_mod_32x32x2   movxnorm
+---------------------------
+accuracy: 0.7261146496815286
+F1-score: 0.7220048188172428
