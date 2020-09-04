@@ -20,48 +20,17 @@ class myCallback(Callback):
 def evaluate(segment_train_images, segment_validation_images, segment_train_labels, segment_validation_labels,test_index,segment_train_images_cat ,segment_validation_images_cat):
     layer_in = Input(shape=(1, sizeH, sizeV))
 
-    # conv13 = Convolution2D(16, (5, 5), strides=1, padding='same')(layer_in)
-    # ract_2113 = PReLU()(conv13)
-    # conv14 = Convolution2D(32, (10, 10), strides=(4, 4), padding='same')(ract_2113)
-    # ract_2114 = PReLU()(conv14)
-    # conv1 = Convolution3D(256, (20, 20, 9), strides=(10, 10, 3), padding='Same')(input)
-    # # bn1=BatchNormalization()(conv1)
-    # ract_1 = PReLU()(conv1)
-    conv1 = Convolution2D(96, (20, 20), strides=(10, 10), padding='same')(layer_in)
-    ract_211 = PReLU()(conv1)
-    # 3x3 conv
-    conv3 = Convolution2D(256, (20, 20), strides=(10, 10), padding='same')(layer_in)
-    conv3 = Convolution2D(512, (3, 3), padding='same')(conv3)
-    ract_212 = PReLU()(conv3)
-    # 5x5 conv
-    # conv5 = Convolution3D(16, (20, 20, 1), strides=(10, 10, 1), padding='same', activation='relu')(layer_in)
-    # conv5 = Convolution3D(32, (5, 5, 1), padding='same', activation='relu')(conv5)
-    # 3x3 max pooling
-    pool = MaxPooling2D((3, 3), strides=(1, 1), padding='same')(layer_in)
-    pool = Convolution2D(32, (20, 20), strides=(10, 10), padding='same')(pool)
-    ract_213 = PReLU()(pool)
-    # concatenate filters, assumes filters/channels last
-    layer_out = concatenate([ract_211, ract_212,  ract_213], axis=-3)
+    conv13 = Convolution2D(16, (5, 5), strides=1, padding='same')(layer_in)
+    ract_2113 = PReLU()(conv13)
+    conv14 = Convolution2D(32, (10, 10), strides=1, padding='same')(ract_2113)
+    ract_2114 = PReLU()(conv14)
+    conv132 = Convolution2D(64, (20, 20), strides=(5,5), padding='same')(ract_2114)
+    ract_21132 = PReLU()(conv132)
+    conv142 = Convolution2D(96, (30, 30), strides=(5, 5), padding='same')(ract_21132)
+    ract_21142 = PReLU()(conv142)
+    pool = MaxPooling2D((3, 3), strides=(1, 1), padding='same')(ract_21142)
 
-    # add1= Add() ([conv3,ract_1])
-    # drop0 = Dropout(0.5)(layer_out)
-    # conv6 = Convolution3D(512, (3, 3, 3), strides=1, padding='Same')(drop0)
-    # # bn3 = BatchNormalization()(conv3)
-
-    # ract_4 = PReLU()(layer_out)
-    # flatten_1 = Flatten()(ract_4)
-
-    conv15 = Convolution2D(256, (4, 4), strides=1, padding='same')(layer_out)
-    ract_2115 = PReLU()(conv15)
-    # conv14 = Convolution2D(512, (3, 3), strides=1, padding='same')(ract_2115)
-    # ract_2114 = PReLU()(conv14)
-
-    # add1= Add() ([conv3,ract_1])
-    # drop0 = Dropout(0.5)(layer_out)
-    # conv6 = Convolution3D(512, (3, 3, 3), strides=1, padding='Same')(drop0)
-    # # bn3 = BatchNormalization()(conv3)
-    # ract_4 = PReLU()(layer_out)
-    flatten_1 = Flatten()(ract_2115)
+    flatten_1 = Flatten()(pool)
 
     # dense_1 = Dense(1024, init='normal')(flatten_1)
     # dense_2 = Dense(128, init='normal')(dense_1)
