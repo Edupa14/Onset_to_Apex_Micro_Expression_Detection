@@ -99,7 +99,7 @@ for typepath in (paths):
                 segment_frames=segment_image
 
         segment_frames = numpy.asarray(segment_frames)
-        segment_videoarray = numpy.rollaxis(numpy.rollaxis(segment_frames, 2, 0), 2, 0)
+        segment_videoarray = numpy.rollaxis(segment_frames, 1, 0)
         segment_training_list.append(segment_videoarray)
 
 segment_training_list = numpy.asarray(segment_training_list)
