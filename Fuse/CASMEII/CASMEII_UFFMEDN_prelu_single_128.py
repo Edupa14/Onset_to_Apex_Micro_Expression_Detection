@@ -21,23 +21,23 @@ def evaluate(segment_train_images, segment_validation_images, segment_train_labe
     layer_in = Input(shape=(1, sizeH, sizeV))
 
     conv13 = Convolution2D(16, (5, 5), strides=1, padding='same')(layer_in)
-    ract_2113 = PReLU()(conv1)
-    conv1 = Convolution2D(32, (10, 10), strides=(4, 4), padding='same')(layer_in)
-    ract_211 = PReLU()(conv1)
+    ract_2113 = PReLU()(conv13)
+    conv14 = Convolution2D(32, (10, 10), strides=(4, 4), padding='same')(ract_2113)
+    ract_2114 = PReLU()(conv14)
     # conv1 = Convolution3D(256, (20, 20, 9), strides=(10, 10, 3), padding='Same')(input)
     # # bn1=BatchNormalization()(conv1)
     # ract_1 = PReLU()(conv1)
-    conv1 = Convolution2D(96, (20, 20), strides=(10, 10), padding='same')(layer_in)
+    conv1 = Convolution2D(96, (20, 20), strides=(10, 10), padding='same')(ract_2114)
     ract_211 = PReLU()(conv1)
     # 3x3 conv
-    conv3 = Convolution2D(256, (20, 20), strides=(10, 10), padding='same')(layer_in)
+    conv3 = Convolution2D(256, (20, 20), strides=(10, 10), padding='same')(ract_2114)
     conv3 = Convolution2D(512, (3, 3), padding='same')(conv3)
     ract_212 = PReLU()(conv3)
     # 5x5 conv
     # conv5 = Convolution3D(16, (20, 20, 1), strides=(10, 10, 1), padding='same', activation='relu')(layer_in)
     # conv5 = Convolution3D(32, (5, 5, 1), padding='same', activation='relu')(conv5)
     # 3x3 max pooling
-    pool = MaxPooling2D((3, 3), strides=(1, 1), padding='same')(layer_in)
+    pool = MaxPooling2D((3, 3), strides=(1, 1), padding='same')(ract_2114)
     pool = Convolution2D(32, (20, 20), strides=(10, 10), padding='same')(pool)
     ract_213 = PReLU()(pool)
     # concatenate filters, assumes filters/channels last
