@@ -73,10 +73,11 @@ def evaluate(segment_train_images, segment_validation_images, segment_train_labe
     flatten_2 = Flatten()(ract_22)
 
     flatten_3 = Flatten()(layer_in2)
+    flatten_4 = Flatten()(layer_in)
     # drop11 = Dropout(0.8)(flatten_1)
     # drop21 = Dropout(0.8)(flatten_2)
     # drop31 = Dropout(0.8)(flatten_3)
-    concat = concatenate([flatten_1, flatten_2, flatten_3], axis=-1)
+    concat = concatenate([flatten_1, flatten_2, flatten_3,flatten_4], axis=-1)
     drop51 = Dropout(0.5)(concat)
     dense_3 = Dense(5, init='normal')(drop51)
     # drop1 = Dropout(0.5)(dense_3)
@@ -298,7 +299,7 @@ sizeV2 = 32
 sizeD2 = 30
 testtype = "kfold"
 ###################################
-notes="down"
+notes="add input"
 ####################################
 
 # Load training images and labels that are stored in numpy array
