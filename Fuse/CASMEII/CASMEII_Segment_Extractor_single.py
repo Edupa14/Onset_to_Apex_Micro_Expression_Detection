@@ -96,7 +96,7 @@ for typepath in (paths):
                 segment_image = cv2.resize(segment_image, (sizeH, sizeV), interpolation=cv2.INTER_AREA)
                 segment_image = cv2.cvtColor(segment_image, cv2.COLOR_BGR2GRAY)
 
-                segment_frames.append(segment_image)
+                segment_frames=segment_image
 
         segment_frames = numpy.asarray(segment_frames)
         segment_videoarray = numpy.rollaxis(numpy.rollaxis(segment_frames, 2, 0), 2, 0)
@@ -121,9 +121,10 @@ segment_traininglabels = np_utils.to_categorical(segment_traininglabels, len(pat
 
 segment_training_data = [segment_training_list, segment_traininglabels]
 (segment_trainingframes, segment_traininglabels) = (segment_training_data[0], segment_training_data[1])
-segment_training_set = numpy.zeros((segment_trainingsamples, 1,sizeH, sizeV, sizeD))
+segment_training_set = numpy.zeros((segment_trainingsamples, 1,sizeH, sizeV))
 for h in range(segment_trainingsamples):
-    segment_training_set[h][0][:][:][:] = segment_trainingframes[h, :, :, :]
+    segment_training_set[h][0][:][:] = segment_trainingframes[h, :,  :]
+
 
 segment_training_set = segment_training_set.astype('float32')
 segment_training_set -= numpy.mean(segment_training_set)
