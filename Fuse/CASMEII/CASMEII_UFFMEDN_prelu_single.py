@@ -18,7 +18,7 @@ class myCallback(Callback):
             self.model.stop_training = True
 
 def evaluate(segment_train_images, segment_validation_images, segment_train_labels, segment_validation_labels,test_index,segment_train_images_cat ,segment_validation_images_cat):
-    layer_in = Input(shape=(1, sizeH, sizeV, sizeD))
+    layer_in = Input(shape=(1, sizeH, sizeV))
     # conv1 = Convolution3D(256, (20, 20, 9), strides=(10, 10, 3), padding='Same')(input)
     # # bn1=BatchNormalization()(conv1)
     # ract_1 = PReLU()(conv1)
@@ -36,7 +36,7 @@ def evaluate(segment_train_images, segment_validation_images, segment_train_labe
     pool = Convolution2D(32, (20, 20), strides=(10, 10), padding='same')(pool)
     ract_213 = PReLU()(pool)
     # concatenate filters, assumes filters/channels last
-    layer_out = concatenate([ract_211, ract_212,  ract_213], axis=-4)
+    layer_out = concatenate([ract_211, ract_212,  ract_213], axis=-3)
     # add1= Add() ([conv3,ract_1])
     # drop0 = Dropout(0.5)(layer_out)
     # conv6 = Convolution3D(512, (3, 3, 3), strides=1, padding='Same')(drop0)
@@ -271,12 +271,12 @@ K.set_image_dim_ordering('th')
 segmentName = 'UpperFace_SelectiveDivideAndConquer_NEW_mod'
 sizeH = 32
 sizeV = 32
-sizeD = 2
+sizeD = 1
 segmentName2 = 'UpperFace_cat_NEW_mod'
 sizeH2 = 32
 sizeV2 = 32
 sizeD2 = 30
-testtype = "loocv"
+testtype = "kfold"
 ###################################
 notes="modxmod"
 ####################################
