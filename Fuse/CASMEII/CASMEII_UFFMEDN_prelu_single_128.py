@@ -37,11 +37,26 @@ def evaluate(segment_train_images, segment_validation_images, segment_train_labe
     ract_213 = PReLU()(pool)
     # concatenate filters, assumes filters/channels last
     layer_out = concatenate([ract_211, ract_212,  ract_213], axis=-3)
+    conv16 = Convolution2D(96, (20, 20), strides=(10, 10), padding='same')(layer_out)
+    ract_2116 = PReLU()(conv16)
+    # 3x3 conv
+    conv36 = Convolution2D(256, (20, 20), strides=(10, 10), padding='same')(layer_out)
+    conv36 = Convolution2D(512, (3, 3), padding='same')(conv36)
+    ract_2126 = PReLU()(conv36)
+    # 5x5 conv
+    # conv5 = Convolution3D(16, (20, 20, 1), strides=(10, 10, 1), padding='same', activation='relu')(layer_in)
+    # conv5 = Convolution3D(32, (5, 5, 1), padding='same', activation='relu')(conv5)
+    # 3x3 max pooling
+    pool6 = MaxPooling2D((3, 3), strides=(1, 1), padding='same')(layer_out)
+    pool6 = Convolution2D(32, (20, 20), strides=(10, 10), padding='same')(pool6)
+    ract_2136 = PReLU()(pool6)
+    # concatenate filters, assumes filters/channels last
+    layer_out6 = concatenate([ract_2116, ract_2126,  ract_2136], axis=-3)
     # add1= Add() ([conv3,ract_1])
     # drop0 = Dropout(0.5)(layer_out)
     # conv6 = Convolution3D(512, (3, 3, 3), strides=1, padding='Same')(drop0)
     # # bn3 = BatchNormalization()(conv3)
-    ract_4 = PReLU()(layer_out)
+    ract_4 = PReLU()(layer_out6)
     flatten_1 = Flatten()(ract_4)
     # dense_1 = Dense(1024, init='normal')(flatten_1)
     # dense_2 = Dense(128, init='normal')(dense_1)
