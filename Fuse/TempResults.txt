@@ -1653,3 +1653,13 @@ F1-score: 0.8944160625375046
 ---------------------------
 accuracy: 0.6265060240963856
 F1-score: 0.6165618693441707
+---------------------------
+/home/student/Nikin/Onset_to_Apex_Micro_Expression_Detection/Fuse/CASMEII kfold_UpperFace_SelectiveDivideAndConquer_NEW_mod_128x128x1   modxmod
+---------------------------
+accuracy: 0.4457831325301205
+F1-score: 0.39353555515909827
+---------------------------
+/home/student/Nikin/Onset_to_Apex_Micro_Expression_Detection/Fuse/CASMEII kfold_UpperFace_SelectiveDivideAndConquer_NEW_mod_32x32x1   modxmod
+---------------------------
+accuracy: 0.6465863453815262
+F1-score: 0.6409647415210562
