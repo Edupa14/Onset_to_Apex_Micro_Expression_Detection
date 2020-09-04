@@ -24,12 +24,10 @@ def evaluate(segment_train_images, segment_validation_images, segment_train_labe
     ract_2113 = PReLU()(conv13)
     conv14 = Convolution2D(32, (10, 10), strides=1, padding='same')(ract_2113)
     ract_2114 = PReLU()(conv14)
-    conv132 = Convolution2D(64, (20, 20), strides=1, padding='same')(ract_2114)
+    conv132 = Convolution2D(64, (20, 20), strides=(5,5), padding='same')(ract_2114)
     ract_21132 = PReLU()(conv132)
-    conv142 = Convolution2D(96, (30, 30), strides=1, padding='same')(ract_21132)
-    ract_21142 = PReLU()(conv142)
-    pool = MaxPooling2D((3, 3), strides=(1, 1), padding='same')(ract_21142)
-
+    pool = MaxPooling2D((3, 3), strides=(1, 1), padding='same')(ract_21132)
+    # drop121 = Dropout(0.3)(pool)
     flatten_1 = Flatten()(pool)
 
     # dense_1 = Dense(1024, init='normal')(flatten_1)
@@ -267,7 +265,7 @@ sizeV2 = 32
 sizeD2 = 30
 testtype = "kfold"
 ###################################
-notes="strides 1"
+notes="3 conv"
 ####################################
 
 # Load training images and labels that are stored in numpy array
