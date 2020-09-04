@@ -19,6 +19,11 @@ class myCallback(Callback):
 
 def evaluate(segment_train_images, segment_validation_images, segment_train_labels, segment_validation_labels,test_index,segment_train_images_cat ,segment_validation_images_cat):
     layer_in = Input(shape=(1, sizeH, sizeV))
+
+    conv13 = Convolution2D(16, (5, 5), strides=1, padding='same')(layer_in)
+    ract_2113 = PReLU()(conv1)
+    conv1 = Convolution2D(32, (10, 10), strides=(4, 4), padding='same')(layer_in)
+    ract_211 = PReLU()(conv1)
     # conv1 = Convolution3D(256, (20, 20, 9), strides=(10, 10, 3), padding='Same')(input)
     # # bn1=BatchNormalization()(conv1)
     # ract_1 = PReLU()(conv1)
@@ -38,17 +43,12 @@ def evaluate(segment_train_images, segment_validation_images, segment_train_labe
     # concatenate filters, assumes filters/channels last
     layer_out = concatenate([ract_211, ract_212,  ract_213], axis=-3)
 
-    conv15 = Convolution2D(96, (5, 5), strides=1, padding='same')(layer_out)
-    ract_2115 = PReLU()(conv15)
-    conv14 = Convolution2D(96, (3, 3), strides=1, padding='same')(ract_2115)
-    ract_2114 = PReLU()(conv14)
-
     # add1= Add() ([conv3,ract_1])
     # drop0 = Dropout(0.5)(layer_out)
     # conv6 = Convolution3D(512, (3, 3, 3), strides=1, padding='Same')(drop0)
     # # bn3 = BatchNormalization()(conv3)
-    # ract_4 = PReLU()(layer_out)
-    flatten_1 = Flatten()(ract_2114)
+    ract_4 = PReLU()(layer_out)
+    flatten_1 = Flatten()(ract_4)
     # dense_1 = Dense(1024, init='normal')(flatten_1)
     # dense_2 = Dense(128, init='normal')(dense_1)
     layer_in2 = Input(shape=(1, sizeH2, sizeV2, sizeD2))
