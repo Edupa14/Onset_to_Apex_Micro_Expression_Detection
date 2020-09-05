@@ -82,7 +82,7 @@ def evaluate(segment_train_images, segment_validation_images, segment_train_labe
     dense_3 = Dense(5, init='normal')(drop51)
     # drop1 = Dropout(0.5)(dense_3)
     activation = Activation('softmax')(dense_3)
-    opt = SGD(lr=0.01)
+    opt = Adam(lr=0.01)
     model = Model(inputs=[layer_in,layer_in2], outputs=activation)
     model.compile(loss='categorical_crossentropy', optimizer=opt, metrics=['accuracy'])
 # ----------------------------
