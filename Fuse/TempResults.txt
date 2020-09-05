@@ -1728,3 +1728,38 @@ F1-score: 0.6398096465743888
 ---------------------------
 accuracy: 0.9116465863453815
 F1-score: 0.9102592050816063
+---------------------------
+/home/student/Nikin/Onset_to_Apex_Micro_Expression_Detection/Fuse/SAMM kfold_UpperFace_SelectiveDivideAndConquer_NEW_mod_128x128x1   add input (20, 20), strides=(10, 10)
+---------------------------
+accuracy: 0.4852941176470588
+F1-score: 0.43101563205927534
+---------------------------
+/home/student/Nikin/Onset_to_Apex_Micro_Expression_Detection/Fuse/SAMM kfold_UpperFace_SelectiveDivideAndConquer_NEW_mod_128x128x1   add input (20, 20), strides=(10, 10) dropout .7
+---------------------------
+accuracy: 0.4117647058823529
+F1-score: 0.3538025016319937
+---------------------------
+/home/student/Nikin/Onset_to_Apex_Micro_Expression_Detection/Fuse/SAMM kfold_UpperFace_SelectiveDivideAndConquer_NEW_mod_128x128x1   add input (20, 20), strides=(10, 10) dropout .3
+---------------------------
+accuracy: 0.45588235294117646
+F1-score: 0.36703074895116417
+---------------------------
+/home/student/Nikin/Onset_to_Apex_Micro_Expression_Detection/Fuse/SAMM kfold_UpperFace_SelectiveDivideAndConquer_NEW_mod_128x128x1   (20, 20), strides=(10, 10)
+---------------------------
+accuracy: 0.5882352941176471
+F1-score: 0.5470319950990993
+---------------------------
+/home/student/Nikin/Onset_to_Apex_Micro_Expression_Detection/Fuse/CASMEII kfold_UpperFace_SelectiveDivideAndConquer_NEW_mod_128x128x1   add input
+---------------------------
+accuracy: 0.6506024096385542
+F1-score: 0.640488585790442
+---------------------------
+/home/student/Nikin/Onset_to_Apex_Micro_Expression_Detection/Fuse/CASMEII kfold_UpperFace_SelectiveDivideAndConquer_NEW_mod_128x128x1   add input (8, 8), strides=(8, 8)
+---------------------------
+accuracy: 0.6465863453815262
+F1-score: 0.6388186148540286
+---------------------------
+/home/student/Nikin/Onset_to_Apex_Micro_Expression_Detection/Fuse/CASMEII kfold_UpperFace_SelectiveDivideAndConquer_NEW_mod_128x128x1   add input (8, 8), strides=(4, 4)
+---------------------------
+accuracy: 0.6586345381526104
+F1-score: 0.6522925266309518
