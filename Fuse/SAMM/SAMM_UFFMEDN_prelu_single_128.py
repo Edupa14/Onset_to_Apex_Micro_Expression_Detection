@@ -82,7 +82,7 @@ def evaluate(segment_train_images, segment_validation_images, segment_train_labe
     dense_3 = Dense(5, init='normal')(drop51)
     # drop1 = Dropout(0.5)(dense_3)
     activation = Activation('softmax')(dense_3)
-    opt = SGD(lr=0.01)
+    opt = SGD(lr=0.001)
     model = Model(inputs=[layer_in,layer_in2], outputs=activation)
     model.compile(loss='categorical_crossentropy', optimizer=opt, metrics=['accuracy'])
 # ----------------------------
@@ -125,7 +125,7 @@ def evaluate(segment_train_images, segment_validation_images, segment_train_labe
     EarlyStop = EarlyStopping(monitor='val_acc', min_delta=0, patience=40, restore_best_weights=True, verbose=1,
                               mode='max')
     reduce = ReduceLROnPlateau(monitor='val_acc', factor=0.2, patience=10, cooldown=5, verbose=1, min_delta=0,
-                               mode='max', min_lr=0.0005)
+                               mode='max', min_lr=0.00005)
     callbacks_list = [EarlyStop, reduce, myCallback()]
 
 
@@ -299,7 +299,7 @@ sizeV2 = 32
 sizeD2 = 30
 testtype = "loocv"
 ###################################
-notes="no input both (20, 20), strides=(10, 10) dropout .5"
+notes="no input both (20, 20), strides=(10, 10) dropout .5 lr=0.001"
 ####################################
 
 # Load training images and labels that are stored in numpy array
