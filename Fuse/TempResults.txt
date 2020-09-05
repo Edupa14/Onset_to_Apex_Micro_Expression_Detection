@@ -1788,3 +1788,13 @@ F1-score: 0.6786132077133961
 ---------------------------
 accuracy: 0.6029411764705882
 F1-score: 0.5439162157269704
+---------------------------
+/home/student/Nikin/Onset_to_Apex_Micro_Expression_Detection/Fuse/SAMM loocv_UpperFace_SelectiveDivideAndConquer_NEW_mod_32x32x1   modxmod
+---------------------------
+accuracy: 0.8382352941176471
+F1-score: 0.8236986219360484
+---------------------------
+/home/student/Nikin/Onset_to_Apex_Micro_Expression_Detection/Fuse/SIMC loocv_UpperFace_SelectiveDivideAndConquer_NEW_mod_32x32x1   modxmod
+---------------------------
+accuracy: 0.9681528662420382
+F1-score: 0.9685120341340152
