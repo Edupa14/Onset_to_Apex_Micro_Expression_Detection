@@ -20,28 +20,28 @@ class myCallback(Callback):
 def evaluate(segment_train_images, segment_validation_images, segment_train_labels, segment_validation_labels,test_index,segment_train_images_cat ,segment_validation_images_cat):
     layer_in = Input(shape=(1, sizeH, sizeV))
 
-    # conv13 = Convolution2D(16, (5, 5), strides=1, padding='same')(layer_in)
-    # ract_2113 = PReLU()(conv13)
-    # conv14 = Convolution2D(32, (10, 10), strides=(4, 4), padding='same')(ract_2113)
-    # ract_2114 = PReLU()(conv14)
+    conv13 = Convolution2D(16, (5, 5), strides=1, padding='same')(layer_in)
+    ract_2113 = PReLU()(conv13)
+    conv14 = Convolution2D(32, (10, 10), strides=(4, 4), padding='same')(ract_2113)
+    ract_2114 = PReLU()(conv14)
     # conv1 = Convolution3D(256, (20, 20, 9), strides=(10, 10, 3), padding='Same')(input)
     # # bn1=BatchNormalization()(conv1)
     # ract_1 = PReLU()(conv1)
-    conv1 = Convolution2D(96, (20, 20), strides=(10, 10), padding='same')(layer_in)
+    conv1 = Convolution2D(96, (20, 20), strides=(10, 10), padding='same')(ract_2114)
     ract_211 = PReLU()(conv1)
     # 3x3 conv
-    conv3 = Convolution2D(256, (20, 20), strides=(10, 10), padding='same')(layer_in)
+    conv3 = Convolution2D(256, (20, 20), strides=(10, 10), padding='same')(ract_2114)
     conv3 = Convolution2D(512, (3, 3), padding='same')(conv3)
     ract_212 = PReLU()(conv3)
     # 5x5 conv
     # conv5 = Convolution3D(16, (20, 20, 1), strides=(10, 10, 1), padding='same', activation='relu')(layer_in)
     # conv5 = Convolution3D(32, (5, 5, 1), padding='same', activation='relu')(conv5)
     # 3x3 max pooling
-    pool = MaxPooling2D((3, 3), strides=(1, 1), padding='same')(layer_in)
+    pool = MaxPooling2D((3, 3), strides=(1, 1), padding='same')(ract_2114)
     pool = Convolution2D(32, (20, 20), strides=(10, 10), padding='same')(pool)
     ract_213 = PReLU()(pool)
     # concatenate filters, assumes filters/channels last
-    layer_out = concatenate([ract_211, ract_212,  ract_213], axis=-3)
+    layer_out = concatenate([ract_211, ract_212, ract_213], axis=-3)
 
     # add1= Add() ([conv3,ract_1])
     # drop0 = Dropout(0.5)(layer_out)
@@ -73,11 +73,11 @@ def evaluate(segment_train_images, segment_validation_images, segment_train_labe
     flatten_2 = Flatten()(ract_22)
 
     flatten_3 = Flatten()(layer_in2)
-    flatten_4 = Flatten()(layer_in)
+    # flatten_4 = Flatten()(layer_in)
     # drop11 = Dropout(0.8)(flatten_1)
     # drop21 = Dropout(0.8)(flatten_2)
     # drop31 = Dropout(0.8)(flatten_3)
-    concat = concatenate([flatten_1, flatten_2, flatten_3,flatten_4], axis=-1)
+    concat = concatenate([flatten_1, flatten_2, flatten_3], axis=-1)
     drop51 = Dropout(0.5)(concat)
     dense_3 = Dense(3, init='normal')(drop51)
     # drop1 = Dropout(0.5)(dense_3)
@@ -299,7 +299,7 @@ sizeV2 = 32
 sizeD2 = 30
 testtype = "loocv"
 ###################################
-notes="add input (20, 20), strides=(10, 10) dropout .5"
+notes="no input (20, 20), strides=(10, 10) dropout .5"
 ####################################
 
 # Load training images and labels that are stored in numpy array
