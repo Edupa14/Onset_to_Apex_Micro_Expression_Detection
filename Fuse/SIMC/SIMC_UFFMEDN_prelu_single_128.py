@@ -27,22 +27,21 @@ def evaluate(segment_train_images, segment_validation_images, segment_train_labe
     # conv1 = Convolution3D(256, (20, 20, 9), strides=(10, 10, 3), padding='Same')(input)
     # # bn1=BatchNormalization()(conv1)
     # ract_1 = PReLU()(conv1)
-    conv1 = Convolution2D(64,  (20, 20), strides=(10, 10), padding='same')(ract_2114)
+    conv1 = Convolution2D(96,  (20, 20), strides=(10, 10), padding='same')(ract_2114)
     ract_211 = PReLU()(conv1)
     # 3x3 conv
     conv3 = Convolution2D(256,  (20, 20), strides=(10, 10), padding='same')(ract_2114)
     conv3 = Convolution2D(512, (3, 3), padding='same')(conv3)
     ract_212 = PReLU()(conv3)
     # 5x5 conv
-    conv5 = Convolution2D(96, (20, 20), strides=(10, 10), padding='same', activation='relu')(ract_2114)
-    conv5 = Convolution2D(128, (5, 5), padding='same', activation='relu')(conv5)
-    ract_2412 = PReLU()(conv5)
+    # conv5 = Convolution3D(16, (20, 20, 1), strides=(10, 10, 1), padding='same', activation='relu')(layer_in)
+    # conv5 = Convolution3D(32, (5, 5, 1), padding='same', activation='relu')(conv5)
     # 3x3 max pooling
     pool = MaxPooling2D((3, 3), strides=(1, 1), padding='same')(ract_2114)
     pool = Convolution2D(32, (20, 20), strides=(10, 10), padding='same')(pool)
     ract_213 = PReLU()(pool)
     # concatenate filters, assumes filters/channels last
-    layer_out = concatenate([ract_211, ract_212, ract_213,ract_2412], axis=-3)
+    layer_out = concatenate([ract_211, ract_212, ract_213], axis=-3)
 
     # add1= Add() ([conv3,ract_1])
     # drop0 = Dropout(0.5)(layer_out)
@@ -300,7 +299,7 @@ sizeV2 = 32
 sizeD2 = 30
 testtype = "loocv"
 ###################################
-notes="no input both (20, 20), strides=(10, 10) dropout .5 with 5"
+notes="no input both (20, 20), strides=(10, 10) dropout .5"
 ####################################
 
 # Load training images and labels that are stored in numpy array
