@@ -27,10 +27,10 @@ def evaluate(segment_train_images, segment_validation_images, segment_train_labe
     # conv1 = Convolution3D(256, (20, 20, 9), strides=(10, 10, 3), padding='Same')(input)
     # # bn1=BatchNormalization()(conv1)
     # ract_1 = PReLU()(conv1)
-    conv1 = Convolution2D(96,  (20, 20), strides=(5, 5), padding='same')(ract_2114)
+    conv1 = Convolution2D(96,  (20, 20), strides=(10, 10), padding='same')(ract_2114)
     ract_211 = PReLU()(conv1)
     # 3x3 conv
-    conv3 = Convolution2D(256,  (20, 20), strides=(5, 5), padding='same')(ract_2114)
+    conv3 = Convolution2D(256,  (20, 20), strides=(10, 10), padding='same')(ract_2114)
     conv3 = Convolution2D(512, (3, 3), padding='same')(conv3)
     ract_212 = PReLU()(conv3)
     # 5x5 conv
@@ -38,7 +38,7 @@ def evaluate(segment_train_images, segment_validation_images, segment_train_labe
     # conv5 = Convolution3D(32, (5, 5, 1), padding='same', activation='relu')(conv5)
     # 3x3 max pooling
     pool = MaxPooling2D((3, 3), strides=(1, 1), padding='same')(ract_2114)
-    pool = Convolution2D(32,  (20, 20), strides=(5, 5), padding='same')(pool)
+    pool = Convolution2D(32, (20, 20), strides=(10, 10), padding='same')(pool)
     ract_213 = PReLU()(pool)
     # concatenate filters, assumes filters/channels last
     layer_out = concatenate([ract_211, ract_212, ract_213], axis=-3)
@@ -137,7 +137,7 @@ def evaluate(segment_train_images, segment_validation_images, segment_train_labe
 
     # Training the model
 
-    history = model.fit([segment_train_images,segment_train_images_cat], segment_train_labels, validation_data = ([segment_validation_images,segment_validation_images_cat], segment_validation_labels), callbacks=callbacks_list, batch_size = 8, nb_epoch = 500, shuffle=True,verbose=1)
+    history = model.fit([segment_train_images,segment_train_images_cat], segment_train_labels, validation_data = ([segment_validation_images,segment_validation_images_cat], segment_validation_labels), callbacks=callbacks_list, batch_size = 16, nb_epoch = 500, shuffle=True,verbose=1)
 
 
 
@@ -299,7 +299,7 @@ sizeV2 = 32
 sizeD2 = 30
 testtype = "loocv"
 ###################################
-notes="no input both (20, 20), strides=(5, 5) dropout .5"
+notes="no input both (20, 20), strides=(10, 10) dropout .5 batch 16"
 ####################################
 
 # Load training images and labels that are stored in numpy array
