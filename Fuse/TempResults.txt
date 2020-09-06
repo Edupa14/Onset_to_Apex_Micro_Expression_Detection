@@ -1903,3 +1903,8 @@ F1-score: 0.8776671849973617
 ---------------------------
 accuracy: 0.910828025477707
 F1-score: 0.910656288299649
+---------------------------
+/home/student/Nikin/Onset_to_Apex_Micro_Expression_Detection/Fuse/SIMC loocv_UpperFace_SelectiveDivideAndConquer_NEW_mod_128x128x1   no input both (20, 20), strides=(10, 10) dropout .5 batch 16
+---------------------------
+accuracy: 0.8980891719745223
+F1-score: 0.8983118377729075
