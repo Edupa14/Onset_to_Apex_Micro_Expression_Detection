@@ -161,9 +161,10 @@ def evaluate(segment_train_images, segment_validation_images, segment_train_labe
 
     activations = activation_model.predict([segment_validation_images, segment_validation_images_cat])
     first_layer_activation = activations[0]
-    print(first_layer_activation.shape())
-    plt.matshow(first_layer_activation[0, :, :, 0], cmap='viridis')
-    plt.show()
+    print(first_layer_activation.shape)
+    for i in range (16):
+        plt.matshow(first_layer_activation[i, :, :], cmap='viridis')
+        plt.show()
     return accuracy_score(validation_labels, predictions_labels), validation_labels, predictions_labels
 
 
