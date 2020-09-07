@@ -20,28 +20,28 @@ class myCallback(Callback):
 def evaluate(segment_train_images, segment_validation_images, segment_train_labels, segment_validation_labels,test_index,segment_train_images_cat ,segment_validation_images_cat):
     layer_in = Input(shape=(1, sizeH, sizeV))
 
-    # conv13 = Convolution2D(16, (5, 5), strides=1, padding='same')(layer_in)
-    # ract_2113 = PReLU()(conv13)
-    # conv14 = Convolution2D(32, (10, 10), strides=(4, 4), padding='same')(ract_2113)
-    # ract_2114 = PReLU()(conv14)
+    conv13 = Convolution2D(16, (5, 5), strides=1, padding='same')(layer_in)
+    ract_2113 = PReLU()(conv13)
+    conv14 = Convolution2D(32, (10, 10), strides=(4, 4), padding='same')(ract_2113)
+    ract_2114 = PReLU()(conv14)
     # conv1 = Convolution3D(256, (20, 20, 9), strides=(10, 10, 3), padding='Same')(input)
     # # bn1=BatchNormalization()(conv1)
     # ract_1 = PReLU()(conv1)
-    conv1 = Convolution2D(96, (8, 8), strides=(8, 8), padding='same')(layer_in)
+    conv1 = Convolution2D(96, (20, 20), strides=(10, 10), padding='same')(ract_2114)
     ract_211 = PReLU()(conv1)
     # 3x3 conv
-    conv3 = Convolution2D(256, (8, 8), strides=(8, 8), padding='same')(layer_in)
+    conv3 = Convolution2D(256, (20, 20), strides=(10, 10), padding='same')(ract_2114)
     conv3 = Convolution2D(512, (3, 3), padding='same')(conv3)
     ract_212 = PReLU()(conv3)
     # 5x5 conv
     # conv5 = Convolution3D(16, (20, 20, 1), strides=(10, 10, 1), padding='same', activation='relu')(layer_in)
     # conv5 = Convolution3D(32, (5, 5, 1), padding='same', activation='relu')(conv5)
     # 3x3 max pooling
-    pool = MaxPooling2D((3, 3), strides=(1, 1), padding='same')(layer_in)
-    pool = Convolution2D(32, (8, 8), strides=(8, 8), padding='same')(pool)
+    pool = MaxPooling2D((3, 3), strides=(1, 1), padding='same')(ract_2114)
+    pool = Convolution2D(32, (20, 20), strides=(10, 10), padding='same')(pool)
     ract_213 = PReLU()(pool)
     # concatenate filters, assumes filters/channels last
-    layer_out = concatenate([ract_211, ract_212,  ract_213], axis=-3)
+    layer_out = concatenate([ract_211, ract_212, ract_213], axis=-3)
 
     # add1= Add() ([conv3,ract_1])
     # drop0 = Dropout(0.5)(layer_out)
@@ -73,50 +73,50 @@ def evaluate(segment_train_images, segment_validation_images, segment_train_labe
     flatten_2 = Flatten()(ract_22)
 
     flatten_3 = Flatten()(layer_in2)
-    flatten_4 = Flatten()(layer_in)
+    # flatten_4 = Flatten()(layer_in)
     # drop11 = Dropout(0.8)(flatten_1)
     # drop21 = Dropout(0.8)(flatten_2)
     # drop31 = Dropout(0.8)(flatten_3)
-    concat = concatenate([flatten_1, flatten_2, flatten_3,flatten_4], axis=-1)
+    concat = concatenate([flatten_1, flatten_2, flatten_3], axis=-1)
     drop51 = Dropout(0.5)(concat)
     dense_3 = Dense(5, init='normal')(drop51)
     # drop1 = Dropout(0.5)(dense_3)
     activation = Activation('softmax')(dense_3)
     opt = SGD(lr=0.01)
-    model = Model(inputs=[layer_in,layer_in2], outputs=activation)
+    model = Model(inputs=[layer_in, layer_in2], outputs=activation)
     model.compile(loss='categorical_crossentropy', optimizer=opt, metrics=['accuracy'])
-# ----------------------------
+    # ----------------------------
     #     model = Sequential()`
     #     # model.add(ZeroPadding3D((2,2,0)))
     #     model.add(Convolution3D(32, (6, 6, 1), strides=(3, 3, 1), input_shape=(1, sizeH, sizeV, sizeD), padding='Same'))
     #
     #     model.add(Convolution3D(64, (12, 12, 1), strides=(6, 6, 1), input_shape=(1, sizeH, sizeV, sizeD), padding='Same'))
     #     model.add(PReLU())`
-#     # model.add(Convolution3D(128, (8, 8, 1), strides=1, input_shape=(1, sizeH, sizeV, sizeD), padding='Same'))
-#     # model.add(PReLU())
-#     # model.add(Dropout(0.5))
-#     # 3
-#     # model.add(Convolution3D(32, (3, 3, 2), strides=1, padding='Same'))
-#     # model.add(PReLU())
-#     # 40
-#     # model.add(Dropout(0.5))
-#     # 1
-#     model.add(MaxPooling3D(pool_size=(3, 3, 2)))
-#     model.add(PReLU())
-#     # 2
-#     # model.add(Dropout(0.5))
-#     model.add(Flatten())
-#     model.add(Dense(256, init='normal'))
-#     # model.add(Dropout(0.5))
-#     model.add(Dense(128, init='normal'))
-#     # model.add(PReLU())
-#     # model.add(Dense(128, init='normal'))`
-#     model.add(Dropout(0.5))
-#     model.add(Dense(5, init='normal'))
-#     # model.add(Dropout(0.5))
-#     model.add(Activation('softmax'))
-#     opt = SGD(lr=0.1)
-#     model.compile(loss='categorical_crossentropy', optimizer=opt, metrics=['accuracy'])
+    #     # model.add(Convolution3D(128, (8, 8, 1), strides=1, input_shape=(1, sizeH, sizeV, sizeD), padding='Same'))
+    #     # model.add(PReLU())
+    #     # model.add(Dropout(0.5))
+    #     # 3
+    #     # model.add(Convolution3D(32, (3, 3, 2), strides=1, padding='Same'))
+    #     # model.add(PReLU())
+    #     # 40
+    #     # model.add(Dropout(0.5))
+    #     # 1
+    #     model.add(MaxPooling3D(pool_size=(3, 3, 2)))
+    #     model.add(PReLU())
+    #     # 2
+    #     # model.add(Dropout(0.5))
+    #     model.add(Flatten())
+    #     model.add(Dense(256, init='normal'))
+    #     # model.add(Dropout(0.5))
+    #     model.add(Dense(128, init='normal'))
+    #     # model.add(PReLU())
+    #     # model.add(Dense(128, init='normal'))`
+    #     model.add(Dropout(0.5))
+    #     model.add(Dense(5, init='normal'))
+    #     # model.add(Dropout(0.5))
+    #     model.add(Activation('softmax'))
+    #     opt = SGD(lr=0.1)
+    #     model.compile(loss='categorical_crossentropy', optimizer=opt, metrics=['accuracy'])
 
     model.summary()
 
@@ -125,26 +125,14 @@ def evaluate(segment_train_images, segment_validation_images, segment_train_labe
     EarlyStop = EarlyStopping(monitor='val_acc', min_delta=0, patience=40, restore_best_weights=True, verbose=1,
                               mode='max')
     reduce = ReduceLROnPlateau(monitor='val_acc', factor=0.2, patience=10, cooldown=5, verbose=1, min_delta=0,
-                               mode='max', min_lr=0.0005)
+                               mode='max', min_lr=0.00005)
     callbacks_list = [EarlyStop, reduce, myCallback()]
-
-
-
-
-
-
-
 
     # Training the model
 
-    history = model.fit([segment_train_images,segment_train_images_cat], segment_train_labels, validation_data = ([segment_validation_images,segment_validation_images_cat], segment_validation_labels), callbacks=callbacks_list, batch_size = 8, nb_epoch = 500, shuffle=True,verbose=1)
-
-
-
-
-
-
-
+    history = model.fit([segment_train_images, segment_train_images_cat], segment_train_labels, validation_data=(
+    [segment_validation_images, segment_validation_images_cat], segment_validation_labels), callbacks=callbacks_list,
+                        batch_size=16, nb_epoch=500, shuffle=True, verbose=1)
 
     # Finding Confusion Matrix using pretrained weights
 
@@ -297,9 +285,9 @@ segmentName2 = 'UpperFace_cat_NEW_mod'
 sizeH2 = 32
 sizeV2 = 32
 sizeD2 = 30
-testtype = "kfold"
+testtype = "loocv"
 ###################################
-notes="add input (8, 8), strides=(8, 8)"
+notes="no input 16"
 ####################################
 
 # Load training images and labels that are stored in numpy array
