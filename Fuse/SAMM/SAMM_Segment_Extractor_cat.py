@@ -43,7 +43,7 @@ def annotate_landmarks(img, landmarks, font_scale=0.4):
 path='../../../SAMM_categorical/'
 
 
-apexpath='../../../SAMM_categorical_apex_SelectiveDivideAndConquer_NEW/'
+apexpath='../../../SAMM_categorical_apex_SelectiveDivideAndConquer_NEW_mod/'
 angerpath = 'Anger/'
 # sadnesspath =path+'Sadness/'
 happinesspath ='Happiness/'
@@ -53,7 +53,7 @@ surprisepath = 'Surprise/'
 contemptpath = 'Contempt/'
 otherpath = 'Other/'
 
-segmentName = 'UpperFace_cat_NEW'
+segmentName = 'UpperFace_cat_NEW_mod'
 sizeH=32
 sizeV=32
 sizeD=30
