@@ -157,10 +157,11 @@ def evaluate(segment_train_images, segment_validation_images, segment_train_labe
     print (cfm)
     print("accuracy: ",accuracy_score(validation_labels, predictions_labels))
     activation_model = models.Model(inputs=model.input,
-                                    outputs=model.layers[11].output)
+                                    outputs=model.layers[1].output)
 
     activations = activation_model.predict([segment_validation_images, segment_validation_images_cat])
     first_layer_activation = activations[0]
+    print(first_layer_activation.shape())
     plt.matshow(first_layer_activation[0, :, :, 0], cmap='viridis')
     plt.show()
     return accuracy_score(validation_labels, predictions_labels), validation_labels, predictions_labels
