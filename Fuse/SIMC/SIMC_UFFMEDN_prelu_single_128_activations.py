@@ -157,7 +157,7 @@ def evaluate(segment_train_images, segment_validation_images, segment_train_labe
     print (cfm)
     print("accuracy: ",accuracy_score(validation_labels, predictions_labels))
     # layer_outputs = [layer.output for layer in model.layers[:2]]
-    # activation_model = models.Model(inputs=model.input, outputs=layer_outputs)
+    # activation_model = models.Model(inputs=model.input, outputs=model.layers[3].output)
     #
     # activations = activation_model.predict([segment_validation_images, segment_validation_images_cat])
     # first_layer_activation = activations[0]
@@ -165,25 +165,25 @@ def evaluate(segment_train_images, segment_validation_images, segment_train_labe
     # for i in range (16):
     #     plt.matshow(first_layer_activation[i, :, :], cmap='viridis')
     #     plt.show()
-    #
 
+    #
     # layer_names = []
     # for layer in model.layers[:3]:
     #     layer_names.append(layer.name)  # Names of the layers, so you can have them as part of your plot
 
     images_per_row = 16
-    for i in range(3):  # Displays the feature maps
+    for i in range(1,9):  # Displays the feature maps
         activation_model = models.Model(inputs=model.input, outputs=model.layers[i].output)
-        layer_activation = activation_model.predict([segment_validation_images, segment_validation_images_cat])[0]
-        n_features = layer_activation.shape[-1]  # Number of features in the feature map
+        activations = activation_model.predict([segment_validation_images, segment_validation_images_cat])
+        layer_activation=activations[0]
+        n_features = layer_activation.shape[0]  # Number of features in the feature map
         size = layer_activation.shape[1]  # The feature map has shape (1, size, size, n_features).
         n_cols = n_features // images_per_row  # Tiles the activation channels in this matrix
         display_grid = numpy.zeros((size * n_cols, images_per_row * size))
         for col in range(n_cols):  # Tiles each filter into a big horizontal grid
             for row in range(images_per_row):
-                channel_image = layer_activation[0,
-                                :, :,
-                                col * images_per_row + row]
+                channel_image = layer_activation[col * images_per_row + row,
+                                :, :]
                 channel_image -= channel_image.mean()  # Post-processes the feature to make it visually palatable
                 channel_image /= channel_image.std()
                 channel_image *= 64
@@ -197,6 +197,7 @@ def evaluate(segment_train_images, segment_validation_images, segment_train_labe
         plt.title(model.layers[i].name)
         plt.grid(False)
         plt.imshow(display_grid, aspect='auto', cmap='viridis')
+        plt.show()
     return accuracy_score(validation_labels, predictions_labels), validation_labels, predictions_labels
 
 
