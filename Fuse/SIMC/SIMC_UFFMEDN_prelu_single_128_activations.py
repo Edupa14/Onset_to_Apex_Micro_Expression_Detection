@@ -156,21 +156,25 @@ def evaluate(segment_train_images, segment_validation_images, segment_train_labe
     cfm = confusion_matrix(validation_labels, predictions_labels)
     print (cfm)
     print("accuracy: ",accuracy_score(validation_labels, predictions_labels))
-    layer_outputs = [layer.output for layer in model.layers[:12]]  
-    activation_model = models.Model(inputs=model.input, outputs=layer_outputs)
-
-    activations = activation_model.predict([segment_validation_images, segment_validation_images_cat])
+    # layer_outputs = [layer.output for layer in model.layers[:2]]
+    # activation_model = models.Model(inputs=model.input, outputs=layer_outputs)
+    #
+    # activations = activation_model.predict([segment_validation_images, segment_validation_images_cat])
     # first_layer_activation = activations[0]
     # print(first_layer_activation.shape)
     # for i in range (16):
     #     plt.matshow(first_layer_activation[i, :, :], cmap='viridis')
-    # plt.show()
-    layer_names = []
-    for layer in model.layers[:3]:
-        layer_names.append(layer.name)  # Names of the layers, so you can have them as part of your plot
+    #     plt.show()
+    #
+
+    # layer_names = []
+    # for layer in model.layers[:3]:
+    #     layer_names.append(layer.name)  # Names of the layers, so you can have them as part of your plot
 
     images_per_row = 16
-    for layer_name, layer_activation in zip(layer_names, activations):  # Displays the feature maps
+    for i in range(3):  # Displays the feature maps
+        activation_model = models.Model(inputs=model.input, outputs=model.layers[i].output)
+        layer_activation = activation_model.predict([segment_validation_images, segment_validation_images_cat])[0]
         n_features = layer_activation.shape[-1]  # Number of features in the feature map
         size = layer_activation.shape[1]  # The feature map has shape (1, size, size, n_features).
         n_cols = n_features // images_per_row  # Tiles the activation channels in this matrix
@@ -190,7 +194,7 @@ def evaluate(segment_train_images, segment_validation_images, segment_train_labe
         scale = 1. / size
         plt.figure(figsize=(scale * display_grid.shape[1],
                             scale * display_grid.shape[0]))
-        plt.title(layer_name)
+        plt.title(model.layers[i].name)
         plt.grid(False)
         plt.imshow(display_grid, aspect='auto', cmap='viridis')
     return accuracy_score(validation_labels, predictions_labels), validation_labels, predictions_labels
