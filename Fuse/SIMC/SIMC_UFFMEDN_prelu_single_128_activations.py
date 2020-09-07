@@ -10,6 +10,8 @@ from sklearn.model_selection import train_test_split,LeaveOneOut,KFold
 from keras import backend as K
 from keras.optimizers import Adam,SGD
 import os
+from keras import models
+from matplotlib import pyplot as plt
 
 class myCallback(Callback):
     def on_epoch_end(self, epoch, logs={}):
@@ -154,7 +156,13 @@ def evaluate(segment_train_images, segment_validation_images, segment_train_labe
     cfm = confusion_matrix(validation_labels, predictions_labels)
     print (cfm)
     print("accuracy: ",accuracy_score(validation_labels, predictions_labels))
+    activation_model = models.Model(inputs=model.input,
+                                    outputs=model.layers[11].output)
 
+    activations = activation_model.predict([segment_validation_images, segment_validation_images_cat])
+    first_layer_activation = activations[0]
+    plt.matshow(first_layer_activation[0, :, :, 0], cmap='viridis')
+    plt.show()
     return accuracy_score(validation_labels, predictions_labels), validation_labels, predictions_labels
 
 
