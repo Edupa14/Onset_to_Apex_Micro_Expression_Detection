@@ -125,7 +125,7 @@ def evaluate(segment_train_images, segment_validation_images, segment_train_labe
     EarlyStop = EarlyStopping(monitor='val_acc', min_delta=0, patience=40, restore_best_weights=True, verbose=1,
                               mode='max')
     reduce = ReduceLROnPlateau(monitor='val_acc', factor=0.2, patience=10, cooldown=5, verbose=1, min_delta=0,
-                               mode='max', min_lr=0.0005)
+                               mode='max', min_lr=0.00005)
     callbacks_list = [EarlyStop, reduce, myCallback()]
 
 
@@ -137,7 +137,7 @@ def evaluate(segment_train_images, segment_validation_images, segment_train_labe
 
     # Training the model
 
-    history = model.fit([segment_train_images,segment_train_images_cat], segment_train_labels, validation_data = ([segment_validation_images,segment_validation_images_cat], segment_validation_labels), callbacks=callbacks_list, batch_size = 16, nb_epoch = 500, shuffle=True,verbose=1)
+    history = model.fit([segment_train_images,segment_train_images_cat], segment_train_labels, validation_data = ([segment_validation_images,segment_validation_images_cat], segment_validation_labels), callbacks=callbacks_list, batch_size = 12, nb_epoch = 500, shuffle=True,verbose=1)
 
 
 
@@ -299,7 +299,7 @@ sizeV2 = 32
 sizeD2 = 30
 testtype = "loocv"
 ###################################
-notes="no input both (20, 20), strides=(10, 10) dropout .5 lr=0.01 batch 16"
+notes="no input both (20, 20), strides=(10, 10) dropout .5 lr=0.01 batch 12"
 ####################################
 
 # Load training images and labels that are stored in numpy array
