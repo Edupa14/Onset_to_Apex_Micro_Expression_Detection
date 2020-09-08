@@ -30,12 +30,14 @@ def evaluate(segment_train_images, segment_validation_images, segment_train_labe
     conv1 = Convolution2D(64,  (20, 20), strides=(10, 10), padding='same')(ract_2114)
     ract_211 = PReLU()(conv1)
     # 3x3 conv
-    conv3 = Convolution2D(256,  (20, 20), strides=(10, 10), padding='same')(ract_2114)
-    conv3 = Convolution2D(512, (3, 3), padding='same')(conv3)
+    conv3 = Convolution2D(256, (20, 20), strides=(10, 10), padding='same')(ract_2114)
+    ract_2125 = PReLU()(conv3)
+    conv3 = Convolution2D(512, (3, 3), padding='same')(ract_2125)
     ract_212 = PReLU()(conv3)
     # 5x5 conv
     conv5 = Convolution2D(96, (20, 20), strides=(10, 10), padding='same', activation='relu')(ract_2114)
-    conv5 = Convolution2D(128, (5, 5), padding='same', activation='relu')(conv5)
+    ract_23412 = PReLU()(conv5)
+    conv5 = Convolution2D(128, (5, 5), padding='same', activation='relu')(ract_23412)
     ract_2412 = PReLU()(conv5)
     # 3x3 max pooling
     pool = MaxPooling2D((3, 3), strides=(1, 1), padding='same')(ract_2114)
@@ -126,7 +128,7 @@ def evaluate(segment_train_images, segment_validation_images, segment_train_labe
     EarlyStop = EarlyStopping(monitor='val_acc', min_delta=0, patience=40, restore_best_weights=True, verbose=1,
                               mode='max')
     reduce = ReduceLROnPlateau(monitor='val_acc', factor=0.2, patience=10, cooldown=5, verbose=1, min_delta=0,
-                               mode='max', min_lr=0.0005)
+                               mode='max', min_lr=0.00005)
     callbacks_list = [EarlyStop, reduce, myCallback()]
 
 
