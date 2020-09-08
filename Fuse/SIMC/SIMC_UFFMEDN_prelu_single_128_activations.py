@@ -164,8 +164,9 @@ def evaluate(segment_train_images, segment_validation_images, segment_train_labe
         display_grid = numpy.zeros(((size+2) * n_cols, images_per_row * (size+2)))
         for col in range(n_cols):  # Tiles each filter into a big horizontal grid
             for row in range(images_per_row):
-                channel_image = layer_activation[col * images_per_row + row,
-                                :, :]
+                channel_image = layer_activation[col * images_per_row + row, :, :]
+                channel_image= numpy.rollaxis(channel_image, 1, 0)
+
                 channel_image -= channel_image.mean()  # Post-processes the feature to make it visually palatable
                 channel_image /= channel_image.std()
                 channel_image *= 64
@@ -178,10 +179,15 @@ def evaluate(segment_train_images, segment_validation_images, segment_train_labe
                             scale * display_grid.shape[0]))
         plt.title(model.layers[i].name)
         plt.grid(False)
-        plt.imshow(display_grid, aspect='auto', cmap='viridis')
+        plt.imshow(display_grid, aspect='auto', cmap='magma')
         plt.savefig('activations/{0}.png'.format(model.layers[i].name))
+        plot_model(models.Model(inputs=model.input, outputs=model.layers[22].output), to_file='model_plot_part1.png', show_shapes=True, show_layer_names=True)
+        plot_model(model, to_file='model_plot_part1.png', show_shapes=True, show_layer_names=True)
+        plot_model(model, to_file='model_plot_part1.png', show_shapes=True, show_layer_names=True)
+
+
         plot_model(model, to_file='model_plot.png', show_shapes=True, show_layer_names=True)
-        plot_model(model, to_file='model_plot2.png', show_shapes=False, show_layer_names=True)
+        # plot_model(model, to_file='model_plot2.png', show_shapes=False, show_layer_names=True)
     return accuracy_score(validation_labels, predictions_labels), validation_labels, predictions_labels
 
 
