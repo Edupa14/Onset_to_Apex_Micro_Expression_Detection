@@ -161,7 +161,7 @@ def evaluate(segment_train_images, segment_validation_images, segment_train_labe
         n_features = layer_activation.shape[0]  # Number of features in the feature map
         size = layer_activation.shape[1]  # The feature map has shape (1, size, size, n_features).
         n_cols = n_features // images_per_row  # Tiles the activation channels in this matrix
-        display_grid = numpy.zeros((size * n_cols, images_per_row * size))
+        display_grid = numpy.zeros(((size+2) * n_cols, images_per_row * (size+2)))
         for col in range(n_cols):  # Tiles each filter into a big horizontal grid
             for row in range(images_per_row):
                 channel_image = layer_activation[col * images_per_row + row,
@@ -171,8 +171,8 @@ def evaluate(segment_train_images, segment_validation_images, segment_train_labe
                 channel_image *= 64
                 channel_image += 128
                 channel_image = numpy.clip(channel_image, 0, 255).astype('uint8')
-                display_grid[col * size: (col + 1) * size,  # Displays the grid
-                row * size: (row + 1) * size] = channel_image
+                display_grid[col * (size+2): (col + 1) * (size+2)-2,  # Displays the grid
+                row * (size+2): (row + 1) * (size+2)-2] = channel_image
         scale = 1. / size
         plt.figure(figsize=(scale * display_grid.shape[1],
                             scale * display_grid.shape[0]))
