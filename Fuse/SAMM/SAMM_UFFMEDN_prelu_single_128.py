@@ -73,12 +73,12 @@ def evaluate(segment_train_images, segment_validation_images, segment_train_labe
     ract_22 = PReLU()(conv22)
     flatten_2 = Flatten()(ract_22)
 
-    flatten_3 = Flatten()(layer_in2)
+    # flatten_3 = Flatten()(layer_in2)
     # flatten_4 = Flatten()(layer_in)
     # drop11 = Dropout(0.8)(flatten_1)
     # drop21 = Dropout(0.8)(flatten_2)
     # drop31 = Dropout(0.8)(flatten_3)
-    concat = concatenate([flatten_1, flatten_2, flatten_3], axis=-1)
+    concat = concatenate([flatten_1, flatten_2], axis=-1)
     drop51 = Dropout(0.5)(concat)
     dense_3 = Dense(5, init='normal')(drop51)
     # drop1 = Dropout(0.5)(dense_3)
@@ -138,7 +138,7 @@ def evaluate(segment_train_images, segment_validation_images, segment_train_labe
 
     # Training the model
 
-    history = model.fit([segment_train_images,segment_train_images_cat], segment_train_labels, validation_data = ([segment_validation_images,segment_validation_images_cat], segment_validation_labels), callbacks=callbacks_list, batch_size = 32, nb_epoch = 500, shuffle=True,verbose=1)
+    history = model.fit([segment_train_images,segment_train_images_cat], segment_train_labels, validation_data = ([segment_validation_images,segment_validation_images_cat], segment_validation_labels), callbacks=callbacks_list, batch_size = 16, nb_epoch = 500, shuffle=True,verbose=1)
 
 
 
@@ -300,7 +300,7 @@ sizeV2 = 32
 sizeD2 = 30
 testtype = "loocv"
 ###################################
-notes="no input both (20, 20), strides=(10, 10) dropout .5 lr=0.01 with 5 batch 32"
+notes="no input both (20, 20), strides=(10, 10) dropout .5 lr=0.01 with 5 batch 16 without full"
 ####################################
 
 # Load training images and labels that are stored in numpy array
