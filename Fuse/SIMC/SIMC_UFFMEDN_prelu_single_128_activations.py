@@ -29,21 +29,22 @@ def evaluate(segment_train_images, segment_validation_images, segment_train_labe
     # conv1 = Convolution3D(256, (20, 20, 9), strides=(10, 10, 3), padding='Same')(input)
     # # bn1=BatchNormalization()(conv1)
     # ract_1 = PReLU()(conv1)
-    conv1 = Convolution2D(96,  (20, 20), strides=(10, 10), padding='same')(ract_2114)
+    conv1 = Convolution2D(64, (20, 20), strides=(10, 10), padding='same')(ract_2114)
     ract_211 = PReLU()(conv1)
     # 3x3 conv
-    conv3 = Convolution2D(256,  (20, 20), strides=(10, 10), padding='same')(ract_2114)
+    conv3 = Convolution2D(256, (20, 20), strides=(10, 10), padding='same')(ract_2114)
     conv3 = Convolution2D(512, (3, 3), padding='same')(conv3)
     ract_212 = PReLU()(conv3)
     # 5x5 conv
-    # conv5 = Convolution3D(16, (20, 20, 1), strides=(10, 10, 1), padding='same', activation='relu')(layer_in)
-    # conv5 = Convolution3D(32, (5, 5, 1), padding='same', activation='relu')(conv5)
+    conv5 = Convolution2D(96, (20, 20), strides=(10, 10), padding='same', activation='relu')(ract_2114)
+    conv5 = Convolution2D(128, (5, 5), padding='same', activation='relu')(conv5)
+    ract_2412 = PReLU()(conv5)
     # 3x3 max pooling
     pool = MaxPooling2D((3, 3), strides=(1, 1), padding='same')(ract_2114)
     pool = Convolution2D(32, (20, 20), strides=(10, 10), padding='same')(pool)
     ract_213 = PReLU()(pool)
     # concatenate filters, assumes filters/channels last
-    layer_out = concatenate([ract_211, ract_212, ract_213], axis=-3)
+    layer_out = concatenate([ract_211, ract_212, ract_213, ract_2412], axis=-3)
 
     # add1= Add() ([conv3,ract_1])
     # drop0 = Dropout(0.5)(layer_out)
@@ -85,40 +86,40 @@ def evaluate(segment_train_images, segment_validation_images, segment_train_labe
     # drop1 = Dropout(0.5)(dense_3)
     activation = Activation('softmax')(dense_3)
     opt = SGD(lr=0.01)
-    model = Model(inputs=[layer_in,layer_in2], outputs=activation)
+    model = Model(inputs=[layer_in, layer_in2], outputs=activation)
     model.compile(loss='categorical_crossentropy', optimizer=opt, metrics=['accuracy'])
-# ----------------------------
+    # ----------------------------
     #     model = Sequential()`
     #     # model.add(ZeroPadding3D((2,2,0)))
     #     model.add(Convolution3D(32, (6, 6, 1), strides=(3, 3, 1), input_shape=(1, sizeH, sizeV, sizeD), padding='Same'))
     #
     #     model.add(Convolution3D(64, (12, 12, 1), strides=(6, 6, 1), input_shape=(1, sizeH, sizeV, sizeD), padding='Same'))
     #     model.add(PReLU())`
-#     # model.add(Convolution3D(128, (8, 8, 1), strides=1, input_shape=(1, sizeH, sizeV, sizeD), padding='Same'))
-#     # model.add(PReLU())
-#     # model.add(Dropout(0.5))
-#     # 3
-#     # model.add(Convolution3D(32, (3, 3, 2), strides=1, padding='Same'))
-#     # model.add(PReLU())
-#     # 40
-#     # model.add(Dropout(0.5))
-#     # 1
-#     model.add(MaxPooling3D(pool_size=(3, 3, 2)))
-#     model.add(PReLU())
-#     # 2
-#     # model.add(Dropout(0.5))
-#     model.add(Flatten())
-#     model.add(Dense(256, init='normal'))
-#     # model.add(Dropout(0.5))
-#     model.add(Dense(128, init='normal'))
-#     # model.add(PReLU())
-#     # model.add(Dense(128, init='normal'))`
-#     model.add(Dropout(0.5))
-#     model.add(Dense(5, init='normal'))
-#     # model.add(Dropout(0.5))
-#     model.add(Activation('softmax'))
-#     opt = SGD(lr=0.1)
-#     model.compile(loss='categorical_crossentropy', optimizer=opt, metrics=['accuracy'])
+    #     # model.add(Convolution3D(128, (8, 8, 1), strides=1, input_shape=(1, sizeH, sizeV, sizeD), padding='Same'))
+    #     # model.add(PReLU())
+    #     # model.add(Dropout(0.5))
+    #     # 3
+    #     # model.add(Convolution3D(32, (3, 3, 2), strides=1, padding='Same'))
+    #     # model.add(PReLU())
+    #     # 40
+    #     # model.add(Dropout(0.5))
+    #     # 1
+    #     model.add(MaxPooling3D(pool_size=(3, 3, 2)))
+    #     model.add(PReLU())
+    #     # 2
+    #     # model.add(Dropout(0.5))
+    #     model.add(Flatten())
+    #     model.add(Dense(256, init='normal'))
+    #     # model.add(Dropout(0.5))
+    #     model.add(Dense(128, init='normal'))
+    #     # model.add(PReLU())
+    #     # model.add(Dense(128, init='normal'))`
+    #     model.add(Dropout(0.5))
+    #     model.add(Dense(5, init='normal'))
+    #     # model.add(Dropout(0.5))
+    #     model.add(Activation('softmax'))
+    #     opt = SGD(lr=0.1)
+    #     model.compile(loss='categorical_crossentropy', optimizer=opt, metrics=['accuracy'])
 
     model.summary()
 
@@ -127,50 +128,25 @@ def evaluate(segment_train_images, segment_validation_images, segment_train_labe
     EarlyStop = EarlyStopping(monitor='val_acc', min_delta=0, patience=40, restore_best_weights=True, verbose=1,
                               mode='max')
     reduce = ReduceLROnPlateau(monitor='val_acc', factor=0.2, patience=10, cooldown=5, verbose=1, min_delta=0,
-                               mode='max', min_lr=0.0005)
+                               mode='max', min_lr=0.00005)
     callbacks_list = [EarlyStop, reduce, myCallback()]
-
-
-
-
-
-
-
 
     # Training the model
 
-    history = model.fit([segment_train_images,segment_train_images_cat], segment_train_labels, validation_data = ([segment_validation_images,segment_validation_images_cat], segment_validation_labels), callbacks=callbacks_list, batch_size = 12, nb_epoch = 500, shuffle=True,verbose=1)
-
-
-
-
-
-
-
+    history = model.fit([segment_train_images, segment_train_images_cat], segment_train_labels, validation_data=(
+    [segment_validation_images, segment_validation_images_cat], segment_validation_labels), callbacks=callbacks_list,
+                        batch_size=16, nb_epoch=500, shuffle=True, verbose=1)
 
     # Finding Confusion Matrix using pretrained weights
 
-    predictions = model.predict([segment_validation_images,segment_validation_images_cat])
+    predictions = model.predict([segment_validation_images, segment_validation_images_cat])
     predictions_labels = numpy.argmax(predictions, axis=1)
     validation_labels = numpy.argmax(segment_validation_labels, axis=1)
     cfm = confusion_matrix(validation_labels, predictions_labels)
-    print (cfm)
-    print("accuracy: ",accuracy_score(validation_labels, predictions_labels))
-    # layer_outputs = [layer.output for layer in model.layers[:2]]
-    # activation_model = models.Model(inputs=model.input, outputs=model.layers[3].output)
-    #
-    # activations = activation_model.predict([segment_validation_images, segment_validation_images_cat])
-    # first_layer_activation = activations[0]
-    # print(first_layer_activation.shape)
-    # for i in range (16):
-    #     plt.matshow(first_layer_activation[i, :, :], cmap='viridis')
-    #     plt.show()
+    print(cfm)
+    print("accuracy: ", accuracy_score(validation_labels, predictions_labels))
 
-    #
-    # layer_names = []
-    # for layer in model.layers[:3]:
-    #     layer_names.append(layer.name)  # Names of the layers, so you can have them as part of your plot
-
+    # return accuracy_score(validation_labels, predictions_labels), validation_labels, predictions_labels
     images_per_row = 16
     for i in range(1,9):  # Displays the feature maps
         activation_model = models.Model(inputs=model.input, outputs=model.layers[i].output)
