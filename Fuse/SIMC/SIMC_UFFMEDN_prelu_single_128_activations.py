@@ -173,7 +173,7 @@ def evaluate(segment_train_images, segment_validation_images, segment_train_labe
         plt.title(model.layers[i].name)
         plt.grid(False)
         plt.imshow(display_grid, aspect='auto', cmap='viridis')
-        plt.show()
+        plt.savefig('activations/{0}.png'.format(model.layers[i].name))
     return accuracy_score(validation_labels, predictions_labels), validation_labels, predictions_labels
 
 
