@@ -148,7 +148,11 @@ def evaluate(segment_train_images, segment_validation_images, segment_train_labe
     print(cfm)
     print("accuracy: ", accuracy_score(validation_labels, predictions_labels))
 
-    # return accuracy_score(validation_labels, predictions_labels), validation_labels, predictions_labels
+    plot_model(models.Model(inputs=model.input, outputs=model.layers[24].output), to_file='model_plot_part1.png',
+               show_shapes=True, show_layer_names=True)
+    plot_model(models.Model(inputs=model.input, outputs=[model.layers[25].output,model.layers[26].output]), to_file='model_plot_part2.png', show_shapes=True, show_layer_names=True)
+
+    plot_model(model, to_file='model_plot.png', show_shapes=True, show_layer_names=True)
     images_per_row = 16
     layers=[x for x in range(1,12)]
     layers.extend([x for x in range(13,17)])
@@ -181,12 +185,7 @@ def evaluate(segment_train_images, segment_validation_images, segment_train_labe
         plt.grid(False)
         plt.imshow(display_grid, aspect='auto', cmap='magma')
         plt.savefig('activations/{0}.png'.format(model.layers[i].name))
-        plot_model(models.Model(inputs=model.input, outputs=model.layers[22].output), to_file='model_plot_part1.png', show_shapes=True, show_layer_names=True)
-        plot_model(model, to_file='model_plot_part1.png', show_shapes=True, show_layer_names=True)
-        plot_model(model, to_file='model_plot_part1.png', show_shapes=True, show_layer_names=True)
 
-
-        plot_model(model, to_file='model_plot.png', show_shapes=True, show_layer_names=True)
         # plot_model(model, to_file='model_plot2.png', show_shapes=False, show_layer_names=True)
     return accuracy_score(validation_labels, predictions_labels), validation_labels, predictions_labels
 
