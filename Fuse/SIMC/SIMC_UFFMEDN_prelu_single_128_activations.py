@@ -150,7 +150,11 @@ def evaluate(segment_train_images, segment_validation_images, segment_train_labe
 
     # return accuracy_score(validation_labels, predictions_labels), validation_labels, predictions_labels
     images_per_row = 16
-    for i in range(1,9):  # Displays the feature maps
+    layers=[x for x in range(1,12)]
+    layers.extend([x for x in range(13,17)])
+    layers.append(20)
+    layers.append(22)
+    for i in layers:  # Displays the feature maps
         activation_model = models.Model(inputs=model.input, outputs=model.layers[i].output)
         activations = activation_model.predict([segment_validation_images, segment_validation_images_cat])
         layer_activation=activations[0]
