@@ -12,6 +12,8 @@ from keras.optimizers import Adam,SGD
 import os
 from keras import models
 from matplotlib import pyplot as plt
+from keras.utils.vis_utils import plot_model
+
 
 class myCallback(Callback):
     def on_epoch_end(self, epoch, logs={}):
@@ -174,6 +176,7 @@ def evaluate(segment_train_images, segment_validation_images, segment_train_labe
         plt.grid(False)
         plt.imshow(display_grid, aspect='auto', cmap='viridis')
         plt.savefig('activations/{0}.png'.format(model.layers[i].name))
+        plot_model(model, to_file='model_plot.png', show_shapes=True, show_layer_names=True)
     return accuracy_score(validation_labels, predictions_labels), validation_labels, predictions_labels
 
 
