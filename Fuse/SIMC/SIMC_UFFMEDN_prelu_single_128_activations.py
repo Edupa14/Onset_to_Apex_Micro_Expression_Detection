@@ -13,6 +13,7 @@ import os
 from keras import models
 from matplotlib import pyplot as plt
 from keras.utils.vis_utils import plot_model
+import shutil
 
 
 class myCallback(Callback):
@@ -184,6 +185,9 @@ def evaluate(segment_train_images, segment_validation_images, segment_train_labe
         plt.title(model.layers[i].name)
         plt.grid(False)
         plt.imshow(display_grid, aspect='auto', cmap='magma')
+        if os.path.exists('activations/{0}'.format(test_index[0])):
+            shutil.rmtree('activations/{0}'.format(test_index[0]))
+        os.mkdir('activations/{0}'.format(test_index[0]), mode=0o777)
         plt.savefig('activations/{0}/{1}.png'.format(test_index[0],model.layers[i].name))
 
         # plot_model(model, to_file='model_plot2.png', show_shapes=False, show_layer_names=True)
