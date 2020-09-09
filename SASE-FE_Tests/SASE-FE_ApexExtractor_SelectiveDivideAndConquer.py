@@ -162,9 +162,10 @@ def generate_pos(imgs,landmark_list):
 
     for image in viddirectorylisting:
         if image not in broken:
-            img_pos.append([])
             im = cv2.imread(videopath + '/' + image)
             try:
+
+                img_pos.append([])
                 landmarks = get_landmark(im)
             except:
                 print("broken", image)
@@ -214,10 +215,10 @@ def new_find_max(start,end,img_pos,vidlist,landmark_list):
     return max_diff,vidlist[max_diff_image]
 
 
-path='../../SASE-FE_Categorical_truevsfake_reduced/fake/'
+path='../../SASE-FE_Categorical_truevsfake_reduced/true/'
 
 
-targetpath= '../../SASE-FE_fake_categorical_apex_SelectiveDivideAndConquer_NEW_mod/'
+targetpath= '../../SASE-FE_true_categorical_apex_SelectiveDivideAndConquer_NEW_mod/'
 if os.path.exists(targetpath ):
     shutil.rmtree(targetpath )
 os.mkdir(targetpath , mode=0o777)
