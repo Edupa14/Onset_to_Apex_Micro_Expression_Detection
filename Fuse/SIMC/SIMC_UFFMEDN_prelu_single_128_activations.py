@@ -159,6 +159,9 @@ def evaluate(segment_train_images, segment_validation_images, segment_train_labe
     layers.extend([x for x in range(13,17)])
     layers.append(20)
     layers.append(22)
+    if os.path.exists('activations/{0}'.format(test_index[0])):
+        shutil.rmtree('activations/{0}'.format(test_index[0]))
+    os.mkdir('activations/{0}'.format(test_index[0]), mode=0o777)
     for i in layers:  # Displays the feature maps
         activation_model = models.Model(inputs=model.input, outputs=model.layers[i].output)
         activations = activation_model.predict([segment_validation_images, segment_validation_images_cat])
@@ -185,9 +188,7 @@ def evaluate(segment_train_images, segment_validation_images, segment_train_labe
         plt.title(model.layers[i].name)
         plt.grid(False)
         plt.imshow(display_grid, aspect='auto', cmap='magma')
-        if os.path.exists('activations/{0}'.format(test_index[0])):
-            shutil.rmtree('activations/{0}'.format(test_index[0]))
-        os.mkdir('activations/{0}'.format(test_index[0]), mode=0o777)
+
         plt.savefig('activations/{0}/{1}.png'.format(test_index[0],model.layers[i].name))
 
         # plot_model(model, to_file='model_plot2.png', show_shapes=False, show_layer_names=True)
