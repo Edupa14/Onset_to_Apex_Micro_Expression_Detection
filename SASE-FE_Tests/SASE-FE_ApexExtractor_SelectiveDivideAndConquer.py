@@ -161,22 +161,23 @@ def generate_pos(imgs,landmark_list):
     count = 0
 
     for image in viddirectorylisting:
-        img_pos.append([])
-        im = cv2.imread(videopath + '/' + image)
-        try:
-            landmarks = get_landmark(im)
-        except:
-            print("broken", image)
-            broken.append(image)
-            os.remove(videopath + '/' + image)
-            continue
-        numpylandmarks = np.asarray(landmarks)
-        count += 1
-        img_pos[count - 1] = [1] * landmarksNos
-        for pos in range(landmarksNos):
-            # total_pos[pos] += (numpylandmarks[pos] - numpylandmarks[8])
-            # print(numpylandmarks[pos], numpylandmarks[8], numpylandmarks[pos] - numpylandmarks[8])
-            img_pos[count - 1][pos] = (numpylandmarks[pos] - numpylandmarks[8])
+        if image not in broken:
+            img_pos.append([])
+            im = cv2.imread(videopath + '/' + image)
+            try:
+                landmarks = get_landmark(im)
+            except:
+                print("broken", image)
+                broken.append(image)
+                os.remove(videopath + '/' + image)
+                continue
+            numpylandmarks = np.asarray(landmarks)
+            count += 1
+            img_pos[count - 1] = [1] * landmarksNos
+            for pos in range(landmarksNos):
+                # total_pos[pos] += (numpylandmarks[pos] - numpylandmarks[8])
+                # print(numpylandmarks[pos], numpylandmarks[8], numpylandmarks[pos] - numpylandmarks[8])
+                img_pos[count - 1][pos] = (numpylandmarks[pos] - numpylandmarks[8])
     return img_pos
 def new_find_max(start,end,img_pos,vidlist,landmark_list):
     total_pos=[np.zeros(shape=2,dtype=int) for _ in range(len(img_pos[0]))]
@@ -213,10 +214,10 @@ def new_find_max(start,end,img_pos,vidlist,landmark_list):
     return max_diff,vidlist[max_diff_image]
 
 
-path='../../SASE-FE_Categorical_truevsfake_reduced/true/'
+path='../../SASE-FE_Categorical_truevsfake_reduced/fake/'
 
 
-targetpath= '../../SASE-FE_true_categorical_apex_SelectiveDivideAndConquer_NEW_mod/'
+targetpath= '../../SASE-FE_fake_categorical_apex_SelectiveDivideAndConquer_NEW_mod/'
 if os.path.exists(targetpath ):
     shutil.rmtree(targetpath )
 os.mkdir(targetpath , mode=0o777)
