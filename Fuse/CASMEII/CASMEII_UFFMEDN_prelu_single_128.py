@@ -133,7 +133,7 @@ def evaluate(segment_train_images, segment_validation_images, segment_train_labe
 
     history = model.fit([segment_train_images, segment_train_images_cat], segment_train_labels, validation_data=(
     [segment_validation_images, segment_validation_images_cat], segment_validation_labels), callbacks=callbacks_list,
-                        batch_size=12, nb_epoch=500, shuffle=True, verbose=1)
+                        batch_size=16, nb_epoch=500, shuffle=True, verbose=1)
 
     # Finding Confusion Matrix using pretrained weights
 
@@ -278,17 +278,17 @@ def kfold():
 # edit params
 K.set_image_dim_ordering('th')
 
-segmentName = 'UpperFace_SelectiveDivideAndConquer_NEW_mod'
+segmentName = 'UpperFace_SelectiveDivideAndConquer_NEW_mod_NEW'
 sizeH = 128
 sizeV = 128
 sizeD = 1
-segmentName2 = 'UpperFace_cat_NEW_mod'
+segmentName2 = 'UpperFace_cat_NEW_mod_NEW'
 sizeH2 = 32
 sizeV2 = 32
 sizeD2 = 30
 testtype = "loocv"
 ###################################
-notes="no input with 5 12"
+notes="no input with 5 16"
 ####################################
 
 # Load training images and labels that are stored in numpy array
