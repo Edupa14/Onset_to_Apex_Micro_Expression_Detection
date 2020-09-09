@@ -5,6 +5,7 @@ import dlib
 from keras import backend as K
 import shutil
 import math
+import re
 
 K.set_image_dim_ordering('th')
 
@@ -154,7 +155,7 @@ def new_find_max(start,end,img_pos,vidlist,landmark_list):
 path='../../CASMEII_categorical/'
 
 
-targetpath= '../../CASMEII_categorical_apex_SelectiveDivideAndConquer_NEW_mod/'
+targetpath= '../../CASMEII_categorical_apex_SelectiveDivideAndConquer_NEW_mod_NEW/'
 if os.path.exists(targetpath ):
     shutil.rmtree(targetpath )
 os.mkdir(targetpath , mode=0o777)
@@ -192,7 +193,7 @@ for subject in directorylisting:
         viddirectorylisting = os.listdir(videopath)
         print(counter01)
         print(videopath,viddirectorylisting)
-        viddirectorylisting.sort()
+        viddirectorylisting.sort(key = lambda x: int(x.split("g")[1].split(".")[0]))
         print(videopath, viddirectorylisting)
         count=0
         Lmax=0
