@@ -255,7 +255,7 @@ for subject in directorylisting:
         viddirectorylisting = os.listdir(videopath)
         print(counter01)
         print(videopath,viddirectorylisting)
-        viddirectorylisting.sort()
+        viddirectorylisting.sort(key = lambda x: int(x.split("e")[1].split(".")[0]))
         print(videopath, viddirectorylisting)
         count=0
         Lmax=0
@@ -268,7 +268,7 @@ for subject in directorylisting:
         viddirectorylisting = os.listdir(videopath)
         print(counter01)
         print(videopath, viddirectorylisting)
-        viddirectorylisting.sort()
+        viddirectorylisting.sort(key = lambda x: int(x.split("e")[1].split(".")[0]))
         print(videopath, viddirectorylisting)
         print(len(img_pos),len(viddirectorylisting))
         lenght = len(viddirectorylisting)
