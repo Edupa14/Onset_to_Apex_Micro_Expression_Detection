@@ -139,8 +139,8 @@ def find_max(imgs):
     return max_diff,max_diff_image
 
 def generate_pos(imgs,landmark_list):
-    image = cv2.imread(videopath + '/' + imgs[0])
-    landmarks = get_landmark(image)
+    # image = cv2.imread(videopath + '/' + imgs[0])
+    # landmarks = get_landmark(image)
     broken = []
     for image in viddirectorylisting:
         # img_pos.append([])
