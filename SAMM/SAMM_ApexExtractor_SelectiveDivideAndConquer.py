@@ -149,7 +149,7 @@ def find_max(imgs):
 path='../../SAMM_categorical/'
 
 
-targetpath= '../../SAMM_categorical_apex_SelectiveDivideAndConquer_NEW_mod/'
+targetpath= '../../SAMM_categorical_apex_SelectiveDivideAndConquer_NEW_mod_NEW/'
 if os.path.exists(targetpath ):
     shutil.rmtree(targetpath )
 os.mkdir(targetpath , mode=0o777)
@@ -187,7 +187,7 @@ for subject in directorylisting:
         viddirectorylisting = os.listdir(videopath)
         print(counter01)
         print(videopath,viddirectorylisting)
-        viddirectorylisting.sort()
+        viddirectorylisting.sort(key = lambda x: int(x.split("_")[1].split(".")[0]))
         print(videopath, viddirectorylisting)
         count=0
         Lmax=0
