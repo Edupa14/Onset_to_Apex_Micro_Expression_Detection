@@ -141,12 +141,25 @@ def find_max(imgs):
 def generate_pos(imgs,landmark_list):
     image = cv2.imread(videopath + '/' + imgs[0])
     landmarks = get_landmark(image)
+    broken = []
+    for image in viddirectorylisting:
+        # img_pos.append([])
+        im = cv2.imread(videopath + '/' + image)
+
+        try:
+            landmarks = get_landmark(im)
+            break
+        except:
+            print("broken", image)
+            broken.append(image)
+            os.remove(videopath + '/' + image)
+            continue
     numpylandmarks = np.asarray(landmarks)
     landmarksNos = len(numpylandmarks)
     total_pos = [1] * landmarksNos
     img_pos = []
     count = 0
-    broken = []
+
     for image in viddirectorylisting:
         img_pos.append([])
         im = cv2.imread(videopath + '/' + image)
@@ -200,10 +213,10 @@ def new_find_max(start,end,img_pos,vidlist,landmark_list):
     return max_diff,vidlist[max_diff_image]
 
 
-path='../../SASE-FE_Categorical_truevsfake_reduced/fake/'
+path='../../SASE-FE_Categorical_truevsfake_reduced/true/'
 
 
-targetpath= '../../SASE-FE_fake_categorical_apex_SelectiveDivideAndConquer_NEW_mod/'
+targetpath= '../../SASE-FE_true_categorical_apex_SelectiveDivideAndConquer_NEW_mod/'
 if os.path.exists(targetpath ):
     shutil.rmtree(targetpath )
 os.mkdir(targetpath , mode=0o777)
@@ -247,7 +260,7 @@ for subject in directorylisting:
         Rmax=0
         Lval=None
         Rval=None
-        lenght=len(viddirectorylisting)
+
         imgs=viddirectorylisting
         img_pos=generate_pos(imgs,landmark_list)
         viddirectorylisting = os.listdir(videopath)
@@ -255,6 +268,8 @@ for subject in directorylisting:
         print(videopath, viddirectorylisting)
         viddirectorylisting.sort()
         print(videopath, viddirectorylisting)
+        print(len(img_pos),len(viddirectorylisting))
+        lenght = len(viddirectorylisting)
         start=0
         end=len(imgs)-1
         while lenght>=2:
