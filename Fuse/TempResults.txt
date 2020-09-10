@@ -2133,3 +2133,8 @@ F1-score: 0.5445288662078359
 ---------------------------
 accuracy: 0.8235294117647058
 F1-score: 0.8043655923908024
+---------------------------
+/home/student/Nikin/Onset_to_Apex_Micro_Expression_Detection/Fuse/CASMEII loocv_UpperFace_SelectiveDivideAndConquer_NEW_mod_NEW_128x128x1   no input with 5 16
+---------------------------
+accuracy: 0.8955823293172691
+F1-score: 0.8948110628459433
