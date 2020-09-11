@@ -138,7 +138,7 @@ def evaluate(segment_train_images, segment_validation_images, segment_train_labe
 
     # Training the model
 
-    history = model.fit([segment_train_images,segment_train_images_cat], segment_train_labels, validation_data = ([segment_validation_images,segment_validation_images_cat], segment_validation_labels), callbacks=callbacks_list, batch_size = 12, nb_epoch = 500, shuffle=True,verbose=1)
+    history = model.fit([segment_train_images,segment_train_images_cat], segment_train_labels, validation_data = ([segment_validation_images,segment_validation_images_cat], segment_validation_labels), callbacks=callbacks_list, batch_size = 16, nb_epoch = 500, shuffle=True,verbose=1)
 
 
 
@@ -298,9 +298,9 @@ segmentName2 = 'UpperFace_cat_NEW_mod'
 sizeH2 = 32
 sizeV2 = 32
 sizeD2 = 30
-testtype = "kfold"
+testtype = "loocv"
 ###################################
-notes="no input both (20, 20), strides=(10, 10) dropout .5 lr=0.01 with 5 batch 12"
+notes="no input both (20, 20), strides=(10, 10) dropout .5 lr=0.01 with 5 batch 16 long"
 ####################################
 
 # Load training images and labels that are stored in numpy array
