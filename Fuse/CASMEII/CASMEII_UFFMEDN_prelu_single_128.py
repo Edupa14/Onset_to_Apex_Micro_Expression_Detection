@@ -123,9 +123,9 @@ def evaluate(segment_train_images, segment_validation_images, segment_train_labe
 
     filepath = "weights_CAS(ME)2/weights-improvement" + str(test_index) + "-{epoch:02d}-{val_acc:.2f}.hdf5"
     checkpoint = ModelCheckpoint(filepath, monitor='val_acc', verbose=1, save_best_only=True, mode='max')
-    EarlyStop = EarlyStopping(monitor='val_acc', min_delta=0, patience=40, restore_best_weights=True, verbose=1,
+    EarlyStop = EarlyStopping(monitor='val_acc', min_delta=0, patience=100, restore_best_weights=True, verbose=1,
                               mode='max')
-    reduce = ReduceLROnPlateau(monitor='val_acc', factor=0.2, patience=10, cooldown=5, verbose=1, min_delta=0,
+    reduce = ReduceLROnPlateau(monitor='val_acc', factor=0.2, patience=20, cooldown=10, verbose=1, min_delta=0,
                                mode='max', min_lr=0.00005)
     callbacks_list = [EarlyStop, reduce, myCallback()]
 
@@ -278,17 +278,17 @@ def kfold():
 # edit params
 K.set_image_dim_ordering('th')
 
-segmentName = 'UpperFace_SelectiveDivideAndConquer_NEW_mod_NEW'
+segmentName = 'UpperFace_SelectiveDivideAndConquer_NEW_mod'
 sizeH = 128
 sizeV = 128
 sizeD = 1
-segmentName2 = 'UpperFace_cat_NEW_mod_NEW'
+segmentName2 = 'UpperFace_cat_NEW_mod'
 sizeH2 = 32
 sizeV2 = 32
 sizeD2 = 30
 testtype = "loocv"
 ###################################
-notes="no input with 5 16"
+notes="no input with 5 16 long"
 ####################################
 
 # Load training images and labels that are stored in numpy array
