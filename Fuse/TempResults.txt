@@ -2248,3 +2248,23 @@ F1-score: 0.6169342190069379
 ---------------------------
 accuracy: 0.6617647058823529
 F1-score: 0.6433268456596469
+---------------------------
+/home/student/Nikin/Onset_to_Apex_Micro_Expression_Detection/Fuse/CASMEII kfold_UpperFace_SelectiveDivideAndConquer_NEW_mod_128x128x1   no input with 5 16 long
+---------------------------
+accuracy: 0.6506024096385542
+F1-score: 0.6447445542484141
+---------------------------
+/home/student/Nikin/Onset_to_Apex_Micro_Expression_Detection/Fuse/SIMC kfold_UpperFace_SelectiveDivideAndConquer_NEW_mod_128x128x1   no input both (20, 20), strides=(10, 10) dropout .5 WITH 5 16 long
+---------------------------
+accuracy: 0.6942675159235668
+F1-score: 0.6908579403640209
+---------------------------
+/home/student/Nikin/Onset_to_Apex_Micro_Expression_Detection/Fuse/CASMEII kfold_UpperFace_SelectiveDivideAndConquer_NEW_mod_128x128x1   no input with 5 16 long
+---------------------------
+accuracy: 0.642570281124498
+F1-score: 0.6359753162183777
+---------------------------
+/home/student/Nikin/Onset_to_Apex_Micro_Expression_Detection/Fuse/SIMC kfold_UpperFace_SelectiveDivideAndConquer_NEW_mod_128x128x1   no input both (20, 20), strides=(10, 10) dropout .5 WITH 5 16 long
+---------------------------
+accuracy: 0.7133757961783439
+F1-score: 0.7129105897197175
