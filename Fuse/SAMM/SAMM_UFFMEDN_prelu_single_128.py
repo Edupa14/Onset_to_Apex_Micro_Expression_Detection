@@ -155,8 +155,9 @@ def evaluate(segment_train_images, segment_validation_images, segment_train_labe
     cfm = confusion_matrix(validation_labels, predictions_labels)
     print (cfm)
     print("accuracy: ",accuracy_score(validation_labels, predictions_labels))
+    n_epochs = len(history.history['loss'])
 
-    return accuracy_score(validation_labels, predictions_labels), validation_labels, predictions_labels
+    return accuracy_score(validation_labels, predictions_labels), validation_labels, predictions_labels, n_epochs
 
 
 # -----------------------------------------------------------------------------------------------------------------
@@ -171,19 +172,22 @@ def loocv():
 
     val_labels = []
     pred_labels = []
+    ne = []
     for train_index, test_index in loo.split(segment_training_set):
         # print(segment_traininglabels[train_index])
         # print(segment_traininglabels[test_index])
         print(test_index)
 
-        val_acc, val_label, pred_label = evaluate(segment_training_set[train_index], segment_training_set[test_index],
-                                                  segment_traininglabels[train_index],
-                                                  segment_traininglabels[test_index],
-                                                  test_index, segment_training_set_cat[train_index],
-                                                  segment_training_set_cat[test_index]
-                                                  )
+        val_acc, val_label, pred_label, n = evaluate(segment_training_set[train_index],
+                                                     segment_training_set[test_index],
+                                                     segment_traininglabels[train_index],
+                                                     segment_traininglabels[test_index],
+                                                     test_index, segment_training_set_cat[train_index],
+                                                     segment_training_set_cat[test_index]
+                                                     )
 
-
+        ne.append(n)
+        print("epocs:", n)
         tot += val_acc
         val_labels.extend(val_label)
         pred_labels.extend(pred_label)
@@ -193,6 +197,7 @@ def loocv():
         print("------------------------------------------------------------------------")
         print("validation acc:", val_acc)
         print("------------------------------------------------------------------------")
+    print(ne, max(ne))
     print("accuracy: ", accuracy_score(val_labels, pred_labels))
     cfm = confusion_matrix(val_labels, pred_labels)
     # tp_and_fn = sum(cfm.sum(1))
