@@ -127,7 +127,7 @@ def evaluate(segment_train_images, segment_validation_images, segment_train_labe
                               mode='max')
     reduce = ReduceLROnPlateau(monitor='val_acc', factor=0.2, patience=25, cooldown=0, verbose=1, min_delta=0,
                                mode='max', min_lr=0.00005)
-    callbacks_list = [EarlyStop, reduce, myCallback()]
+    callbacks_list = [EarlyStop, myCallback()]
 
 
 
