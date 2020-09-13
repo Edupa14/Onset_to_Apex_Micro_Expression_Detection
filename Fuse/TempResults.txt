@@ -2383,3 +2383,8 @@ F1-score: 0.6673382278103086
 ---------------------------
 accuracy: 0.7261146496815286
 F1-score: 0.7244487902817595
+---------------------------
+/home/student/Nikin/Onset_to_Apex_Micro_Expression_Detection/Fuse/SIMC kfold_UpperFace_SelectiveDivideAndConquer_NEW_mod_edit_128x128x1   no input both (20, 20), strides=(10, 10) dropout .5 WITH 5 16 long
+---------------------------
+accuracy: 0.7070063694267515
+F1-score: 0.7013410703697328
