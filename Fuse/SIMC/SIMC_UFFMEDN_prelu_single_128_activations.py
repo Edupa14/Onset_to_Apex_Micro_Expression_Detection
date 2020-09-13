@@ -333,11 +333,11 @@ def kfold():
 # edit params
 K.set_image_dim_ordering('th')
 
-segmentName = 'UpperFace_SelectiveDivideAndConquer_NEW_mod'
+segmentName = 'UpperFace_SelectiveDivideAndConquer_NEW_mod_edit'
 sizeH = 128
 sizeV = 128
 sizeD = 1
-segmentName2 = 'UpperFace_cat_NEW_mod'
+segmentName2 = 'UpperFace_cat_NEW_mod_edit'
 sizeH2 = 32
 sizeV2 = 32
 sizeD2 = 30
