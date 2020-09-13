@@ -187,7 +187,7 @@ def evaluate(segment_train_images, segment_validation_images, segment_train_labe
                             scale * display_grid.shape[0]))
         plt.title(model.layers[i].name)
         plt.grid(False)
-        plt.imshow(display_grid, aspect='auto', cmap='magma')
+        plt.imshow(display_grid, aspect='auto', cmap='inferno')
 
         plt.savefig('activations/{0}/{1}.png'.format(test_index[0],model.layers[i].name))
 
