@@ -2278,3 +2278,18 @@ F1-score: 0.7185162181286735
 ---------------------------
 accuracy: 0.7006369426751592
 F1-score: 0.6994098648950658
+---------------------------
+/home/student/Nikin/Onset_to_Apex_Micro_Expression_Detection/Fuse/CASMEII kfold_UpperFace_SelectiveDivideAndConquer_NEW_mod_128x128x1   no input with 5 16 long
+---------------------------
+accuracy: 0.6706827309236948
+F1-score: 0.6632389052646354
+---------------------------
+/home/student/Nikin/Onset_to_Apex_Micro_Expression_Detection/Fuse/CASMEII kfold_UpperFace_SelectiveDivideAndConquer_NEW_mod_128x128x1   no input with 5 16 long
+---------------------------
+accuracy: 0.6706827309236948
+F1-score: 0.6669675720952966
+---------------------------
+/home/student/Nikin/Onset_to_Apex_Micro_Expression_Detection/Fuse/CASMEII loocv_UpperFace_SelectiveDivideAndConquer_NEW_mod_128x128x1   no input with 5 16 long 35
+---------------------------
+accuracy: 0.9357429718875502
+F1-score: 0.9348627491839351
