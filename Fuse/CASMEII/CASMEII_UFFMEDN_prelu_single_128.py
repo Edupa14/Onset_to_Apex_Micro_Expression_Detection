@@ -291,7 +291,7 @@ segmentName2 = 'UpperFace_cat_NEW_mod'
 sizeH2 = 32
 sizeV2 = 32
 sizeD2 = 30
-testtype = "kfold"
+testtype = "loocv"
 ###################################
 notes="no input with 5 16 long"
 ####################################
