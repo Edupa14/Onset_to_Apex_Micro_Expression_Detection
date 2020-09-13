@@ -127,7 +127,7 @@ def evaluate(segment_train_images, segment_validation_images, segment_train_labe
                               mode='max')
     reduce = ReduceLROnPlateau(monitor='val_acc', factor=0.2, patience=25, cooldown=0, verbose=1, min_delta=0,
                                mode='max', min_lr=0.00005)
-    callbacks_list = [EarlyStop, reduce, myCallback()]
+    callbacks_list = [EarlyStop, myCallback()]
 
 
 
@@ -303,7 +303,7 @@ segmentName2 = 'UpperFace_cat_NEW_mod'
 sizeH2 = 32
 sizeV2 = 32
 sizeD2 = 30
-testtype = "kfold"
+testtype = "loocv"
 ###################################
 notes="no input both (20, 20), strides=(10, 10) dropout .5 lr=0.01 with 5 batch 16 long"
 ####################################
