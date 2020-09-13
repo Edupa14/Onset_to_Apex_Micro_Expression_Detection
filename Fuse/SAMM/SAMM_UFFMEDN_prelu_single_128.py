@@ -156,8 +156,8 @@ def evaluate(segment_train_images, segment_validation_images, segment_train_labe
     print (cfm)
     print("accuracy: ",accuracy_score(validation_labels, predictions_labels))
     n_epochs = len(history.history['loss'])
-
-    return accuracy_score(validation_labels, predictions_labels), validation_labels, predictions_labels, n_epochs
+    dif=int(history.history['val_acc'].index(max(history.history['val_acc']))-history.history['val_acc'].index(max(history.history['val_acc'][:history.history['val_acc'].index(max(history.history['val_acc']))])))
+    return accuracy_score(validation_labels, predictions_labels), validation_labels, predictions_labels, n_epochs,dif
 
 
 # -----------------------------------------------------------------------------------------------------------------
@@ -254,16 +254,19 @@ def kfold():
 
     val_labels = []
     pred_labels = []
+    d=[]
     for train_index, test_index in kf.split(segment_training_set):
         # print(segment_traininglabels[train_index])
         # print(segment_traininglabels[test_index])
         print(test_index)
-        val_acc, val_label, pred_label,_ = evaluate(segment_training_set[train_index], segment_training_set[test_index],
+        val_acc, val_label, pred_label,_,di = evaluate(segment_training_set[train_index], segment_training_set[test_index],
                                                   segment_traininglabels[train_index],
                                                   segment_traininglabels[test_index],
                                                   test_index,segment_training_set_cat[train_index],segment_training_set_cat[test_index]
                                                   )
         tot += val_acc
+        print("diff:", di)
+        d.append(di)
         val_labels.extend(val_label)
         pred_labels.extend(pred_label)
         accs.append(val_acc)
@@ -288,6 +291,7 @@ def kfold():
     # print("recall: ",recall)
     # print("F1-score: ",f1_score(val_labels,pred_labels,average="macro"))
     print("F1-score: ", f1_score(val_labels, pred_labels, average="weighted"))
+    print(d)
     return val_labels, pred_labels
 
 
@@ -303,7 +307,7 @@ segmentName2 = 'UpperFace_cat_NEW_mod'
 sizeH2 = 32
 sizeV2 = 32
 sizeD2 = 30
-testtype = "loocv"
+testtype = "kfold"
 ###################################
 notes="no input both (20, 20), strides=(10, 10) dropout .5 lr=0.01 with 5 batch 16 long"
 ####################################
