@@ -302,7 +302,7 @@ segmentName2 = 'UpperFace_cat_NEW_mod'
 sizeH2 = 32
 sizeV2 = 32
 sizeD2 = 30
-testtype = "kfold"
+testtype = "loocv"
 ###################################
 
 notes="no input both (20, 20), strides=(10, 10) dropout .5 WITH 5 16 long"
