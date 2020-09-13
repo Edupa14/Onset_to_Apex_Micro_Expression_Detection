@@ -162,6 +162,13 @@ def evaluate(segment_train_images, segment_validation_images, segment_train_labe
     if os.path.exists('activations/{0}'.format(test_index[0])):
         shutil.rmtree('activations/{0}'.format(test_index[0]))
     os.mkdir('activations/{0}'.format(test_index[0]), mode=0o777)
+    activation_model = models.Model(inputs=model.input,
+                                    outputs=model.layers[11].output)
+
+    activations = activation_model.predict([segment_validation_images, segment_validation_images_cat])
+    first_layer_activation = activations[0]
+    plt.matshow(segment_validation_images[0, 0, :, :])
+    plt.show()
     for i in layers:  # Displays the feature maps
         activation_model = models.Model(inputs=model.input, outputs=model.layers[i].output)
         activations = activation_model.predict([segment_validation_images, segment_validation_images_cat])
