@@ -2333,3 +2333,8 @@ F1-score: 0.9808214350875453
 ---------------------------
 accuracy: 0.9397590361445783
 F1-score: 0.938373938420971
+---------------------------
+/home/student/Nikin/Onset_to_Apex_Micro_Expression_Detection/Fuse/SAMM kfold_UpperFace_SelectiveDivideAndConquer_NEW_mod_128x128x1   no input both (20, 20), strides=(10, 10) dropout .5 lr=0.01 with 5 batch 16 long
+---------------------------
+accuracy: 0.6102941176470589
+F1-score: 0.5827412284377985
