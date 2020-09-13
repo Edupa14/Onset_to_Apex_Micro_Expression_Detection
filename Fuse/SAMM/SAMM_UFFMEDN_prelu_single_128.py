@@ -156,7 +156,8 @@ def evaluate(segment_train_images, segment_validation_images, segment_train_labe
     print (cfm)
     print("accuracy: ",accuracy_score(validation_labels, predictions_labels))
     n_epochs = len(history.history['loss'])
-    dif=int(history.history['val_acc'].index(max(history.history['val_acc']))-history.history['val_acc'].index(max(history.history['val_acc'][:history.history['val_acc'].index(max(history.history['val_acc']))])))
+    dif=0
+    # dif=int(history.history['val_acc'].index(max(history.history['val_acc']))-history.history['val_acc'].index(max(history.history['val_acc'][:history.history['val_acc'].index(max(history.history['val_acc']))])))
     return accuracy_score(validation_labels, predictions_labels), validation_labels, predictions_labels, n_epochs,dif
 
 
@@ -178,7 +179,7 @@ def loocv():
         # print(segment_traininglabels[test_index])
         print(test_index)
 
-        val_acc, val_label, pred_label, n = evaluate(segment_training_set[train_index],
+        val_acc, val_label, pred_label, n,_ = evaluate(segment_training_set[train_index],
                                                      segment_training_set[test_index],
                                                      segment_traininglabels[train_index],
                                                      segment_traininglabels[test_index],
@@ -307,7 +308,7 @@ segmentName2 = 'UpperFace_cat_NEW_mod'
 sizeH2 = 32
 sizeV2 = 32
 sizeD2 = 30
-testtype = "kfold"
+testtype = "loocv"
 ###################################
 notes="no input both (20, 20), strides=(10, 10) dropout .5 lr=0.01 with 5 batch 16 long"
 ####################################
