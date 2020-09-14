@@ -151,9 +151,16 @@ def evaluate(segment_train_images, segment_validation_images, segment_train_labe
 
     plot_model(models.Model(inputs=model.input, outputs=model.layers[24].output), to_file='model_plot_part1.png',
                show_shapes=True, show_layer_names=False)
-    plot_model(models.Model(inputs=model.input, outputs=[model.layers[25].output,model.layers[26].output]), to_file='model_plot_part2.png', show_shapes=True, show_layer_names=False)
+    plot_model(models.Model(inputs=model.input, outputs=[model.layers[25].output, model.layers[26].output]),
+               to_file='model_plot_part2.png', show_shapes=True, show_layer_names=False)
 
     plot_model(model, to_file='model_plot.png', show_shapes=True, show_layer_names=False)
+    plot_model(models.Model(inputs=model.input, outputs=model.layers[24].output), to_file='model_plot2_part1.png',
+               show_shapes=False, show_layer_names=False)
+    plot_model(models.Model(inputs=model.input, outputs=[model.layers[25].output, model.layers[26].output]),
+               to_file='model_plot2_part2.png', show_shapes=False, show_layer_names=False)
+
+    plot_model(model, to_file='model_plot2.png', show_shapes=False, show_layer_names=False)
     images_per_row = 16
     layers=[x for x in range(1,12)]
     layers.extend([x for x in range(13,17)])
