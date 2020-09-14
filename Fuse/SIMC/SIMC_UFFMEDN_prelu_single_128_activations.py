@@ -14,6 +14,7 @@ from keras import models
 from matplotlib import pyplot as plt
 from keras.utils.vis_utils import plot_model
 import shutil
+from contextlib import redirect_stdout
 
 
 class myCallback(Callback):
@@ -21,9 +22,6 @@ class myCallback(Callback):
         if(logs.get('val_acc') >= 1.0):
             print("\nReached %2.2f%% accuracy, so stopping training!!" %(1.0*100))
             self.model.stop_training = True
-def myprint(s):
-        with open('model_summary.txt', 'w+') as f:
-            print(s, file=f)
 
 def evaluate(segment_train_images, segment_validation_images, segment_train_labels, segment_validation_labels,test_index,segment_train_images_cat ,segment_validation_images_cat):
     layer_in = Input(shape=(1, sizeH, sizeV))
@@ -152,9 +150,11 @@ def evaluate(segment_train_images, segment_validation_images, segment_train_labe
     print(cfm)
     print("accuracy: ", accuracy_score(validation_labels, predictions_labels))
 
+    with open('model_summary.txt', 'w') as f:
+        with redirect_stdout(f):
+            model.summary()
 
-
-    model.summary(print_fn=myprint)
+    # model.summary(print_fn=myprint)
     plot_model(models.Model(inputs=model.input, outputs=model.layers[24].output), to_file='model_plot_part1.png',
                show_shapes=True, show_layer_names=False)
     plot_model(models.Model(inputs=model.input, outputs=[model.layers[25].output, model.layers[26].output]),
