@@ -2588,3 +2588,28 @@ F1-score: 0.9552424091278325
 
 
 
+---------------------------
+/home/student/Nikin/Onset_to_Apex_Micro_Expression_Detection/Fuse/SIMC kfold_UpperFace_SelectiveDivideAndConquer_NEW_mod_edit_128x128x1   no input both (20, 20), strides=(10, 10) dropout .5 WITH 5 16 long
+---------------------------
+accuracy: 0.6942675159235668
+F1-score: 0.6901563823092999
+---------------------------
+/home/student/Nikin/Onset_to_Apex_Micro_Expression_Detection/Fuse/SIMC kfold_UpperFace_SelectiveDivideAndConquer_NEW_mod_edit_128x128x1   no input both (20, 20), strides=(10, 10) dropout .5 WITH 5 16 long
+---------------------------
+accuracy: 0.7261146496815286
+F1-score: 0.7227214134061267
+---------------------------
+/home/student/Nikin/Onset_to_Apex_Micro_Expression_Detection/Fuse/SIMC kfold_UpperFace_SelectiveDivideAndConquer_NEW_mod_edit_128x128x1   no input both (20, 20), strides=(10, 10) dropout .5 WITH 5 16 long
+---------------------------
+accuracy: 0.7006369426751592
+F1-score: 0.6953872959944245
+---------------------------
+/home/student/Nikin/Onset_to_Apex_Micro_Expression_Detection/Fuse/SIMC kfold_UpperFace_SelectiveDivideAndConquer_NEW_mod_edit_128x128x1   no input both (20, 20), strides=(10, 10) dropout .5 WITH 5 16 long
+---------------------------
+accuracy: 0.7133757961783439
+F1-score: 0.7123697377925601
+---------------------------
+/home/student/Nikin/Onset_to_Apex_Micro_Expression_Detection/Fuse/SIMC kfold_UpperFace_SelectiveDivideAndConquer_NEW_mod_edit_128x128x1   no input both (20, 20), strides=(10, 10) dropout .5 WITH 5 16 long
+---------------------------
+accuracy: 0.732484076433121
+F1-score: 0.7310595866261067
