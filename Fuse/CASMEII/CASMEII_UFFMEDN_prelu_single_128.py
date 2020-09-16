@@ -291,7 +291,7 @@ segmentName2 = 'UpperFace_cat_NEW_mod_NEW_edit'
 sizeH2 = 32
 sizeV2 = 32
 sizeD2 = 30
-testtype = "looccv"
+testtype = "loocv"
 ###################################
 notes="no input with 5 16 long"
 ####################################
