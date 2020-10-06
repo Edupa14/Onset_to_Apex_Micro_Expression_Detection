@@ -1,0 +1,5 @@
+---------------------------
+/home/student/Nikin/Onset_to_Apex_Micro_Expression_Detection/Fuse/CrossDatasetAnalysis/CASMEII_and_SAMM split_SAMM_UpperFace_SelectiveDivideAndConquer_NEW_mod_edit_128x128x1   
+---------------------------
+accuracy: 0.6133333333333333
+F1-score: 0.4788795518207283
