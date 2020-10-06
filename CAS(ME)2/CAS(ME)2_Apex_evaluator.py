@@ -15,7 +15,7 @@ for item in data:
             # print(item2[0])
             item[0]=item2[0]
             break
-path='../../CAS(ME)2_categorical_apex_SelectiveDivideAndConquer_NEW/'
+path='../../CAS(ME)2_categorical_apex_SelectiveDivideAndConquer_NEW_mod_NEW/'
 negativepath = path+'negative/'
 positivepath = path+'positive/'
 surprisepath = path+'surprise/'
