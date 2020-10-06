@@ -3,3 +3,18 @@
 ---------------------------
 accuracy: 0.6133333333333333
 F1-score: 0.4788795518207283
+---------------------------
+/home/student/Nikin/Onset_to_Apex_Micro_Expression_Detection/Fuse/CrossDatasetAnalysis/CASMEII_and_SAMM split_CASMEII_UpperFace_SelectiveDivideAndConquer_NEW_mod_NEW_edit_128x128x1   
+---------------------------
+accuracy: 0.6363636363636364
+F1-score: 0.5150137741046832
+---------------------------
+/home/student/Nikin/Onset_to_Apex_Micro_Expression_Detection/Fuse/CrossDatasetAnalysis/CASMEII_and_SAMM split_SAMM_UpperFace_SelectiveDivideAndConquer_NEW_mod_edit_128x128x1   
+---------------------------
+accuracy: 0.6
+F1-score: 0.4499999999999999
+---------------------------
+/home/student/Nikin/Onset_to_Apex_Micro_Expression_Detection/Fuse/CrossDatasetAnalysis/CASMEII_and_SAMM split_SAMM_UpperFace_SelectiveDivideAndConquer_NEW_mod_edit_128x128x1   
+---------------------------
+accuracy: 0.6066666666666667
+F1-score: 0.46481213811757743
