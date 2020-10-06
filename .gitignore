@@ -19,3 +19,4 @@
 **/venv/
 **/.idea
 **/Fuse/SIMC/activations
+**/Fuse/CrossDatasetAnalysis/CASMEII_to_SAMM/numpy_training_datasets/
