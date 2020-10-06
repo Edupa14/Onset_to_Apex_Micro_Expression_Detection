@@ -41,7 +41,7 @@ def annotate_landmarks(img, landmarks, font_scale=0.4):
     return img
 
 
-path='../../CASMEII_categorical_apex_SelectiveDivideAndConquer_NEW_mod/'
+path='../../../../CASMEII_categorical_apex_SelectiveDivideAndConquer_NEW_mod_NEW/'
 disgustpath = path+'disgust/'
 # fearpath = path+'fear/'
 happinesspath = path+'happiness/'
@@ -50,10 +50,10 @@ repressionpath = path+'repression/'
 # sadnesspath = path+'sadness/'
 surprisepath =path+'surprise/'
 
-segmentName = 'UpperFace_SelectiveDivideAndConquer_NEW_mod'
-sizeH=32
-sizeV=32
-sizeD=2
+segmentName = 'UpperFace_SelectiveDivideAndConquer_NEW_mod_NEW_edit'
+sizeH=128
+sizeV=128
+sizeD=1
 
 paths=[disgustpath,  happinesspath,repressionpath,surprisepath]
 
@@ -69,49 +69,37 @@ for typepath in (paths):
         print(videopath)
         segment_frames = []
         framelisting = os.listdir(videopath)
-        if sizeD <= len(framelisting):
-            val = int((len(framelisting) / 2) - (sizeD / 2))
-            framerange = [x + val for x in range(sizeD)]
-        else:
-            tempD1 = sizeD // len(framelisting)
-            tempD2 = sizeD % len(framelisting)
-            framerange = []
-            # for y in range (len(framelisting)):
-            #     framerange.extend([y for _ in range(tempD1)])
-            #     if y<tempD2:
-            #         framerange.append(y)
-            framerange.extend([y for y in range(len(framelisting))])
-
-            framerange.extend([-1 for _ in range(sizeD - len(framelisting))])
 
 
-        for frame in framerange:
-            imagepath = videopath + "/" + framelisting[frame]
-            image = cv2.imread(imagepath)
-            landmarks = get_landmark(image)
-            if counting < 1:
-                img = annotate_landmarks(image, landmarks)
-                imgplot = plt.imshow(img)
-                plt.show()
-            numpylandmarks = numpy.asarray(landmarks)
-            up = min(numpylandmarks[18][1], numpylandmarks[19][1], numpylandmarks[23][1], numpylandmarks[24][1]) - 20
-            down = max(numpylandmarks[31][1], numpylandmarks[32][1], numpylandmarks[33][1], numpylandmarks[34][1],
-                       numpylandmarks[35][1]) + 5
-            left = min(numpylandmarks[17][0], numpylandmarks[18][0], numpylandmarks[36][0])
-            right = max(numpylandmarks[26][0], numpylandmarks[25][0], numpylandmarks[45][0])
-            segment_image = image[up:down, left:right]
-            if counting < 1:
-                img = annotate_landmarks(segment_image, landmarks)
-                imgplot = plt.imshow(img)
-                plt.show()
-                counting += 1
-            segment_image = cv2.resize(segment_image, (sizeH, sizeV), interpolation=cv2.INTER_AREA)
-            segment_image = cv2.cvtColor(segment_image, cv2.COLOR_BGR2GRAY)
 
-            segment_frames.append(segment_image)
+        for frame in range(len(framelisting)):
+            if framelisting[frame][0]=="2":
+                imagepath = videopath + "/" + framelisting[frame]
+                image = cv2.imread(imagepath)
+                landmarks = get_landmark(image)
+                # if counting < 1:
+                #     img = annotate_landmarks(image, landmarks)
+                #     imgplot = plt.imshow(img)
+                #     plt.show()
+                numpylandmarks = numpy.asarray(landmarks)
+                up = min(numpylandmarks[18][1], numpylandmarks[19][1], numpylandmarks[23][1], numpylandmarks[24][1]) - 20
+                down = max(numpylandmarks[31][1], numpylandmarks[32][1], numpylandmarks[33][1], numpylandmarks[34][1],
+                           numpylandmarks[35][1]) + 5
+                left = min(numpylandmarks[17][0], numpylandmarks[18][0], numpylandmarks[36][0])
+                right = max(numpylandmarks[26][0], numpylandmarks[25][0], numpylandmarks[45][0])
+                segment_image = image[up:down, left:right]
+                # if counting < 1:
+                #     img = annotate_landmarks(segment_image, landmarks)
+                #     imgplot = plt.imshow(img)
+                #     plt.show()
+                #     counting += 1
+                segment_image = cv2.resize(segment_image, (sizeH, sizeV), interpolation=cv2.INTER_AREA)
+                segment_image = cv2.cvtColor(segment_image, cv2.COLOR_BGR2GRAY)
+
+                segment_frames=segment_image
 
         segment_frames = numpy.asarray(segment_frames)
-        segment_videoarray = numpy.rollaxis(numpy.rollaxis(segment_frames, 2, 0), 2, 0)
+        segment_videoarray = numpy.rollaxis(segment_frames, 1, 0)
         segment_training_list.append(segment_videoarray)
 
 segment_training_list = numpy.asarray(segment_training_list)
@@ -138,9 +126,10 @@ segment_traininglabels = np_utils.to_categorical(segment_traininglabels, len(pat
 
 segment_training_data = [segment_training_list, segment_traininglabels]
 (segment_trainingframes, segment_traininglabels) = (segment_training_data[0], segment_training_data[1])
-segment_training_set = numpy.zeros((segment_trainingsamples, 1,sizeH, sizeV, sizeD))
+segment_training_set = numpy.zeros((segment_trainingsamples, 1,sizeH, sizeV))
 for h in range(segment_trainingsamples):
-    segment_training_set[h][0][:][:][:] = segment_trainingframes[h, :, :, :]
+    segment_training_set[h][0][:][:] = segment_trainingframes[h, :,  :]
+
 
 segment_training_set = segment_training_set.astype('float32')
 segment_training_set -= numpy.mean(segment_training_set)
