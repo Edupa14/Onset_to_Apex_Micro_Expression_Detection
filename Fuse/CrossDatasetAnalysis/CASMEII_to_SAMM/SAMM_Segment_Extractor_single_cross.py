@@ -50,7 +50,7 @@ surprisepath = path+'Surprise/'
 contemptpath = path+'Contempt/'
 otherpath = path+'Other/'
 
-segmentName = 'UpperFace_SelectiveDivideAndConquer_NEW_mod_edit'
+segmentName = 'SAMM_UpperFace_SelectiveDivideAndConquer_NEW_mod_edit'
 sizeH=128
 sizeV=128
 sizeD=1
