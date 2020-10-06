@@ -296,12 +296,12 @@ segmentName2 = 'CASMEII_UpperFace_cat_NEW_mod_NEW_edit'
 sizeH2 = 32
 sizeV2 = 32
 sizeD2 = 30
-segmentName3 = 'SAMM_UpperFace_SelectiveDivideAndConquer_NEW_mod_NEW_edit'
-segmentName4 = 'SAMM_UpperFace_cat_NEW_mod_NEW_edit'
+segmentName3 = 'SAMM_UpperFace_SelectiveDivideAndConquer_NEW_mod_edit'
+segmentName4 = 'SAMM_UpperFace_cat_NEW_mod_edit'
 
 testtype = "split"#do not change
 ###################################
-notes="no input with 5 16 long"
+notes=""
 ####################################
 
 # Load training images and labels that are stored in numpy array
@@ -314,16 +314,16 @@ segment_traininglabels = numpy.load(
 segment_training_set_cat = numpy.load(
     'numpy_training_datasets/{0}_images_{1}x{2}x{3}.npy'.format(segmentName2, sizeH2, sizeV2, sizeD2))
 
-
 segment_test_set = numpy.load(
-    'numpy_training_datasets/{0}_images_{1}x{2}x{3}.npy'.format(segmentName, sizeH, sizeV, sizeD))
+    'numpy_training_datasets/{0}_images_{1}x{2}x{3}.npy'.format(segmentName3, sizeH, sizeV, sizeD))
 segment_testlabels = numpy.load(
-    'numpy_training_datasets/{0}_labels_{1}x{2}x{3}.npy'.format(segmentName, sizeH, sizeV, sizeD))
+    'numpy_training_datasets/{0}_labels_{1}x{2}x{3}.npy'.format(segmentName3, sizeH, sizeV, sizeD))
 
 segment_test_set_cat = numpy.load(
-    'numpy_training_datasets/{0}_images_{1}x{2}x{3}.npy'.format(segmentName2, sizeH2, sizeV2, sizeD2))
+    'numpy_training_datasets/{0}_images_{1}x{2}x{3}.npy'.format(segmentName4, sizeH2, sizeV2, sizeD2))
 # segment_traininglabels_cat = numpy.load(
 #     'numpy_training_datasets/{0}_labels_{1}x{2}x{3}.npy'.format(segmentName2, sizeH2, sizeV2, sizeD2))
+print(segment_testlabels)
 
 
 # print(segment_traininglabels)
