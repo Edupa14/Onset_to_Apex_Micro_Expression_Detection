@@ -224,7 +224,7 @@ def split():
     # eimg = numpy.load('numpy_validation_datasets/{0}_images_{1}x{2}.npy'.format(segmentName,sizeH, sizeV))
     # labels = numpy.load('numpy_validation_datasets/{0}_images_{1}x{2}.npy'.format(segmentName,sizeH, sizeV))
 
-    _, val_labels, pred_labels = evaluate(segment_training_set,
+    _, val_labels, pred_labels, n = evaluate(segment_training_set,
                                                      segment_test_set,
                                                      segment_traininglabels,
                                                      segment_testlabels,
@@ -257,6 +257,7 @@ def kfold():
                                                   test_index,segment_training_set_cat[train_index],segment_training_set_cat[test_index]
                                                   )
         tot += val_acc
+        print("epocs:", n)
         val_labels.extend(val_label)
         pred_labels.extend(pred_label)
         accs.append(val_acc)
