@@ -143,7 +143,7 @@ for pi in range(len(paths)):
 
 
 
-segment_traininglabels = np_utils.to_categorical(segment_traininglabels, len(paths))
+segment_traininglabels = np_utils.to_categorical(segment_traininglabels,3)
 
 segment_training_data = [segment_training_list, segment_traininglabels]
 (segment_trainingframes, segment_traininglabels) = (segment_training_data[0], segment_training_data[1])
