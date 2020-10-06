@@ -43,12 +43,12 @@ def annotate_landmarks(img, landmarks, font_scale=0.4):
 path='../../../CAS(ME)2_categorical/'
 
 
-apexpath='../../../CAS(ME)2_categorical_apex_SelectiveDivideAndConquer_NEW/'
+apexpath='../../../CAS(ME)2_categorical_apex_SelectiveDivideAndConquer_NEW_mod/'
 negativepath ='negative/'
 positivepath = 'positive/'
 surprisepath = 'surprise/'
 
-segmentName = 'UpperFace_cat_NEW'
+segmentName = 'UpperFace_cat_NEW_mod'
 sizeH=32
 sizeV=32
 sizeD=30
