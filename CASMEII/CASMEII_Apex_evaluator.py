@@ -3,13 +3,13 @@ import numpy
 import os
 import math
 import statistics as stat
-disgustpath = '../../CASMEII_categorical_apex_SelectiveDivideAndConquer_NEW/disgust/'
-fearpath = '../../CASMEII_categorical_apex_SelectiveDivideAndConquer_NEW/fear/'
-happinesspath = '../../CASMEII_categorical_apex_SelectiveDivideAndConquer_NEW/happiness/'
-otherspath = '../../CASMEII_categorical_apex_SelectiveDivideAndConquer_NEW/others/'
-repressionpath = '../../CASMEII_categorical_apex_SelectiveDivideAndConquer_NEW/repression/'
-sadnesspath = '../../CASMEII_categorical_apex_SelectiveDivideAndConquer_NEW/sadness/'
-surprisepath = '../../CASMEII_categorical_apex_SelectiveDivideAndConquer_NEW/surprise/'
+disgustpath = '../../CASMEII_categorical_apex_SelectiveDivideAndConquer_NEW_mod/disgust/'
+fearpath = '../../CASMEII_categorical_apex_SelectiveDivideAndConquer_NEW_mod/fear/'
+happinesspath = '../../CASMEII_categorical_apex_SelectiveDivideAndConquer_NEW_mod/happiness/'
+otherspath = '../../CASMEII_categorical_apex_SelectiveDivideAndConquer_NEW_mod/others/'
+repressionpath = '../../CASMEII_categorical_apex_SelectiveDivideAndConquer_NEW_mod/repression/'
+sadnesspath = '../../CASMEII_categorical_apex_SelectiveDivideAndConquer_NEW_mod/sadness/'
+surprisepath = '../../CASMEII_categorical_apex_SelectiveDivideAndConquer_NEW_mod/surprise/'
 
 
 
