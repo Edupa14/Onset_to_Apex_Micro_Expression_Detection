@@ -132,7 +132,7 @@ for pi in range(len(paths)):
     directorylisting = os.listdir(path+paths[pi])
     print(pi)
     for video in range(len(directorylisting)):
-        if pi in [0,3]:
+        if pi in [0,2]:
             segment_traininglabels[count] = 0#neg
         elif pi==1:
             segment_traininglabels[count] = 1#pos
