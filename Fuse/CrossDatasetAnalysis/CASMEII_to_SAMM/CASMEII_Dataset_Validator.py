@@ -23,6 +23,7 @@ print(cat)
 cat=[0]*7
 dir=0
 for typepath in os.listdir('../../../../CASMEII_categorical_apex_SelectiveDivideAndConquer_NEW_mod_NEW/'):
+    print(typepath)
     directorylisting = os.listdir('../../../../CASMEII_categorical_apex_SelectiveDivideAndConquer_NEW_mod_NEW/'+typepath)
     for video in directorylisting:
         cat[dir]+=1
