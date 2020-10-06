@@ -41,7 +41,7 @@ def annotate_landmarks(img, landmarks, font_scale=0.4):
     return img
 
 
-path='../../CASMEII_categorical_apex_SelectiveDivideAndConquer/'
+path='../../CASMEII_categorical_apex_SelectiveDivideAndConquer_NEW_mod/'
 disgustpath = path+'disgust/'
 # fearpath = path+'fear/'
 happinesspath = path+'happiness/'
@@ -50,9 +50,9 @@ repressionpath = path+'repression/'
 # sadnesspath = path+'sadness/'
 surprisepath =path+'surprise/'
 
-segmentName = 'UpperFace_SelectiveDivideAndConquer'
-sizeH=128
-sizeV=128
+segmentName = 'UpperFace_SelectiveDivideAndConquer_NEW_mod'
+sizeH=32
+sizeV=32
 sizeD=2
 
 paths=[disgustpath,  happinesspath,otherspath,repressionpath,surprisepath]
