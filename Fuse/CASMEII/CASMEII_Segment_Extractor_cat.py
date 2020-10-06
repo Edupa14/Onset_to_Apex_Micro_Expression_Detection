@@ -49,10 +49,10 @@ repressionpath ='/repression/'
 sadnesspath ='/sadness/'
 surprisepath ='/surprise/'
 
-apexpath='../../../CASMEII_categorical_apex_SelectiveDivideAndConquer_NEW'
+apexpath='../../../CASMEII_categorical_apex_SelectiveDivideAndConquer_NEW_mod_NEW'
 
 
-segmentName = 'UpperFace_cat_NEW'
+segmentName = 'UpperFace_cat_NEW_mod_NEW_edit'
 sizeH=32
 sizeV=32
 sizeD=30
@@ -92,10 +92,10 @@ for typepath in (paths):
             imagepath = videopath + "/" + framelisting[frame]
             image = cv2.imread(imagepath)
             landmarks = get_landmark(image)
-            if counting < 1:
-                img = annotate_landmarks(image, landmarks)
-                imgplot = plt.imshow(img)
-                plt.show()
+            # if counting < 1:
+            #     img = annotate_landmarks(image, landmarks)
+            #     imgplot = plt.imshow(img)
+            #     plt.show()
             numpylandmarks = numpy.asarray(landmarks)
             up = min(numpylandmarks[18][1], numpylandmarks[19][1], numpylandmarks[23][1], numpylandmarks[24][1]) - 20
             down = max(numpylandmarks[31][1], numpylandmarks[32][1], numpylandmarks[33][1], numpylandmarks[34][1],
@@ -103,16 +103,16 @@ for typepath in (paths):
             left = min(numpylandmarks[17][0], numpylandmarks[18][0], numpylandmarks[36][0])
             right = max(numpylandmarks[26][0], numpylandmarks[25][0], numpylandmarks[45][0])
             segment_image = image[up:down, left:right]
-            if counting < 1:
-                img = annotate_landmarks(segment_image, landmarks)
-                imgplot = plt.imshow(img)
-                plt.show()
+            # if counting < 1:
+            #     img = annotate_landmarks(segment_image, landmarks)
+            #     imgplot = plt.imshow(img)
+            #     plt.show()
             segment_image = cv2.resize(segment_image, (sizeH, sizeV), interpolation=cv2.INTER_AREA)
-            if counting < 1:
-                img = annotate_landmarks(segment_image, landmarks)
-                imgplot = plt.imshow(img)
-                plt.show()
-                counting += 1
+            # if counting < 1:
+            #     img = annotate_landmarks(segment_image, landmarks)
+            #     imgplot = plt.imshow(img)
+            #     plt.show()
+            #     counting += 1
             segment_image = cv2.cvtColor(segment_image, cv2.COLOR_BGR2GRAY)
 
             segment_frames.append(segment_image)
