@@ -40,10 +40,10 @@ def annotate_landmarks(img, landmarks, font_scale=0.4):
         cv2.circle(img, pos, 3, color=(0, 255, 255))
     return img
 
-path='../../../SAMM_categorical/'
+path='../../../../SAMM_categorical/'
 
 
-apexpath='../../../SAMM_categorical_apex_SelectiveDivideAndConquer_NEW_mod/'
+apexpath='../../../../SAMM_categorical_apex_SelectiveDivideAndConquer_NEW_mod/'
 angerpath = 'Anger/'
 # sadnesspath =path+'Sadness/'
 happinesspath ='Happiness/'
@@ -58,7 +58,7 @@ sizeH=32
 sizeV=32
 sizeD=30
 
-paths=[angerpath,  happinesspath,surprisepath,contemptpath,otherpath]
+paths=[angerpath,  happinesspath,surprisepath,contemptpath]
 
 segment_training_list = []
 counting = 0
@@ -133,8 +133,14 @@ for pi in range(len(paths)):
     directorylisting = os.listdir(path+paths[pi])
     print(pi)
     for video in range(len(directorylisting)):
-        segment_traininglabels[count] = pi
+        if pi in [0,3]:
+            segment_traininglabels[count] = 0#neg
+        elif pi==1:
+            segment_traininglabels[count] = 1#pos
+        else:
+            segment_traininglabels[count] = 2#sur
         count+=1
+
 
 
 segment_traininglabels = np_utils.to_categorical(segment_traininglabels, len(paths))
