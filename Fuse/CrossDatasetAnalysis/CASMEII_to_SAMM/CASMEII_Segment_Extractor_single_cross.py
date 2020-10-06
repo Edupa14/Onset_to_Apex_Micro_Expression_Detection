@@ -110,7 +110,7 @@ segment_traininglabels = numpy.zeros((segment_trainingsamples,), dtype=int)
 
 count=0
 for pi in range(len(paths)):
-    directorylisting = os.listdir(path+paths[pi])
+    directorylisting = os.listdir(paths[pi])
     print(pi)
     for video in range(len(directorylisting)):
         if pi in [0,3]:
