@@ -52,7 +52,7 @@ surprisepath ='/surprise/'
 apexpath='../../../../CASMEII_categorical_apex_SelectiveDivideAndConquer_NEW_mod_NEW'
 
 
-segmentName = 'UpperFace_cat_NEW_mod_NEW_edit'
+segmentName = 'CASMEII_UpperFace_cat_NEW_mod_NEW_edit'
 sizeH=32
 sizeV=32
 sizeD=30
