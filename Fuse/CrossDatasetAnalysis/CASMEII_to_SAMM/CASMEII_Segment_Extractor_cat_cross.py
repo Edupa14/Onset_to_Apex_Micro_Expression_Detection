@@ -49,7 +49,7 @@ repressionpath ='/repression/'
 sadnesspath ='/sadness/'
 surprisepath ='/surprise/'
 
-apexpath='../../../CASMEII_categorical_apex_SelectiveDivideAndConquer_NEW_mod_NEW'
+apexpath='../../../../CASMEII_categorical_apex_SelectiveDivideAndConquer_NEW_mod_NEW'
 
 
 segmentName = 'UpperFace_cat_NEW_mod_NEW_edit'
