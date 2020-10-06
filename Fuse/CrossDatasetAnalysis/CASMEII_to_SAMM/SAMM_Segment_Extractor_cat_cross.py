@@ -53,7 +53,7 @@ surprisepath = 'Surprise/'
 contemptpath = 'Contempt/'
 otherpath = 'Other/'
 
-segmentName = 'UpperFace_cat_NEW_mod_edit'
+segmentName = 'SAMM_UpperFace_cat_NEW_mod_edit'
 sizeH=32
 sizeV=32
 sizeD=30
