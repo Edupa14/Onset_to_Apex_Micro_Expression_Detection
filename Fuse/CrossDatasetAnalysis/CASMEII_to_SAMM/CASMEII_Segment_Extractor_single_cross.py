@@ -50,7 +50,7 @@ repressionpath = path+'repression/'
 # sadnesspath = path+'sadness/'
 surprisepath =path+'surprise/'
 
-segmentName = 'UpperFace_SelectiveDivideAndConquer_NEW_mod_NEW_edit'
+segmentName = 'CASMEII_UpperFace_SelectiveDivideAndConquer_NEW_mod_NEW_edit'
 sizeH=128
 sizeV=128
 sizeD=1
