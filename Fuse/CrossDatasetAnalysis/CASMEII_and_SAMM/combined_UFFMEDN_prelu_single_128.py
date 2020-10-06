@@ -208,17 +208,9 @@ def loocv():
 # -----------------------------------------------------------------------------------------------------------------
 # Test train split
 
-def split():
+def split(segment_training_set,segment_traininglabels,segment_training_set_cat):
     # Spliting the dataset into training and validation sets
-    segment_training_set,
-    segment_test_set,
-    segment_traininglabels,
-    segment_testlabels,
-     segment_training_set_cat,
-    segment_test_set_cat = train_test_split(
-        segment_training_set,
-        segment_traininglabels,segment_training_set_cat,
-        test_size=0.2, random_state=42)
+    segment_training_set,segment_test_set, segment_traininglabels,segment_testlabels,segment_training_set_cat, segment_test_set_cat = train_test_split(segment_training_set,segment_traininglabels,segment_training_set_cat,test_size=0.2, random_state=42)
 
     # Save validation set in a numpy array
     # numpy.save('numpy_validation_datasets/{0}_images_{1}x{2}.npy'.format(segmentName,sizeH, sizeV), segment_validation_images)
@@ -305,28 +297,31 @@ sizeD2 = 30
 segmentName3 = 'SAMM_UpperFace_SelectiveDivideAndConquer_NEW_mod_edit'
 segmentName4 = 'SAMM_UpperFace_cat_NEW_mod_edit'
 
-testtype = "split"#do not change
+testtype = "loocv"
 ###################################
 notes=""
 ####################################
 
 # Load training images and labels that are stored in numpy array
 
-segment_training_set = numpy.load(
+segment_training_set_temp = numpy.load(
     'numpy_training_datasets/{0}_images_{1}x{2}x{3}.npy'.format(segmentName, sizeH, sizeV, sizeD))
-segment_traininglabels = numpy.load(
+segment_traininglabels_temp = numpy.load(
     'numpy_training_datasets/{0}_labels_{1}x{2}x{3}.npy'.format(segmentName, sizeH, sizeV, sizeD))
 
-segment_training_set_cat = numpy.load(
+segment_training_set_cat_temp = numpy.load(
     'numpy_training_datasets/{0}_images_{1}x{2}x{3}.npy'.format(segmentName2, sizeH2, sizeV2, sizeD2))
 
-segment_training_set.extend( numpy.load(
-    'numpy_training_datasets/{0}_images_{1}x{2}x{3}.npy'.format(segmentName3, sizeH, sizeV, sizeD)))
-segment_traininglabels.extend(numpy.load(
-    'numpy_training_datasets/{0}_labels_{1}x{2}x{3}.npy'.format(segmentName3, sizeH, sizeV, sizeD)))
+segment_training_set=numpy.concatenate((segment_training_set_temp, numpy.load(
+    'numpy_training_datasets/{0}_images_{1}x{2}x{3}.npy'.format(segmentName3, sizeH, sizeV, sizeD))), axis=0)
+segment_traininglabels=numpy.concatenate((segment_traininglabels_temp,numpy.load(
+    'numpy_training_datasets/{0}_labels_{1}x{2}x{3}.npy'.format(segmentName3, sizeH, sizeV, sizeD))), axis=0)
 
-segment_training_set_cat.extend( numpy.load(
-    'numpy_training_datasets/{0}_images_{1}x{2}x{3}.npy'.format(segmentName4, sizeH2, sizeV2, sizeD2)))
+segment_training_set_cat=numpy.concatenate((segment_training_set_cat_temp,numpy.load(
+    'numpy_training_datasets/{0}_images_{1}x{2}x{3}.npy'.format(segmentName4, sizeH2, sizeV2, sizeD2))), axis=0)
+
+print(len(segment_traininglabels_temp),len(segment_traininglabels))
+
 # segment_traininglabels_cat = numpy.load(
 #     'numpy_training_datasets/{0}_labels_{1}x{2}x{3}.npy'.format(segmentName2, sizeH2, sizeV2, sizeD2))
 
@@ -341,7 +336,7 @@ if testtype == "kfold":
 elif testtype == "loocv":
     val_labels, pred_labels = loocv()
 elif testtype == "split":
-    val_labels, pred_labels = split()
+    val_labels, pred_labels = split(segment_training_set,segment_traininglabels,segment_training_set_cat)
 else:
     print("error")
 
