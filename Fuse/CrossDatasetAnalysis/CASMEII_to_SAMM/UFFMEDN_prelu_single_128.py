@@ -210,10 +210,10 @@ def loocv():
 
 def split():
     # Spliting the dataset into training and validation sets
-    segment_train_images, segment_validation_images, segment_train_labels, segment_validation_labels = train_test_split(
-        segment_training_set,
-        segment_traininglabels,
-        test_size=0.2, random_state=42)
+    # segment_train_images, segment_validation_images, segment_train_labels, segment_validation_labels = train_test_split(
+    #     segment_training_set,
+    #     segment_traininglabels,
+    #     test_size=0.2, random_state=42)
 
     # Save validation set in a numpy array
     # numpy.save('numpy_validation_datasets/{0}_images_{1}x{2}.npy'.format(segmentName,sizeH, sizeV), segment_validation_images)
@@ -224,8 +224,13 @@ def split():
     # eimg = numpy.load('numpy_validation_datasets/{0}_images_{1}x{2}.npy'.format(segmentName,sizeH, sizeV))
     # labels = numpy.load('numpy_validation_datasets/{0}_images_{1}x{2}.npy'.format(segmentName,sizeH, sizeV))
 
-    _, val_labels, pred_labels = evaluate(segment_train_images, segment_validation_images, segment_train_labels,
-                                          segment_validation_labels, 0)
+    _, val_labels, pred_labels = evaluate(segment_training_set,
+                                                     segment_test_set,
+                                                     segment_traininglabels,
+                                                     segment_testlabels,
+                                                     0, segment_training_set_cat,
+                                                     segment_test_set_cat
+                                                     )
     return val_labels, pred_labels
 
 
@@ -283,15 +288,18 @@ def kfold():
 # edit params
 K.set_image_dim_ordering('th')
 
-segmentName = 'UpperFace_SelectiveDivideAndConquer_NEW_mod_NEW_edit'
+segmentName = 'CASMEII_UpperFace_SelectiveDivideAndConquer_NEW_mod_NEW_edit'
 sizeH = 128
 sizeV = 128
 sizeD = 1
-segmentName2 = 'UpperFace_cat_NEW_mod_NEW_edit'
+segmentName2 = 'CASMEII_UpperFace_cat_NEW_mod_NEW_edit'
 sizeH2 = 32
 sizeV2 = 32
 sizeD2 = 30
-testtype = "loocv"
+segmentName3 = 'SAMM_UpperFace_SelectiveDivideAndConquer_NEW_mod_NEW_edit'
+segmentName4 = 'SAMM_UpperFace_cat_NEW_mod_NEW_edit'
+
+testtype = "split"#do not change
 ###################################
 notes="no input with 5 16 long"
 ####################################
@@ -304,6 +312,15 @@ segment_traininglabels = numpy.load(
     'numpy_training_datasets/{0}_labels_{1}x{2}x{3}.npy'.format(segmentName, sizeH, sizeV, sizeD))
 
 segment_training_set_cat = numpy.load(
+    'numpy_training_datasets/{0}_images_{1}x{2}x{3}.npy'.format(segmentName2, sizeH2, sizeV2, sizeD2))
+
+
+segment_test_set = numpy.load(
+    'numpy_training_datasets/{0}_images_{1}x{2}x{3}.npy'.format(segmentName, sizeH, sizeV, sizeD))
+segment_testlabels = numpy.load(
+    'numpy_training_datasets/{0}_labels_{1}x{2}x{3}.npy'.format(segmentName, sizeH, sizeV, sizeD))
+
+segment_test_set_cat = numpy.load(
     'numpy_training_datasets/{0}_images_{1}x{2}x{3}.npy'.format(segmentName2, sizeH2, sizeV2, sizeD2))
 # segment_traininglabels_cat = numpy.load(
 #     'numpy_training_datasets/{0}_labels_{1}x{2}x{3}.npy'.format(segmentName2, sizeH2, sizeV2, sizeD2))
