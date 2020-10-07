@@ -245,7 +245,7 @@ def split():
 # k-fold(10)
 
 def kfold():
-    kf = KFold(n_splits=2, random_state=42, shuffle=True)
+    kf = KFold(n_splits=10, random_state=42, shuffle=True)
     # kf.get_n_splits(segment_training_set)
     tot = 0
     count = 0
@@ -303,7 +303,7 @@ segmentName2 = 'UpperFace_cat_NEW_mod_edit'
 sizeH2 = 32
 sizeV2 = 32
 sizeD2 = 30
-testtype = "kfold"
+testtype = "loocv"
 ###################################
 
 notes=""
@@ -347,5 +347,6 @@ results.write(
 results.write("---------------------------\n")
 results.write("accuracy: " + str(accuracy_score(val_labels, pred_labels)) + "\n")
 results.write("F1-score: " + str(f1_score(val_labels, pred_labels, average="weighted")) + "\n")
-results.write("CFM")
+results.write("CFM\n")
 results.write('\n'.join('\t'.join(str(x) for x in y) for y in CFM))
+results.write("\n\n")
