@@ -158,6 +158,7 @@ def evaluate(segment_train_images, segment_validation_images, segment_train_labe
     n_epochs = len(history.history['loss'])
     dif=0
     # dif=int(history.history['val_acc'].index(max(history.history['val_acc']))-history.history['val_acc'].index(max(history.history['val_acc'][:history.history['val_acc'].index(max(history.history['val_acc']))])))
+    K.clear_session()
     return accuracy_score(validation_labels, predictions_labels), validation_labels, predictions_labels, n_epochs,dif
 
 
