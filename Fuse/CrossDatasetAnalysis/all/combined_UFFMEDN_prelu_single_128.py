@@ -133,7 +133,7 @@ def evaluate(segment_train_images, segment_validation_images, segment_train_labe
 
     history = model.fit([segment_train_images, segment_train_images_cat], segment_train_labels, validation_data=(
     [segment_validation_images, segment_validation_images_cat], segment_validation_labels), callbacks=callbacks_list,
-                        batch_size=16, nb_epoch=500, shuffle=True, verbose=0)
+                        batch_size=16, nb_epoch=500, shuffle=True, verbose=2)
 
     # Finding Confusion Matrix using pretrained weights
 
@@ -202,7 +202,7 @@ def loocv():
     # print("recall: ",recall)
     # print("F1-score: ",f1_score(val_labels,pred_labels,average="macro"))
     print("F1-score: ", f1_score(val_labels, pred_labels, average="weighted"))
-    return val_labels, pred_labels
+    return val_labels, pred_labels,cfm
 
 
 # -----------------------------------------------------------------------------------------------------------------
@@ -278,7 +278,7 @@ def kfold():
     # print("recall: ",recall)
     # print("F1-score: ",f1_score(val_labels,pred_labels,average="macro"))
     print("F1-score: ", f1_score(val_labels, pred_labels, average="weighted"))
-    return val_labels, pred_labels
+    return val_labels, pred_labels,cfm
 
 
 ####################################
@@ -298,7 +298,7 @@ segmentName4 = 'SAMM_UpperFace_cat_NEW_mod_edit'
 segmentName5 = 'SIMC_UpperFace_SelectiveDivideAndConquer_NEW_mod_edit'
 segmentName6 = 'SIMC_UpperFace_cat_NEW_mod_edit'
 
-testtype = "kfold"
+testtype = "loocv"
 ###################################
 notes=""
 ####################################
@@ -342,12 +342,13 @@ print(len(segment_traininglabels_temp),len(segment_traininglabels))
 
 
 
+
 if testtype == "kfold":
-    val_labels, pred_labels = kfold()
+    val_labels, pred_labels,CFM = kfold()
 elif testtype == "loocv":
-    val_labels, pred_labels = loocv()
+    val_labels, pred_labels,CFM = loocv()
 elif testtype == "split":
-    val_labels, pred_labels = split(segment_training_set,segment_traininglabels,segment_training_set_cat)
+    val_labels, pred_labels,CFM = split()
 else:
     print("error")
 
@@ -362,3 +363,6 @@ results.write(
 results.write("---------------------------\n")
 results.write("accuracy: " + str(accuracy_score(val_labels, pred_labels)) + "\n")
 results.write("F1-score: " + str(f1_score(val_labels, pred_labels, average="weighted")) + "\n")
+results.write("CFM\n")
+results.write('\n'.join('\t'.join(str(x) for x in y) for y in CFM))
+results.write("\n\n")
