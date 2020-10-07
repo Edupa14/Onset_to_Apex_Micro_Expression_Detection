@@ -40,7 +40,7 @@ def annotate_landmarks(img, landmarks, font_scale=0.4):
         cv2.circle(img, pos, 3, color=(0, 255, 255))
     return img
 
-path='../../SAMM_categorical_apex_SelectiveDivideAndConquer/'
+path='../../SAMM_categorical_apex_SelectiveDivideAndConquer_NEW_mod/'
 angerpath = path+'Anger/'
 # sadnesspath =path+'Sadness/'
 happinesspath =path+'Happiness/'
@@ -49,9 +49,9 @@ happinesspath =path+'Happiness/'
 surprisepath = path+'Surprise/'
 contemptpath = path+'Contempt/'
 otherpath = path+'Other/'
-segmentName = 'UpperFace_SelectiveDivideAndConquer'
-sizeH=128
-sizeV=128
+segmentName = 'UpperFace_SelectiveDivideAndConquer_NEW_mod'
+sizeH=32
+sizeV=32
 sizeD=2
 
 paths=[angerpath,  happinesspath,surprisepath,contemptpath,otherpath]
