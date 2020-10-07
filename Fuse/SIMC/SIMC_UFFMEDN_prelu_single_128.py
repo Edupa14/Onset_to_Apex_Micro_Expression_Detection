@@ -214,7 +214,7 @@ def loocv():
     # print("recall: ",recall)
     # print("F1-score: ",f1_score(val_labels,pred_labels,average="macro"))
     print("F1-score: ", f1_score(val_labels, pred_labels, average="weighted"))
-    return val_labels, pred_labels
+    return val_labels, pred_labels,cfm
 
 
 # -----------------------------------------------------------------------------------------------------------------
@@ -348,4 +348,4 @@ results.write("---------------------------\n")
 results.write("accuracy: " + str(accuracy_score(val_labels, pred_labels)) + "\n")
 results.write("F1-score: " + str(f1_score(val_labels, pred_labels, average="weighted")) + "\n")
 results.write("CFM")
-results.write('\n'.join('\t'.join('%0.3f' %x for x in y) for y in CFM))
+results.write('\n'.join('\t'.join(str(x) for x in y) for y in CFM))
