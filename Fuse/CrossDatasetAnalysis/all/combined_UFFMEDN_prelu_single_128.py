@@ -133,7 +133,7 @@ def evaluate(segment_train_images, segment_validation_images, segment_train_labe
 
     history = model.fit([segment_train_images, segment_train_images_cat], segment_train_labels, validation_data=(
     [segment_validation_images, segment_validation_images_cat], segment_validation_labels), callbacks=callbacks_list,
-                        batch_size=16, nb_epoch=500, shuffle=True, verbose=1)
+                        batch_size=16, nb_epoch=500, shuffle=True, verbose=0)
 
     # Finding Confusion Matrix using pretrained weights
 
@@ -144,7 +144,7 @@ def evaluate(segment_train_images, segment_validation_images, segment_train_labe
     print (cfm)
     print("accuracy: ",accuracy_score(validation_labels, predictions_labels))
     n_epochs = len(history.history['loss'])
-
+    K.clear_session()
     return accuracy_score(validation_labels, predictions_labels), validation_labels, predictions_labels, n_epochs
 
 
