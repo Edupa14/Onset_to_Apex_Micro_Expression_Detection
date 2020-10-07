@@ -254,7 +254,6 @@ def kfold():
                                                   test_index,segment_training_set_cat[train_index],segment_training_set_cat[test_index]
                                                   )
         tot += val_acc
-        print("epocs:", n)
         val_labels.extend(val_label)
         pred_labels.extend(pred_label)
         accs.append(val_acc)
