@@ -45,7 +45,7 @@ def evaluate(segment_train_images, segment_validation_images, segment_train_labe
     layer_out = concatenate([ract_211, ract_212, ract_213,ract_2412], axis=-3)
 
     # add1= Add() ([conv3,ract_1])
-    # drop0 = Dropout(0.5)(layer_out)
+    # drop0 = Dropout(0.7)(layer_out)
     # conv6 = Convolution3D(512, (3, 3, 3), strides=1, padding='Same')(drop0)
     # # bn3 = BatchNormalization()(conv3)
 
@@ -58,7 +58,7 @@ def evaluate(segment_train_images, segment_validation_images, segment_train_labe
     # ract_2114 = PReLU()(conv14)
 
     # add1= Add() ([conv3,ract_1])
-    # drop0 = Dropout(0.5)(layer_out)
+    # drop0 = Dropout(0.7)(layer_out)
     # conv6 = Convolution3D(512, (3, 3, 3), strides=1, padding='Same')(drop0)
     # # bn3 = BatchNormalization()(conv3)
     # ract_4 = PReLU()(layer_out)
@@ -79,9 +79,9 @@ def evaluate(segment_train_images, segment_validation_images, segment_train_labe
     # drop21 = Dropout(0.8)(flatten_2)
     # drop31 = Dropout(0.8)(flatten_3)
     concat = concatenate([flatten_1, flatten_2, flatten_3], axis=-1)
-    drop51 = Dropout(0.5)(concat)
+    drop51 = Dropout(0.7)(concat)
     dense_3 = Dense(3, init='normal')(drop51)
-    # drop1 = Dropout(0.5)(dense_3)
+    # drop1 = Dropout(0.7)(dense_3)
     activation = Activation('softmax')(dense_3)
     opt = SGD(lr=0.01)
     model = Model(inputs=[layer_in,layer_in2], outputs=activation)
@@ -95,26 +95,26 @@ def evaluate(segment_train_images, segment_validation_images, segment_train_labe
     #     model.add(PReLU())`
 #     # model.add(Convolution3D(128, (8, 8, 1), strides=1, input_shape=(1, sizeH, sizeV, sizeD), padding='Same'))
 #     # model.add(PReLU())
-#     # model.add(Dropout(0.5))
+#     # model.add(Dropout(0.7))
 #     # 3
 #     # model.add(Convolution3D(32, (3, 3, 2), strides=1, padding='Same'))
 #     # model.add(PReLU())
 #     # 40
-#     # model.add(Dropout(0.5))
+#     # model.add(Dropout(0.7))
 #     # 1
 #     model.add(MaxPooling3D(pool_size=(3, 3, 2)))
 #     model.add(PReLU())
 #     # 2
-#     # model.add(Dropout(0.5))
+#     # model.add(Dropout(0.7))
 #     model.add(Flatten())
 #     model.add(Dense(256, init='normal'))
-#     # model.add(Dropout(0.5))
+#     # model.add(Dropout(0.7))
 #     model.add(Dense(128, init='normal'))
 #     # model.add(PReLU())
 #     # model.add(Dense(128, init='normal'))`
-#     model.add(Dropout(0.5))
+#     model.add(Dropout(0.7))
 #     model.add(Dense(5, init='normal'))
-#     # model.add(Dropout(0.5))
+#     # model.add(Dropout(0.7))
 #     model.add(Activation('softmax'))
 #     opt = SGD(lr=0.1)
 #     model.compile(loss='categorical_crossentropy', optimizer=opt, metrics=['accuracy'])
@@ -306,7 +306,7 @@ sizeD2 = 30
 testtype = "loocv"
 ###################################
 
-notes=""
+notes="drop 0.7"
 
 
 # Load training images and labels that are stored in numpy array
@@ -339,7 +339,7 @@ else:
 # ---------------------------------------------------------------------------------------------------
 # write to results
 
-results = open("../TempResults.txt", 'a')
+results = open("../internal_analysis.txt", 'a')
 results.write("---------------------------\n")
 full_path = os.path.realpath(__file__)
 results.write(
