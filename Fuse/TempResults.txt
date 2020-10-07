@@ -2640,4 +2640,16 @@ accuracy: 0.5732484076433121
 F1-score: 0.5599586214374361
 CFM52.000	5.000	8.000
 22.000	22.000	7.000
-22.000	3.000	16.000
+22.000	3.000	16.000---------------------------
+/home/student/Nikin/Onset_to_Apex_Micro_Expression_Detection/Fuse/SIMC kfold_UpperFace_SelectiveDivideAndConquer_NEW_mod_edit_128x128x1   
+---------------------------
+accuracy: 0.5732484076433121
+F1-score: 0.5653167355093771
+CFM---------------------------
+/home/student/Nikin/Onset_to_Apex_Micro_Expression_Detection/Fuse/SIMC kfold_UpperFace_SelectiveDivideAndConquer_NEW_mod_edit_128x128x1   
+---------------------------
+accuracy: 0.6114649681528662
+F1-score: 0.6083978334229759
+CFM49	4	12
+17	30	4
+21	3	17
