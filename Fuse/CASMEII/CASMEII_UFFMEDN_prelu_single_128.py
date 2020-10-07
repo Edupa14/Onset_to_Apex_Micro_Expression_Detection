@@ -144,7 +144,7 @@ def evaluate(segment_train_images, segment_validation_images, segment_train_labe
     print (cfm)
     print("accuracy: ",accuracy_score(validation_labels, predictions_labels))
     n_epochs = len(history.history['loss'])
-
+    K.clear_session()
     return accuracy_score(validation_labels, predictions_labels), validation_labels, predictions_labels, n_epochs
 
 
