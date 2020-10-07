@@ -156,6 +156,7 @@ def evaluate(segment_train_images, segment_validation_images, segment_train_labe
     print (cfm)
     print("accuracy: ",accuracy_score(validation_labels, predictions_labels))
     n_epochs = len(history.history['loss'])
+    K.clear_session()
 
     return accuracy_score(validation_labels, predictions_labels), validation_labels, predictions_labels,n_epochs
 
@@ -244,7 +245,7 @@ def split():
 # k-fold(10)
 
 def kfold():
-    kf = KFold(n_splits=10, random_state=42, shuffle=True)
+    kf = KFold(n_splits=2, random_state=42, shuffle=True)
     # kf.get_n_splits(segment_training_set)
     tot = 0
     count = 0
@@ -287,7 +288,7 @@ def kfold():
     # print("recall: ",recall)
     # print("F1-score: ",f1_score(val_labels,pred_labels,average="macro"))
     print("F1-score: ", f1_score(val_labels, pred_labels, average="weighted"))
-    return val_labels, pred_labels
+    return val_labels, pred_labels,cfm
 
 
 ####################################
@@ -305,7 +306,7 @@ sizeD2 = 30
 testtype = "kfold"
 ###################################
 
-notes="no input both (20, 20), strides=(10, 10) dropout .5 WITH 5 16 long"
+notes=""
 
 
 # Load training images and labels that are stored in numpy array
@@ -327,11 +328,11 @@ segment_training_set_cat = numpy.load(
 
 
 if testtype == "kfold":
-    val_labels, pred_labels = kfold()
+    val_labels, pred_labels,CFM = kfold()
 elif testtype == "loocv":
-    val_labels, pred_labels = loocv()
+    val_labels, pred_labels,CFM = loocv()
 elif testtype == "split":
-    val_labels, pred_labels = split()
+    val_labels, pred_labels,CFM = split()
 else:
     print("error")
 
@@ -346,3 +347,5 @@ results.write(
 results.write("---------------------------\n")
 results.write("accuracy: " + str(accuracy_score(val_labels, pred_labels)) + "\n")
 results.write("F1-score: " + str(f1_score(val_labels, pred_labels, average="weighted")) + "\n")
+results.write("CFM")
+results.write(CFM)
