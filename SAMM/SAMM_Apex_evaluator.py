@@ -15,7 +15,7 @@ data = numpy.array(catdatafile)
 #             # print(item2[0])
 #             item[0]=item2[0]
 #             break
-path='../../SAMM_categorical_apex_SelectiveDivideAndConquer/'
+path='../../SAMM_categorical_apex_SelectiveDivideAndConquer_NEW_mod/'
 angerpath = path+'Anger/'
 sadnesspath =path+'Sadness/'
 happinesspath =path+'Happiness/'
@@ -24,7 +24,7 @@ fearpath = path+'Fear/'
 surprisepath = path+'Surprise/'
 contemptpath = path+'Contempt/'
 otherpath = path+'Other/'
-segmentName = 'UpperFace_DivideAndConquer'
+# segmentName = 'UpperFace_DivideAndConquer'
 sizeH=32
 sizeV=32
 sizeD=2
