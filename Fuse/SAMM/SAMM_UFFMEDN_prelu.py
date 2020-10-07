@@ -268,17 +268,18 @@ def kfold():
 # edit params
 K.set_image_dim_ordering('th')
 
-segmentName = 'UpperFace_SelectiveDivideAndConquer'
+segmentName = 'UpperFace_SelectiveDivideAndConquer_NEW_mod'
 sizeH = 32
 sizeV = 32
 sizeD = 2
-segmentName2 = 'UpperFace_cat'
+segmentName2 = 'UpperFace_cat_NEW_mod'
 sizeH2 = 32
 sizeV2 = 32
 sizeD2 = 30
-testtype = "kfold"
+testtype = "loocv"
 ###################################
-notes="8"
+notes="modx mod" \
+      "."
 ####################################
 
 # Load training images and labels that are stored in numpy array
