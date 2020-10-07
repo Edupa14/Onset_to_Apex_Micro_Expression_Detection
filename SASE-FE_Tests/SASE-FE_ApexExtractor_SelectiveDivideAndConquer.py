@@ -215,10 +215,10 @@ def new_find_max(start,end,img_pos,vidlist,landmark_list):
     return max_diff,vidlist[max_diff_image]
 
 
-path='../../SASE-FE_Categorical_truevsfake_reduced/true/'
+path='../../SASE-FE_Categorical_truevsfake_reduced/fake/'
 
 
-targetpath= '../../SASE-FE_true_categorical_apex_SelectiveDivideAndConquer_NEW_mod/'
+targetpath= '../../SASE-FE_fake_categorical_apex_SelectiveDivideAndConquer_NEW_mod/'
 if os.path.exists(targetpath ):
     shutil.rmtree(targetpath )
 os.mkdir(targetpath , mode=0o777)
