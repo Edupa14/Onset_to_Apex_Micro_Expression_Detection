@@ -1,0 +1,60 @@
+---------------------------
+/home/student/Nikin/Onset_to_Apex_Micro_Expression_Detection/Fuse/SIMC loocv_UpperFace_SelectiveDivideAndConquer_NEW_mod_edit_128x128x1   ReLU
+---------------------------
+accuracy: 0.9808917197452229
+F1-score: 0.9808214350875453
+CFM
+65	0	0
+1	49	1
+0	1	40
+
+---------------------------
+/home/student/Nikin/Onset_to_Apex_Micro_Expression_Detection/Fuse/SIMC loocv_UpperFace_SelectiveDivideAndConquer_NEW_mod_edit_128x128x1   drop 0.3
+---------------------------
+accuracy: 0.9808917197452229
+F1-score: 0.9808608376761243
+CFM
+65	0	0
+1	49	1
+1	0	40
+
+---------------------------
+/home/student/Nikin/Onset_to_Apex_Micro_Expression_Detection/Fuse/SIMC loocv_UpperFace_SelectiveDivideAndConquer_NEW_mod_edit_128x128x1   drop 0.6
+---------------------------
+accuracy: 0.9872611464968153
+F1-score: 0.9871571411644914
+CFM
+65	0	0
+0	51	0
+1	1	39
+
+---------------------------
+/home/student/Nikin/Onset_to_Apex_Micro_Expression_Detection/Fuse/SIMC loocv_UpperFace_SelectiveDivideAndConquer_NEW_mod_edit_128x128x1   LeakyReLU
+---------------------------
+accuracy: 0.9808917197452229
+F1-score: 0.9808917197452229
+CFM
+64	1	0
+0	50	1
+1	0	40
+
+---------------------------
+/home/student/Nikin/Onset_to_Apex_Micro_Expression_Detection/Fuse/SIMC loocv_UpperFace_SelectiveDivideAndConquer_NEW_mod_edit_128x128x1   drop 0.7
+---------------------------
+accuracy: 0.9681528662420382
+F1-score: 0.9682351027385953
+CFM
+63	2	0
+2	49	0
+1	0	40
+
+---------------------------
+/home/student/Nikin/Onset_to_Apex_Micro_Expression_Detection/Fuse/SIMC loocv_UpperFace_SelectiveDivideAndConquer_NEW_mod_edit_128x128x1   drop 0.4
+---------------------------
+accuracy: 0.9617834394904459
+F1-score: 0.9619012265920445
+CFM
+63	1	1
+0	49	2
+1	1	39
+
