@@ -311,7 +311,7 @@ sizeV2 = 32
 sizeD2 = 30
 testtype = "loocv"
 ###################################
-notes="dropout 0.5"
+notes="(20, 20), strides=(10, 10)"
 ####################################
 
 # Load training images and labels that are stored in numpy array
