@@ -67,7 +67,7 @@ def evaluate(segment_train_images, segment_validation_images, segment_train_labe
     # dense_1 = Dense(1024, init='normal')(flatten_1)
     # dense_2 = Dense(128, init='normal')(dense_1)
     layer_in2 = Input(shape=(1, sizeH2, sizeV2, sizeD2))
-    conv21 = Convolution3D(32, (20, 20, 30), strides=(10, 10, 15), padding='Same')(layer_in2)
+    conv21 = Convolution3D(32, (5, 5, 5), strides=1, padding='Same')(layer_in2)
     ract_21 = PReLU()(conv21)
     conv22 = Convolution3D(32, (3, 3, 3), strides=1, padding='Same')(ract_21)
     ract_22 = PReLU()(conv22)
@@ -311,7 +311,7 @@ sizeV2 = 32
 sizeD2 = 30
 testtype = "loocv"
 ###################################
-notes="initial  (20, 20, 30), strides=(10, 10, 15)"
+notes="initial  (5, 5, 5), strides=1"
 ####################################
 
 # Load training images and labels that are stored in numpy array
