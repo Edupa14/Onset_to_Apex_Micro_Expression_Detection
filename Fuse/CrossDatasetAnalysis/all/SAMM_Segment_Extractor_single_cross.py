@@ -55,7 +55,7 @@ sizeH=128
 sizeV=128
 sizeD=1
 
-paths=[angerpath,  happinesspath,surprisepath,contemptpath]
+paths=[angerpath,  happinesspath,surprisepath,contemptpath,sadnesspath,disgustpath,fearpath]
 
 segment_training_list = []
 counting = 0
@@ -113,7 +113,7 @@ for pi in range(len(paths)):
     directorylisting = os.listdir(paths[pi])
     print(pi)
     for video in range(len(directorylisting)):
-        if pi in [0,3]:
+        if pi in [0,3,4,5,6]:
             segment_traininglabels[count] = 0#neg
         elif pi==1:
             segment_traininglabels[count] = 1#pos
