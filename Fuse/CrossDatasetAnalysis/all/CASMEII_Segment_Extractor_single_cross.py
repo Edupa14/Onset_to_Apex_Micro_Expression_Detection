@@ -43,11 +43,11 @@ def annotate_landmarks(img, landmarks, font_scale=0.4):
 
 path='../../../../CASMEII_categorical_apex_SelectiveDivideAndConquer_NEW_mod_NEW/'
 disgustpath = path+'disgust/'
-# fearpath = path+'fear/'
+fearpath = path+'fear/'
 happinesspath = path+'happiness/'
 otherspath = path+'others/'
 repressionpath = path+'repression/'
-# sadnesspath = path+'sadness/'
+sadnesspath = path+'sadness/'
 surprisepath =path+'surprise/'
 
 segmentName = 'CASMEII_UpperFace_SelectiveDivideAndConquer_NEW_mod_NEW_edit'
@@ -55,7 +55,7 @@ sizeH=128
 sizeV=128
 sizeD=1
 
-paths=[disgustpath,  happinesspath,repressionpath,surprisepath]
+paths=[disgustpath,  happinesspath,repressionpath,surprisepath,fearpath,sadnesspath]
 
 segment_training_list = []
 counting = 0
@@ -113,7 +113,7 @@ for pi in range(len(paths)):
     directorylisting = os.listdir(paths[pi])
     print(pi)
     for video in range(len(directorylisting)):
-        if pi in [0,2]:
+        if pi in [0,2,4,5]:
             segment_traininglabels[count] = 0#neg
         elif pi==1:
             segment_traininglabels[count] = 1#pos
