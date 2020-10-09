@@ -4,7 +4,7 @@ from sklearn.metrics import accuracy_score,f1_score
 from keras.models import Sequential, Model
 from keras.layers.core import Dense, Dropout, Activation, Flatten
 from keras.layers.convolutional import Convolution3D, MaxPooling3D, ZeroPadding3D,Convolution2D,MaxPooling2D
-from keras.layers import PReLU,BatchNormalization,concatenate,Input
+from keras.layers import LeakyReLU,BatchNormalization,concatenate,Input
 from keras.callbacks import ModelCheckpoint,EarlyStopping,ReduceLROnPlateau,Callback
 from sklearn.model_selection import train_test_split,LeaveOneOut,KFold
 from keras import backend as K
@@ -21,26 +21,26 @@ def evaluate(segment_train_images, segment_validation_images, segment_train_labe
     layer_in = Input(shape=(1, sizeH, sizeV))
 
     conv13 = Convolution2D(16, (5, 5), strides=1, padding='same')(layer_in)
-    ract_2113 = Activation('sigmoid')(conv13)
+    ract_2113 = LeakyReLU()(conv13)
     conv14 = Convolution2D(32, (10, 10), strides=(4, 4), padding='same')(ract_2113)
-    ract_2114 = Activation('sigmoid')(conv14)
+    ract_2114 = LeakyReLU()(conv14)
     # conv1 = Convolution3D(256, (20, 20, 9), strides=(10, 10, 3), padding='Same')(input)
     # # bn1=BatchNormalization()(conv1)
-    # ract_1 = Activation('sigmoid')(conv1)
+    # ract_1 = LeakyReLU()(conv1)
     conv1 = Convolution2D(64, (20, 20), strides=(10,10), padding='same')(ract_2114)
-    ract_211 = Activation('sigmoid')(conv1)
+    ract_211 = LeakyReLU()(conv1)
     # 3x3 conv
     conv3 = Convolution2D(256, (20, 20), strides=(10,10), padding='same')(ract_2114)
     conv3 = Convolution2D(512, (3, 3), padding='same')(conv3)
-    ract_212 = Activation('sigmoid')(conv3)
+    ract_212 = LeakyReLU()(conv3)
     # 5x5 conv
-    conv5 = Convolution2D(96, (20, 20), strides=(10,10), padding='same', activation=Activation('sigmoid'))(ract_2114)
-    conv5 = Convolution2D(128, (5, 5), padding='same', activation=Activation('sigmoid'))(conv5)
-    ract_2412 = Activation('sigmoid')(conv5)
+    conv5 = Convolution2D(96, (20, 20), strides=(10,10), padding='same', activation=LeakyReLU())(ract_2114)
+    conv5 = Convolution2D(128, (5, 5), padding='same', activation=LeakyReLU())(conv5)
+    ract_2412 = LeakyReLU()(conv5)
     # 3x3 max pooling
     pool = MaxPooling2D((3, 3), strides=(1, 1), padding='same')(ract_2114)
     pool = Convolution2D(32, (20, 20), strides=(10,10), padding='same')(pool)
-    ract_213 = Activation('sigmoid')(pool)
+    ract_213 = LeakyReLU()(pool)
     # concatenate filters, assumes filters/channels last
     layer_out = concatenate([ract_211, ract_212, ract_213, ract_2412], axis=-3)
 
@@ -49,28 +49,28 @@ def evaluate(segment_train_images, segment_validation_images, segment_train_labe
     # conv6 = Convolution3D(512, (3, 3, 3), strides=1, padding='Same')(drop0)
     # # bn3 = BatchNormalization()(conv3)
 
-    # ract_4 = Activation('sigmoid')(layer_out)
+    # ract_4 = LeakyReLU()(layer_out)
     # flatten_1 = Flatten()(ract_4)
 
     conv15 = Convolution2D(256, (4, 4), strides=1, padding='same')(layer_out)
-    ract_2115 = Activation('sigmoid')(conv15)
+    ract_2115 = LeakyReLU()(conv15)
     # conv14 = Convolution2D(512, (3, 3), strides=1, padding='same')(ract_2115)
-    # ract_2114 = Activation('sigmoid')(conv14)
+    # ract_2114 = LeakyReLU()(conv14)
 
     # add1= Add() ([conv3,ract_1])
     # drop0 = Dropout(0.5)(layer_out)
     # conv6 = Convolution3D(512, (3, 3, 3), strides=1, padding='Same')(drop0)
     # # bn3 = BatchNormalization()(conv3)
-    # ract_4 = Activation('sigmoid')(layer_out)
+    # ract_4 = LeakyReLU()(layer_out)
     flatten_1 = Flatten()(ract_2115)
 
     # dense_1 = Dense(1024, init='normal')(flatten_1)
     # dense_2 = Dense(128, init='normal')(dense_1)
     layer_in2 = Input(shape=(1, sizeH2, sizeV2, sizeD2))
     conv21 = Convolution3D(32,  (20, 20, 30), strides=(10, 10, 15), padding='Same')(layer_in2)
-    ract_21 = Activation('sigmoid')(conv21)
+    ract_21 = LeakyReLU()(conv21)
     conv22 = Convolution3D(32, (3, 3, 3), strides=1, padding='Same')(ract_21)
-    ract_22 = Activation('sigmoid')(conv22)
+    ract_22 = LeakyReLU()(conv22)
     flatten_2 = Flatten()(ract_22)
 
     flatten_3 = Flatten()(layer_in2)
@@ -92,25 +92,25 @@ def evaluate(segment_train_images, segment_validation_images, segment_train_labe
     #     model.add(Convolution3D(32, (6, 6, 1), strides=(3, 3, 1), input_shape=(1, sizeH, sizeV, sizeD), padding='Same'))
     #
     #     model.add(Convolution3D(64, (12, 12, 1), strides=(6, 6, 1), input_shape=(1, sizeH, sizeV, sizeD), padding='Same'))
-    #     model.add(Activation('sigmoid'))`
+    #     model.add(LeakyReLU())`
 #     # model.add(Convolution3D(128, (8, 8, 1), strides=1, input_shape=(1, sizeH, sizeV, sizeD), padding='Same'))
-#     # model.add(Activation('sigmoid'))
+#     # model.add(LeakyReLU())
 #     # model.add(Dropout(0.5))
 #     # 3
 #     # model.add(Convolution3D(32, (3, 3, 2), strides=1, padding='Same'))
-#     # model.add(Activation('sigmoid'))
+#     # model.add(LeakyReLU())
 #     # 40
 #     # model.add(Dropout(0.5))
 #     # 1
 #     model.add(MaxPooling3D(pool_size=(3, 3, 2)))
-#     model.add(Activation('sigmoid'))
+#     model.add(LeakyReLU())
 #     # 2
 #     # model.add(Dropout(0.5))
 #     model.add(Flatten())
 #     model.add(Dense(256, init='normal'))
 #     # model.add(Dropout(0.5))
 #     model.add(Dense(128, init='normal'))
-#     # model.add(Activation('sigmoid'))
+#     # model.add(LeakyReLU())
 #     # model.add(Dense(128, init='normal'))`
 #     model.add(Dropout(0.5))
 #     model.add(Dense(5, init='normal'))
@@ -311,7 +311,7 @@ sizeV2 = 32
 sizeD2 = 30
 testtype = "loocv"
 ###################################
-notes="Activation('sigmoid')"
+notes="LeakyReLU"
 ####################################
 
 # Load training images and labels that are stored in numpy array
