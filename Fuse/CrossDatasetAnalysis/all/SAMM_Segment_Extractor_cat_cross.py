@@ -45,10 +45,10 @@ path='../../../../SAMM_categorical/'
 
 apexpath='../../../../SAMM_categorical_apex_SelectiveDivideAndConquer_NEW_mod/'
 angerpath = 'Anger/'
-# sadnesspath =path+'Sadness/'
+sadnesspath ='Sadness/'
 happinesspath ='Happiness/'
-# disgustpath =path+'Disgust/'
-# fearpath = path+'Fear/'
+disgustpath ='Disgust/'
+fearpath = 'Fear/'
 surprisepath = 'Surprise/'
 contemptpath = 'Contempt/'
 otherpath = 'Other/'
@@ -58,7 +58,7 @@ sizeH=32
 sizeV=32
 sizeD=30
 
-paths=[angerpath,  happinesspath,surprisepath,contemptpath]
+paths=[angerpath,  happinesspath,surprisepath,contemptpath,sadnesspath,disgustpath,fearpath]
 
 segment_training_list = []
 counting = 0
@@ -133,7 +133,7 @@ for pi in range(len(paths)):
     directorylisting = os.listdir(path+paths[pi])
     print(pi)
     for video in range(len(directorylisting)):
-        if pi in [0,3]:
+        if pi in [0,3,4,5,6]:
             segment_traininglabels[count] = 0#neg
         elif pi==1:
             segment_traininglabels[count] = 1#pos
