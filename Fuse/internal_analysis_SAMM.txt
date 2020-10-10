@@ -226,3 +226,63 @@ CFM
 5	0	0	6	1
 0	0	0	0	26
 
+---------------------------
+/home/student/Nikin/Onset_to_Apex_Micro_Expression_Detection/Fuse/SAMM loocv_UpperFace_SelectiveDivideAndConquer_NEW_mod_edit_128x128x1   ReLU
+---------------------------
+accuracy: 0.9705882352941176
+F1-score: 0.970099320880229
+CFM
+57	0	0	0	0
+0	26	0	0	0
+1	0	13	0	1
+1	0	0	11	0
+0	1	0	0	25
+
+---------------------------
+/home/student/Nikin/Onset_to_Apex_Micro_Expression_Detection/Fuse/SAMM loocv_UpperFace_SelectiveDivideAndConquer_NEW_mod_edit_128x128x1   LeakyReLU
+---------------------------
+accuracy: 0.9191176470588235
+F1-score: 0.9126114859221863
+CFM
+57	0	0	0	0
+0	25	0	0	1
+3	1	9	0	2
+2	1	1	8	0
+0	0	0	0	26
+
+---------------------------
+/home/student/Nikin/Onset_to_Apex_Micro_Expression_Detection/Fuse/SAMM loocv_UpperFace_SelectiveDivideAndConquer_NEW_mod_edit_128x128x1   (20, 20), strides=1
+---------------------------
+accuracy: 0.8602941176470589
+F1-score: 0.8603762414056533
+CFM
+51	2	0	0	4
+3	22	0	0	1
+2	0	13	0	0
+3	0	0	8	1
+3	0	0	0	23
+
+---------------------------
+/home/student/Nikin/Onset_to_Apex_Micro_Expression_Detection/Fuse/SAMM loocv_UpperFace_SelectiveDivideAndConquer_NEW_mod_edit_128x128x1   Activation('sigmoid')
+---------------------------
+accuracy: 0.8676470588235294
+F1-score: 0.8636761212160302
+CFM
+57	0	0	0	0
+3	22	0	0	1
+3	1	11	0	0
+4	0	1	7	0
+4	1	0	0	21
+
+---------------------------
+/home/student/Nikin/Onset_to_Apex_Micro_Expression_Detection/Fuse/SAMM loocv_UpperFace_SelectiveDivideAndConquer_NEW_mod_edit_128x128x1   Activation('tanh')
+---------------------------
+accuracy: 0.6838235294117647
+F1-score: 0.6488847651262586
+CFM
+54	1	0	2	0
+11	11	0	1	3
+7	2	3	0	3
+5	2	0	4	1
+3	1	1	0	21
+
