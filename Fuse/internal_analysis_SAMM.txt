@@ -286,3 +286,27 @@ CFM
 5	2	0	4	1
 3	1	1	0	21
 
+---------------------------
+/home/student/Nikin/Onset_to_Apex_Micro_Expression_Detection/Fuse/SAMM loocv_UpperFace_SelectiveDivideAndConquer_NEW_mod_edit_128x128x1   ReLU
+---------------------------
+accuracy: 0.9485294117647058
+F1-score: 0.9419473062294598
+CFM
+57	0	0	0	0
+0	26	0	0	0
+0	0	14	0	1
+4	0	1	6	1
+0	0	0	0	26
+
+---------------------------
+/home/student/Nikin/Onset_to_Apex_Micro_Expression_Detection/Fuse/SAMM loocv_UpperFace_SelectiveDivideAndConquer_NEW_mod_edit_128x128x1   PReLU
+---------------------------
+accuracy: 0.9705882352941176
+F1-score: 0.9692594980278829
+CFM
+57	0	0	0	0
+0	26	0	0	0
+0	0	14	0	1
+1	2	0	9	0
+0	0	0	0	26
+
