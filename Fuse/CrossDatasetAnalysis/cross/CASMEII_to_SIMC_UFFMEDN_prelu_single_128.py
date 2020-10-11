@@ -4,7 +4,7 @@ from sklearn.metrics import accuracy_score,f1_score
 from keras.models import Sequential, Model
 from keras.layers.core import Dense, Dropout, Activation, Flatten
 from keras.layers.convolutional import Convolution3D, MaxPooling3D, ZeroPadding3D,Convolution2D,MaxPooling2D
-from keras.layers import PReLU,BatchNormalization,concatenate,Input
+from keras.layers import LeakyReLU ,PReLU,BatchNormalization,concatenate,Input
 from keras.callbacks import ModelCheckpoint,EarlyStopping,ReduceLROnPlateau,Callback
 from sklearn.model_selection import train_test_split,LeaveOneOut,KFold
 from keras import backend as K
@@ -27,19 +27,19 @@ def evaluate(segment_train_images, segment_validation_images, segment_train_labe
     # conv1 = Convolution3D(256, (20, 20, 9), strides=(10, 10, 3), padding='Same')(input)
     # # bn1=BatchNormalization()(conv1)
     # ract_1 = PReLU()(conv1)
-    conv1 = Convolution2D(64, (20, 20), strides=(10,10), padding='same')(ract_2114)
+    conv1 = Convolution2D(64, (20, 20), strides=(10, 10), padding='same')(ract_2114)
     ract_211 = PReLU()(conv1)
     # 3x3 conv
-    conv3 = Convolution2D(256, (20, 20), strides=(10,10), padding='same')(ract_2114)
+    conv3 = Convolution2D(256, (20, 20), strides=(10, 10), padding='same')(ract_2114)
     conv3 = Convolution2D(512, (3, 3), padding='same')(conv3)
     ract_212 = PReLU()(conv3)
     # 5x5 conv
-    conv5 = Convolution2D(96, (20, 20), strides=(10,10), padding='same', activation=PReLU())(ract_2114)
-    conv5 = Convolution2D(128, (5, 5), padding='same', activation=PReLU())(conv5)
+    conv5 = Convolution2D(96, (20, 20), strides=(10, 10), padding='same', activation='relu')(ract_2114)
+    conv5 = Convolution2D(128, (5, 5), padding='same', activation='relu')(conv5)
     ract_2412 = PReLU()(conv5)
     # 3x3 max pooling
     pool = MaxPooling2D((3, 3), strides=(1, 1), padding='same')(ract_2114)
-    pool = Convolution2D(32, (20, 20), strides=(10,10), padding='same')(pool)
+    pool = Convolution2D(32, (20, 20), strides=(10, 10), padding='same')(pool)
     ract_213 = PReLU()(pool)
     # concatenate filters, assumes filters/channels last
     layer_out = concatenate([ract_211, ract_212, ract_213, ract_2412], axis=-3)
@@ -67,7 +67,7 @@ def evaluate(segment_train_images, segment_validation_images, segment_train_labe
     # dense_1 = Dense(1024, init='normal')(flatten_1)
     # dense_2 = Dense(128, init='normal')(dense_1)
     layer_in2 = Input(shape=(1, sizeH2, sizeV2, sizeD2))
-    conv21 = Convolution3D(32,  (20, 20, 30), strides=(10, 10, 15), padding='Same')(layer_in2)
+    conv21 = Convolution3D(32, (20, 20, 30), strides=(10, 10, 15), padding='Same')(layer_in2)
     ract_21 = PReLU()(conv21)
     conv22 = Convolution3D(32, (3, 3, 3), strides=1, padding='Same')(ract_21)
     ract_22 = PReLU()(conv22)
@@ -75,49 +75,49 @@ def evaluate(segment_train_images, segment_validation_images, segment_train_labe
 
     flatten_3 = Flatten()(layer_in2)
     # flatten_4 = Flatten()(layer_in)
-    # drop11 = Dropout(0.5)(flatten_1)
-    # drop21 = Dropout(0.5)(flatten_2)
-    # drop31 = Dropout(0.5)(flatten_3)
+    # drop11 = Dropout(0.8)(flatten_1)
+    # drop21 = Dropout(0.8)(flatten_2)
+    # drop31 = Dropout(0.8)(flatten_3)
     concat = concatenate([flatten_1, flatten_2, flatten_3], axis=-1)
     drop51 = Dropout(0.5)(concat)
-    dense_3 = Dense(5, init='normal')(drop51)
+    dense_3 = Dense(3, init='normal')(drop51)
     # drop1 = Dropout(0.5)(dense_3)
     activation = Activation('softmax')(dense_3)
     opt = SGD(lr=0.01)
-    model = Model(inputs=[layer_in,layer_in2], outputs=activation)
+    model = Model(inputs=[layer_in, layer_in2], outputs=activation)
     model.compile(loss='categorical_crossentropy', optimizer=opt, metrics=['accuracy'])
-# ----------------------------
+    # ----------------------------
     #     model = Sequential()`
     #     # model.add(ZeroPadding3D((2,2,0)))
     #     model.add(Convolution3D(32, (6, 6, 1), strides=(3, 3, 1), input_shape=(1, sizeH, sizeV, sizeD), padding='Same'))
     #
     #     model.add(Convolution3D(64, (12, 12, 1), strides=(6, 6, 1), input_shape=(1, sizeH, sizeV, sizeD), padding='Same'))
     #     model.add(PReLU())`
-#     # model.add(Convolution3D(128, (8, 8, 1), strides=1, input_shape=(1, sizeH, sizeV, sizeD), padding='Same'))
-#     # model.add(PReLU())
-#     # model.add(Dropout(0.5))
-#     # 3
-#     # model.add(Convolution3D(32, (3, 3, 2), strides=1, padding='Same'))
-#     # model.add(PReLU())
-#     # 40
-#     # model.add(Dropout(0.5))
-#     # 1
-#     model.add(MaxPooling3D(pool_size=(3, 3, 2)))
-#     model.add(PReLU())
-#     # 2
-#     # model.add(Dropout(0.5))
-#     model.add(Flatten())
-#     model.add(Dense(256, init='normal'))
-#     # model.add(Dropout(0.5))
-#     model.add(Dense(128, init='normal'))
-#     # model.add(PReLU())
-#     # model.add(Dense(128, init='normal'))`
-#     model.add(Dropout(0.5))
-#     model.add(Dense(5, init='normal'))
-#     # model.add(Dropout(0.5))
-#     model.add(Activation('softmax'))
-#     opt = SGD(lr=0.1)
-#     model.compile(loss='categorical_crossentropy', optimizer=opt, metrics=['accuracy'])
+    #     # model.add(Convolution3D(128, (8, 8, 1), strides=1, input_shape=(1, sizeH, sizeV, sizeD), padding='Same'))
+    #     # model.add(PReLU())
+    #     # model.add(Dropout(0.5))
+    #     # 3
+    #     # model.add(Convolution3D(32, (3, 3, 2), strides=1, padding='Same'))
+    #     # model.add(PReLU())
+    #     # 40
+    #     # model.add(Dropout(0.5))
+    #     # 1
+    #     model.add(MaxPooling3D(pool_size=(3, 3, 2)))
+    #     model.add(PReLU())
+    #     # 2
+    #     # model.add(Dropout(0.5))
+    #     model.add(Flatten())
+    #     model.add(Dense(256, init='normal'))
+    #     # model.add(Dropout(0.5))
+    #     model.add(Dense(128, init='normal'))
+    #     # model.add(PReLU())
+    #     # model.add(Dense(128, init='normal'))`
+    #     model.add(Dropout(0.5))
+    #     model.add(Dense(5, init='normal'))
+    #     # model.add(Dropout(0.5))
+    #     model.add(Activation('softmax'))
+    #     opt = SGD(lr=0.1)
+    #     model.compile(loss='categorical_crossentropy', optimizer=opt, metrics=['accuracy'])
 
     model.summary()
 
@@ -125,27 +125,15 @@ def evaluate(segment_train_images, segment_validation_images, segment_train_labe
     checkpoint = ModelCheckpoint(filepath, monitor='val_acc', verbose=1, save_best_only=True, mode='max')
     EarlyStop = EarlyStopping(monitor='val_acc', min_delta=0, patience=50, restore_best_weights=True, verbose=1,
                               mode='max')
-    reduce = ReduceLROnPlateau(monitor='val_acc', factor=0.5, patience=25, cooldown=0, verbose=1, min_delta=0,
+    reduce = ReduceLROnPlateau(monitor='val_acc', factor=0.2, patience=25, cooldown=0, verbose=1, min_delta=0,
                                mode='max', min_lr=0.00005)
-    callbacks_list = [EarlyStop, myCallback()]
-
-
-
-
-
-
-
+    callbacks_list = [EarlyStop,  myCallback()]
 
     # Training the model
 
-    history = model.fit([segment_train_images,segment_train_images_cat], segment_train_labels, validation_data = ([segment_validation_images,segment_validation_images_cat], segment_validation_labels), callbacks=callbacks_list, batch_size = 16, nb_epoch = 500, shuffle=True,verbose=2)
-
-
-
-
-
-
-
+    history = model.fit([segment_train_images, segment_train_images_cat], segment_train_labels, validation_data=(
+    [segment_validation_images, segment_validation_images_cat], segment_validation_labels), callbacks=callbacks_list,
+                        batch_size=16, nb_epoch=500, shuffle=True, verbose=1)
 
     # Finding Confusion Matrix using pretrained weights
 
@@ -156,10 +144,8 @@ def evaluate(segment_train_images, segment_validation_images, segment_train_labe
     print (cfm)
     print("accuracy: ",accuracy_score(validation_labels, predictions_labels))
     n_epochs = len(history.history['loss'])
-    dif=0
-    # dif=int(history.history['val_acc'].index(max(history.history['val_acc']))-history.history['val_acc'].index(max(history.history['val_acc'][:history.history['val_acc'].index(max(history.history['val_acc']))])))
-    K.clear_session()
-    return accuracy_score(validation_labels, predictions_labels), validation_labels, predictions_labels, n_epochs,dif
+
+    return accuracy_score(validation_labels, predictions_labels), validation_labels, predictions_labels, n_epochs
 
 
 # -----------------------------------------------------------------------------------------------------------------
@@ -180,7 +166,7 @@ def loocv():
         # print(segment_traininglabels[test_index])
         print(test_index)
 
-        val_acc, val_label, pred_label, n,_ = evaluate(segment_training_set[train_index],
+        val_acc, val_label, pred_label, n = evaluate(segment_training_set[train_index],
                                                      segment_training_set[test_index],
                                                      segment_traininglabels[train_index],
                                                      segment_traininglabels[test_index],
@@ -216,7 +202,7 @@ def loocv():
     # print("recall: ",recall)
     # print("F1-score: ",f1_score(val_labels,pred_labels,average="macro"))
     print("F1-score: ", f1_score(val_labels, pred_labels, average="weighted"))
-    return val_labels, pred_labels,cfm
+    return val_labels, pred_labels
 
 
 # -----------------------------------------------------------------------------------------------------------------
@@ -224,10 +210,10 @@ def loocv():
 
 def split():
     # Spliting the dataset into training and validation sets
-    segment_train_images, segment_validation_images, segment_train_labels, segment_validation_labels = train_test_split(
-        segment_training_set,
-        segment_traininglabels,
-        test_size=0.5, random_state=42)
+    # segment_train_images, segment_validation_images, segment_train_labels, segment_validation_labels = train_test_split(
+    #     segment_training_set,
+    #     segment_traininglabels,
+    #     test_size=0.2, random_state=42)
 
     # Save validation set in a numpy array
     # numpy.save('numpy_validation_datasets/{0}_images_{1}x{2}.npy'.format(segmentName,sizeH, sizeV), segment_validation_images)
@@ -238,8 +224,13 @@ def split():
     # eimg = numpy.load('numpy_validation_datasets/{0}_images_{1}x{2}.npy'.format(segmentName,sizeH, sizeV))
     # labels = numpy.load('numpy_validation_datasets/{0}_images_{1}x{2}.npy'.format(segmentName,sizeH, sizeV))
 
-    _, val_labels, pred_labels = evaluate(segment_train_images, segment_validation_images, segment_train_labels,
-                                          segment_validation_labels, 0)
+    _, val_labels, pred_labels, n = evaluate(segment_training_set,
+                                                     segment_test_set,
+                                                     segment_traininglabels,
+                                                     segment_testlabels,
+                                                     0, segment_training_set_cat,
+                                                     segment_test_set_cat
+                                                     )
     return val_labels, pred_labels
 
 
@@ -256,19 +247,17 @@ def kfold():
 
     val_labels = []
     pred_labels = []
-    d=[]
     for train_index, test_index in kf.split(segment_training_set):
         # print(segment_traininglabels[train_index])
         # print(segment_traininglabels[test_index])
         print(test_index)
-        val_acc, val_label, pred_label,_,di = evaluate(segment_training_set[train_index], segment_training_set[test_index],
+        val_acc, val_label, pred_label,_ = evaluate(segment_training_set[train_index], segment_training_set[test_index],
                                                   segment_traininglabels[train_index],
                                                   segment_traininglabels[test_index],
                                                   test_index,segment_training_set_cat[train_index],segment_training_set_cat[test_index]
                                                   )
         tot += val_acc
-        print("diff:", di)
-        d.append(di)
+        print("epocs:", n)
         val_labels.extend(val_label)
         pred_labels.extend(pred_label)
         accs.append(val_acc)
@@ -293,25 +282,27 @@ def kfold():
     # print("recall: ",recall)
     # print("F1-score: ",f1_score(val_labels,pred_labels,average="macro"))
     print("F1-score: ", f1_score(val_labels, pred_labels, average="weighted"))
-    print(d)
-    return val_labels, pred_labels,cfm
+    return val_labels, pred_labels
 
 
 ####################################
 # edit params
 K.set_image_dim_ordering('th')
 
-segmentName = 'UpperFace_SelectiveDivideAndConquer_NEW_mod_edit'
+segmentName = 'CASMEII_UpperFace_SelectiveDivideAndConquer_NEW_mod_NEW_edit'
 sizeH = 128
 sizeV = 128
 sizeD = 1
-segmentName2 = 'UpperFace_cat_NEW_mod_edit'
+segmentName2 = 'CASMEII_UpperFace_cat_NEW_mod_NEW_edit'
 sizeH2 = 32
 sizeV2 = 32
 sizeD2 = 30
-testtype = "loocv"
+segmentName3 = 'SIMC_UpperFace_SelectiveDivideAndConquer_NEW_mod_edit'
+segmentName4 = 'SIMC_UpperFace_cat_NEW_mod_edit'
+
+testtype = "split"#do not change
 ###################################
-notes="(20, 20), strides=(10,10)"
+notes=""
 ####################################
 
 # Load training images and labels that are stored in numpy array
@@ -323,8 +314,17 @@ segment_traininglabels = numpy.load(
 
 segment_training_set_cat = numpy.load(
     'numpy_training_datasets/{0}_images_{1}x{2}x{3}.npy'.format(segmentName2, sizeH2, sizeV2, sizeD2))
+
+segment_test_set = numpy.load(
+    'numpy_training_datasets/{0}_images_{1}x{2}x{3}.npy'.format(segmentName3, sizeH, sizeV, sizeD))
+segment_testlabels = numpy.load(
+    'numpy_training_datasets/{0}_labels_{1}x{2}x{3}.npy'.format(segmentName3, sizeH, sizeV, sizeD))
+
+segment_test_set_cat = numpy.load(
+    'numpy_training_datasets/{0}_images_{1}x{2}x{3}.npy'.format(segmentName4, sizeH2, sizeV2, sizeD2))
 # segment_traininglabels_cat = numpy.load(
 #     'numpy_training_datasets/{0}_labels_{1}x{2}x{3}.npy'.format(segmentName2, sizeH2, sizeV2, sizeD2))
+print(segment_testlabels)
 
 
 # print(segment_traininglabels)
@@ -333,18 +333,18 @@ segment_training_set_cat = numpy.load(
 
 
 if testtype == "kfold":
-    val_labels, pred_labels,CFM = kfold()
+    val_labels, pred_labels = kfold()
 elif testtype == "loocv":
-    val_labels, pred_labels,CFM = loocv()
+    val_labels, pred_labels = loocv()
 elif testtype == "split":
-    val_labels, pred_labels,CFM = split()
+    val_labels, pred_labels = split()
 else:
     print("error")
 
 # ---------------------------------------------------------------------------------------------------
 # write to results
 
-results = open("../internal_analysis_SAMM.txt", 'a')
+results = open("../TempResults.txt", 'a')
 results.write("---------------------------\n")
 full_path = os.path.realpath(__file__)
 results.write(
@@ -352,6 +352,3 @@ results.write(
 results.write("---------------------------\n")
 results.write("accuracy: " + str(accuracy_score(val_labels, pred_labels)) + "\n")
 results.write("F1-score: " + str(f1_score(val_labels, pred_labels, average="weighted")) + "\n")
-results.write("CFM\n")
-results.write('\n'.join('\t'.join(str(x) for x in y) for y in CFM))
-results.write("\n\n")

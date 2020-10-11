@@ -103,3 +103,23 @@ CFM
 1	108	0
 2	2	80
 
+---------------------------
+/home/student/Nikin/Onset_to_Apex_Micro_Expression_Detection/Fuse/CrossDatasetAnalysis/CASMEII_and_SAMM split_CASMEII_UpperFace_SelectiveDivideAndConquer_NEW_mod_NEW_edit_128x128x1   
+---------------------------
+accuracy: 0.45222929936305734
+F1-score: 0.3475887170154687
+---------------------------
+/home/student/Nikin/Onset_to_Apex_Micro_Expression_Detection/Fuse/CrossDatasetAnalysis/CASMEII_and_SAMM split_SIMC_UpperFace_SelectiveDivideAndConquer_NEW_mod_edit_128x128x1   
+---------------------------
+accuracy: 0.54
+F1-score: 0.4332778593571545
+---------------------------
+/home/student/Nikin/Onset_to_Apex_Micro_Expression_Detection/Fuse/CrossDatasetAnalysis/cross split_CASMEII_UpperFace_SelectiveDivideAndConquer_NEW_mod_NEW_edit_128x128x1   
+---------------------------
+accuracy: 0.4140127388535032
+F1-score: 0.24243989212142078
+---------------------------
+/home/student/Nikin/Onset_to_Apex_Micro_Expression_Detection/Fuse/CrossDatasetAnalysis/cross split_SIMC_UpperFace_SelectiveDivideAndConquer_NEW_mod_edit_128x128x1   
+---------------------------
+accuracy: 0.6089743589743589
+F1-score: 0.46582899172540604

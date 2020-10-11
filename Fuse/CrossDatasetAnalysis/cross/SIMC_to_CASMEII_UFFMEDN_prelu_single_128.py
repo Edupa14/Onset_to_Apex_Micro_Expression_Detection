@@ -133,7 +133,7 @@ def evaluate(segment_train_images, segment_validation_images, segment_train_labe
 
     history = model.fit([segment_train_images, segment_train_images_cat], segment_train_labels, validation_data=(
     [segment_validation_images, segment_validation_images_cat], segment_validation_labels), callbacks=callbacks_list,
-                        batch_size=16, nb_epoch=500, shuffle=True, verbose=2)
+                        batch_size=16, nb_epoch=500, shuffle=True, verbose=1)
 
     # Finding Confusion Matrix using pretrained weights
 
@@ -144,7 +144,7 @@ def evaluate(segment_train_images, segment_validation_images, segment_train_labe
     print (cfm)
     print("accuracy: ",accuracy_score(validation_labels, predictions_labels))
     n_epochs = len(history.history['loss'])
-    K.clear_session()
+
     return accuracy_score(validation_labels, predictions_labels), validation_labels, predictions_labels, n_epochs
 
 
@@ -202,15 +202,18 @@ def loocv():
     # print("recall: ",recall)
     # print("F1-score: ",f1_score(val_labels,pred_labels,average="macro"))
     print("F1-score: ", f1_score(val_labels, pred_labels, average="weighted"))
-    return val_labels, pred_labels,cfm
+    return val_labels, pred_labels
 
 
 # -----------------------------------------------------------------------------------------------------------------
 # Test train split
 
-def split(segment_training_set,segment_traininglabels,segment_training_set_cat):
+def split():
     # Spliting the dataset into training and validation sets
-    segment_training_set,segment_test_set, segment_traininglabels,segment_testlabels,segment_training_set_cat, segment_test_set_cat = train_test_split(segment_training_set,segment_traininglabels,segment_training_set_cat,test_size=0.2, random_state=42)
+    # segment_train_images, segment_validation_images, segment_train_labels, segment_validation_labels = train_test_split(
+    #     segment_training_set,
+    #     segment_traininglabels,
+    #     test_size=0.2, random_state=42)
 
     # Save validation set in a numpy array
     # numpy.save('numpy_validation_datasets/{0}_images_{1}x{2}.npy'.format(segmentName,sizeH, sizeV), segment_validation_images)
@@ -254,6 +257,7 @@ def kfold():
                                                   test_index,segment_training_set_cat[train_index],segment_training_set_cat[test_index]
                                                   )
         tot += val_acc
+        print("epocs:", n)
         val_labels.extend(val_label)
         pred_labels.extend(pred_label)
         accs.append(val_acc)
@@ -278,63 +282,49 @@ def kfold():
     # print("recall: ",recall)
     # print("F1-score: ",f1_score(val_labels,pred_labels,average="macro"))
     print("F1-score: ", f1_score(val_labels, pred_labels, average="weighted"))
-    return val_labels, pred_labels,cfm
+    return val_labels, pred_labels
 
 
 ####################################
 # edit params
 K.set_image_dim_ordering('th')
 
-segmentName = 'CASMEII_UpperFace_SelectiveDivideAndConquer_NEW_mod_NEW_edit'
+segmentName3 = 'CASMEII_UpperFace_SelectiveDivideAndConquer_NEW_mod_NEW_edit'
 sizeH = 128
 sizeV = 128
 sizeD = 1
-segmentName2 = 'CASMEII_UpperFace_cat_NEW_mod_NEW_edit'
+segmentName4 = 'CASMEII_UpperFace_cat_NEW_mod_NEW_edit'
 sizeH2 = 32
 sizeV2 = 32
 sizeD2 = 30
-segmentName3 = 'SAMM_UpperFace_SelectiveDivideAndConquer_NEW_mod_edit'
-segmentName4 = 'SAMM_UpperFace_cat_NEW_mod_edit'
-segmentName5 = 'SIMC_UpperFace_SelectiveDivideAndConquer_NEW_mod_edit'
-segmentName6 = 'SIMC_UpperFace_cat_NEW_mod_edit'
+segmentName = 'SIMC_UpperFace_SelectiveDivideAndConquer_NEW_mod_edit'
+segmentName2= 'SIMC_UpperFace_cat_NEW_mod_edit'
 
-testtype = "loocv"
+testtype = "split"#do not change
 ###################################
 notes=""
 ####################################
 
 # Load training images and labels that are stored in numpy array
 
-segment_training_set_temp = numpy.load(
+segment_training_set = numpy.load(
     'numpy_training_datasets/{0}_images_{1}x{2}x{3}.npy'.format(segmentName, sizeH, sizeV, sizeD))
-segment_traininglabels_temp = numpy.load(
+segment_traininglabels = numpy.load(
     'numpy_training_datasets/{0}_labels_{1}x{2}x{3}.npy'.format(segmentName, sizeH, sizeV, sizeD))
 
-segment_training_set_cat_temp = numpy.load(
+segment_training_set_cat = numpy.load(
     'numpy_training_datasets/{0}_images_{1}x{2}x{3}.npy'.format(segmentName2, sizeH2, sizeV2, sizeD2))
 
-segment_training_set_temp=numpy.concatenate((segment_training_set_temp, numpy.load(
-    'numpy_training_datasets/{0}_images_{1}x{2}x{3}.npy'.format(segmentName3, sizeH, sizeV, sizeD))), axis=0)
-segment_traininglabels_temp=numpy.concatenate((segment_traininglabels_temp,numpy.load(
-    'numpy_training_datasets/{0}_labels_{1}x{2}x{3}.npy'.format(segmentName3, sizeH, sizeV, sizeD))), axis=0)
+segment_test_set = numpy.load(
+    'numpy_training_datasets/{0}_images_{1}x{2}x{3}.npy'.format(segmentName3, sizeH, sizeV, sizeD))
+segment_testlabels = numpy.load(
+    'numpy_training_datasets/{0}_labels_{1}x{2}x{3}.npy'.format(segmentName3, sizeH, sizeV, sizeD))
 
-segment_training_set_cat_temp=numpy.concatenate((segment_training_set_cat_temp,numpy.load(
-    'numpy_training_datasets/{0}_images_{1}x{2}x{3}.npy'.format(segmentName4, sizeH2, sizeV2, sizeD2))), axis=0)
-
-
-
-segment_training_set=numpy.concatenate((segment_training_set_temp, numpy.load(
-    'numpy_training_datasets/{0}_images_{1}x{2}x{3}.npy'.format(segmentName5, sizeH, sizeV, sizeD))), axis=0)
-segment_traininglabels=numpy.concatenate((segment_traininglabels_temp,numpy.load(
-    'numpy_training_datasets/{0}_labels_{1}x{2}x{3}.npy'.format(segmentName5, sizeH, sizeV, sizeD))), axis=0)
-
-segment_training_set_cat=numpy.concatenate((segment_training_set_cat_temp,numpy.load(
-    'numpy_training_datasets/{0}_images_{1}x{2}x{3}.npy'.format(segmentName6, sizeH2, sizeV2, sizeD2))), axis=0)
-
-print(len(segment_traininglabels_temp),len(segment_traininglabels))
-
+segment_test_set_cat = numpy.load(
+    'numpy_training_datasets/{0}_images_{1}x{2}x{3}.npy'.format(segmentName4, sizeH2, sizeV2, sizeD2))
 # segment_traininglabels_cat = numpy.load(
 #     'numpy_training_datasets/{0}_labels_{1}x{2}x{3}.npy'.format(segmentName2, sizeH2, sizeV2, sizeD2))
+print(segment_testlabels)
 
 
 # print(segment_traininglabels)
@@ -342,13 +332,12 @@ print(len(segment_traininglabels_temp),len(segment_traininglabels))
 
 
 
-
 if testtype == "kfold":
-    val_labels, pred_labels,CFM = kfold()
+    val_labels, pred_labels = kfold()
 elif testtype == "loocv":
-    val_labels, pred_labels,CFM = loocv()
+    val_labels, pred_labels = loocv()
 elif testtype == "split":
-    val_labels, pred_labels,CFM = split()
+    val_labels, pred_labels = split()
 else:
     print("error")
 
@@ -363,6 +352,3 @@ results.write(
 results.write("---------------------------\n")
 results.write("accuracy: " + str(accuracy_score(val_labels, pred_labels)) + "\n")
 results.write("F1-score: " + str(f1_score(val_labels, pred_labels, average="weighted")) + "\n")
-results.write("CFM\n")
-results.write('\n'.join('\t'.join(str(x) for x in y) for y in CFM))
-results.write("\n\n")
