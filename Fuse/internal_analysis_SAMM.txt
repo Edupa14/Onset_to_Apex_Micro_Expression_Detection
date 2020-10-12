@@ -358,3 +358,15 @@ CFM
 1	2	0	8	1
 0	0	0	0	26
 
+---------------------------
+/home/student/Nikin/Onset_to_Apex_Micro_Expression_Detection/Fuse/SAMM loocv_UpperFace_SelectiveDivideAndConquer_NEW_mod_edit_128x128x1   initial  (10, 10, 10), strides=1
+---------------------------
+accuracy: 0.34558823529411764
+F1-score: 0.2882641291810841
+CFM
+40	6	1	2	8
+19	1	1	0	5
+8	3	2	0	2
+8	2	0	1	1
+21	1	1	0	3
+
