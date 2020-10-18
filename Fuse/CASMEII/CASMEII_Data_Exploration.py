@@ -2,7 +2,7 @@ import os
 
 
 
-path='../../../Datasets/CASMEII_categorical/'
+path='../../../CASMEII_categorical/'
 
 
 
@@ -11,6 +11,7 @@ img_count=[]
 for cat in directorylisting:
     # print(subject)`
     subjectdirectorylisting=os.listdir(path+cat)
+    c=0
     for video in subjectdirectorylisting:
         videopath = path+cat +'/'+ video
         # print(videopath)
@@ -18,8 +19,10 @@ for cat in directorylisting:
         count=0
         for img in imgs:
             count+=1
-        print(count)
+        # print(count)
         img_count.append(count)
+        c+=1
+    print(cat,c)
         # print(str(subjectdirectorylisting)+str(video))
 print(img_count)
 print(sum(img_count)/len(img_count))
