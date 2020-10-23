@@ -298,9 +298,9 @@ segmentName4 = 'SAMM_UpperFace_cat_NEW_mod_edit'
 segmentName5 = 'SIMC_UpperFace_SelectiveDivideAndConquer_NEW_mod_edit'
 segmentName6 = 'SIMC_UpperFace_cat_NEW_mod_edit'
 
-testtype = "kfold"
+testtype = "loocv"
 ###################################
-notes=""
+notes="combined"
 ####################################
 
 # Load training images and labels that are stored in numpy array
