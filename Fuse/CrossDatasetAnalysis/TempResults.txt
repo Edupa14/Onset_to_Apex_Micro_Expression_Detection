@@ -173,3 +173,13 @@ CFM
 3	29	0
 2	0	26
 
+---------------------------
+/home/student/Nikin/Onset_to_Apex_Micro_Expression_Detection/Fuse/CrossDatasetAnalysis/combined loocv_SAMM_UpperFace_SelectiveDivideAndConquer_NEW_mod_edit_128x128x1   3class
+---------------------------
+accuracy: 0.9363636363636364
+F1-score: 0.9307310191113009
+CFM
+69	0	0
+1	25	0
+3	3	9
+
