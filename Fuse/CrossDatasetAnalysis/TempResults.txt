@@ -233,3 +233,13 @@ CFM
 1	108	0
 1	1	82
 
+---------------------------
+/home/student/Nikin/Onset_to_Apex_Micro_Expression_Detection/Fuse/CrossDatasetAnalysis/combined loocv_CASMEII_UpperFace_SelectiveDivideAndConquer_NEW_mod_NEW_edit_128x128x1   combined
+---------------------------
+accuracy: 0.9905437352245863
+F1-score: 0.9904601404860875
+CFM
+230	0	0
+0	109	0
+2	2	80
+
