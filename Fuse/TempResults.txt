@@ -2865,3 +2865,13 @@ CFM
 0	50	1
 2	0	39
 
+---------------------------
+/home/student/Nikin/Onset_to_Apex_Micro_Expression_Detection/Fuse/SIMC loocv_UpperFace_SelectiveDivideAndConquer_NEW_mod_edit_128x128x1   
+---------------------------
+accuracy: 0.9936305732484076
+F1-score: 0.993637411473478
+CFM
+65	0	0
+0	50	1
+0	0	41
+
