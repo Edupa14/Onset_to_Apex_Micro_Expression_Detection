@@ -52,7 +52,7 @@ surprisepath ='/surprise/'
 apexpath='../../../CASMEII_categorical_apex_SelectiveDivideAndConquer_NEW_mod_NEW'
 
 
-segmentName = 'UpperFace_cat_NEW_mod_NEW_edit'
+segmentName = 'UpperFace_cat_NEW_mod_NEW_edit_frameadjust'
 sizeH=32
 sizeV=32
 sizeD=30
@@ -69,6 +69,9 @@ for typepath in (paths):
         videopath = path+typepath + video
         segment_frames = []
         framelisting = os.listdir(videopath)
+        print(framelisting)
+        framelisting.sort(key=lambda x: int(x.split("g")[1].split(".")[0]))
+        print(framelisting)
         apexvidpath=apexpath+typepath + video
         directorylistingvid = os.listdir(apexvidpath)
         for pic in directorylistingvid:
