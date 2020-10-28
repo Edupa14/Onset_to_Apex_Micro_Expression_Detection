@@ -295,11 +295,11 @@ def kfold():
 # edit params
 K.set_image_dim_ordering('th')
 
-segmentName = 'UpperFace_cat_NEW_mod_edit_frameadjust'
+segmentName = 'UpperFace_SelectiveDivideAndConquer_NEW_mod_edit'
 sizeH = 128
 sizeV = 128
 sizeD = 1
-segmentName2 = 'UpperFace_cat_NEW_mod_edit'
+segmentName2 = 'UpperFace_cat_NEW_mod_edit_frameadjust'
 sizeH2 = 32
 sizeV2 = 32
 sizeD2 = 30
