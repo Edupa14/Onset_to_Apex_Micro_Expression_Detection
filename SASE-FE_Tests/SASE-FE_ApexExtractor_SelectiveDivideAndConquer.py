@@ -5,7 +5,7 @@ import dlib
 from keras import backend as K
 import shutil
 import math
-
+import re
 
 K.set_image_dim_ordering('th')
 
@@ -41,119 +41,10 @@ def annotate_landmarks(img, landmarks, font_scale=0.4):
         cv2.circle(img, pos, 3, color=(0, 255, 255))
     return img
 
-def find_max(imgs):
-    image = cv2.imread(videopath + '/' + imgs[0])
-    landmarks = get_landmark(image)
-    numpylandmarks = np.asarray(landmarks)
-    landmarksNos = len(numpylandmarks)
-    total_pos = [1] * landmarksNos
-    img_pos = []
-    count = 0
-    landmark_list = [x for x in range(17, 27)]
-    landmark_list.extend([x for x in range(36, 68)])
-    broken=[]
-    for image in viddirectorylisting:
-
-        im = cv2.imread(videopath + '/' + image)
-        try:
-            landmarks = get_landmark(im)
-        except:
-            print("broken",image)
-            broken.append(image)
-            continue
-        img_pos.append([])
-        numpylandmarks = np.asarray(landmarks)
-        count += 1
-        img_pos[count - 1] = [1] * landmarksNos
-        for pos in range(landmarksNos):
-            total_pos[pos] += numpylandmarks[pos]
-            img_pos[count - 1][pos] = (numpylandmarks[pos])
-    avg_pos = []
-    for pos in total_pos:
-        avg_pos.append(pos / count)
-    max_diff = 0
-    max_diff_image = None
-    count2 = 0
-    print(broken,viddirectorylisting)
-    for image in viddirectorylisting:
-        if image not in broken:
-            diff = []
-            # print(landmark_list,len(avg_pos))
-            for pos in landmark_list:
-                diff.append(abs(avg_pos[pos] - img_pos[count2][pos]))
-            count2 += 1
-            # print(diff,sum(diff),len(diff),sum(sum(diff)/len(diff)))
-            avg_diff = sum(sum(diff) / len(diff))
-            # print(max_diff,avg_diff)
-            if max_diff < avg_diff:
-                max_diff = avg_diff
-                max_diff_image = image
-    return max_diff,max_diff_image
-def find_max(imgs):
-    image = cv2.imread(videopath + '/' + imgs[0])
-    landmarks = get_landmark(image)
-    numpylandmarks = np.asarray(landmarks)
-    landmarksNos = len(numpylandmarks)
-    total_pos = [1] * landmarksNos
-    img_pos = []
-    count = 0
-    landmark_list = [x for x in range(17, 27)]
-    landmark_list.extend([x for x in range(36, 68)])
-    broken=[]
-    for image in viddirectorylisting:
-
-        im = cv2.imread(videopath + '/' + image)
-        try:
-            landmarks = get_landmark(im)
-        except:
-            print("broken",image)
-            broken.append(image)
-            continue
-        img_pos.append([])
-        numpylandmarks = np.asarray(landmarks)
-        count += 1
-        img_pos[count - 1] = [1] * landmarksNos
-        for pos in range(landmarksNos):
-            total_pos[pos] += numpylandmarks[pos]
-            img_pos[count - 1][pos] = (numpylandmarks[pos])
-    avg_pos = []
-    for pos in total_pos:
-        avg_pos.append(pos / count)
-    max_diff = 0
-    max_diff_image = None
-    count2 = 0
-    print(broken,viddirectorylisting)
-    for image in viddirectorylisting:
-        if image not in broken:
-            diff = []
-            # print(landmark_list,len(avg_pos))
-            for pos in landmark_list:
-                diff.append(abs(avg_pos[pos] - img_pos[count2][pos]))
-            count2 += 1
-            # print(diff,sum(diff),len(diff),sum(sum(diff)/len(diff)))
-            avg_diff = sum(sum(diff) / len(diff))
-            # print(max_diff,avg_diff)
-            if max_diff < avg_diff:
-                max_diff = avg_diff
-                max_diff_image = image
-    return max_diff,max_diff_image
 
 def generate_pos(imgs,landmark_list):
-    # image = cv2.imread(videopath + '/' + imgs[0])
-    # landmarks = get_landmark(image)
-    broken = []
-    for image in viddirectorylisting:
-        # img_pos.append([])
-        im = cv2.imread(videopath + '/' + image)
-
-        try:
-            landmarks = get_landmark(im)
-            break
-        except:
-            print("broken", image)
-            broken.append(image)
-            os.remove(videopath + '/' + image)
-            continue
+    image = cv2.imread(videopath + '/' + imgs[0])
+    landmarks = get_landmark(image)
     numpylandmarks = np.asarray(landmarks)
     landmarksNos = len(numpylandmarks)
     total_pos = [1] * landmarksNos
@@ -161,24 +52,16 @@ def generate_pos(imgs,landmark_list):
     count = 0
 
     for image in viddirectorylisting:
-        if image not in broken:
-            im = cv2.imread(videopath + '/' + image)
-            try:
-
-                img_pos.append([])
-                landmarks = get_landmark(im)
-            except:
-                print("broken", image)
-                broken.append(image)
-                os.remove(videopath + '/' + image)
-                continue
-            numpylandmarks = np.asarray(landmarks)
-            count += 1
-            img_pos[count - 1] = [1] * landmarksNos
-            for pos in range(landmarksNos):
-                # total_pos[pos] += (numpylandmarks[pos] - numpylandmarks[8])
-                # print(numpylandmarks[pos], numpylandmarks[8], numpylandmarks[pos] - numpylandmarks[8])
-                img_pos[count - 1][pos] = (numpylandmarks[pos] - numpylandmarks[8])
+        img_pos.append([])
+        image = cv2.imread(videopath + '/' + image)
+        landmarks = get_landmark(image)
+        numpylandmarks = np.asarray(landmarks)
+        count += 1
+        img_pos[count - 1] = [1] * landmarksNos
+        for pos in range(landmarksNos):
+            # total_pos[pos] += (numpylandmarks[pos] - numpylandmarks[8])
+            # print(numpylandmarks[pos], numpylandmarks[8], numpylandmarks[pos] - numpylandmarks[8])
+            img_pos[count - 1][pos] = (numpylandmarks[pos] - numpylandmarks[8])
     return img_pos
 def new_find_max(start,end,img_pos,vidlist,landmark_list):
     total_pos=[np.zeros(shape=2,dtype=int) for _ in range(len(img_pos[0]))]
@@ -215,14 +98,69 @@ def new_find_max(start,end,img_pos,vidlist,landmark_list):
     return max_diff,vidlist[max_diff_image]
 
 
-path='../../SASE-FE_Categorical_truevsfake_reduced/fake/'
+
+# def find_max(imgs):
+#     image = cv2.imread(videopath + '/' + imgs[0])
+#     landmarks = get_landmark(image)
+#     numpylandmarks = np.asarray(landmarks)
+#     landmarksNos = len(numpylandmarks)
+#     total_pos = [1] * landmarksNos
+#     img_pos = []
+#     count = 0
+#     landmark_list = [x for x in range(17, 27)]
+#     landmark_list.extend([x for x in range(36, 68)])
+#     for image in viddirectorylisting:
+#         img_pos.append([])
+#         image = cv2.imread(videopath + '/' + image)
+#         landmarks = get_landmark(image)
+#         numpylandmarks = np.asarray(landmarks)
+#         count += 1
+#         img_pos[count - 1] = [1] * landmarksNos
+#         for pos in range(landmarksNos):
+#             # print(pos)
+#             total_pos[pos] += (numpylandmarks[pos]-numpylandmarks[8])
+#             # print(numpylandmarks[pos],numpylandmarks[8],numpylandmarks[pos]-numpylandmarks[8])
+#             img_pos[count - 1][pos] = (numpylandmarks[pos]-numpylandmarks[8])
+#     avg_pos = []
+#     print(total_pos)
+#     temp_tot=[np.zeros(shape=2,dtype=int) for _ in range(len(img_pos[0]))]
+#     for imgval in img_pos:
+#         for posi in range(len(imgval)):
+#             # print(temp_tot[posi])
+#             temp_tot[posi]+=imgval[posi]
+#             # print('a',temp_tot[posi],temp_tot)
+#     print(temp_tot)
+#     print((img_pos))
+#     for pos in total_pos:
+#         avg_pos.append(pos / count)
+#     # print(avg_pos[0],img_pos[0][0],avg_pos[0]-img_pos[0][0])
+#     max_diff = 0
+#     max_diff_image = None
+#     count2 = 0
+#     for image in viddirectorylisting:
+#         diff = []
+#         # print(landmark_list,len(avg_pos))
+#         for pos in landmark_list:
+#             diff.append(abs(avg_pos[pos] - img_pos[count2][pos]))
+#         count2 += 1
+#         # print(sum(diff),len(diff),sum(sum(diff)/len(diff)))
+#         avg_diff = sum(sum(diff) / len(diff))
+#         # print(max_diff,avg_diff)
+#         if max_diff < avg_diff:
+#             max_diff = avg_diff
+#             max_diff_image = image
+#     return max_diff,max_diff_image
 
 
-targetpath= '../../SASE-FE_fake_categorical_apex_SelectiveDivideAndConquer_NEW_mod/'
+path='../../SASE-FE_Categorical_truevsfake/true/'
+
+
+targetpath= '../../SASE-FE_APEX/true/'
 if os.path.exists(targetpath ):
     shutil.rmtree(targetpath )
 os.mkdir(targetpath , mode=0o777)
 directorylisting = os.listdir(path)
+
 
 count=0
 cats=[]
@@ -262,16 +200,10 @@ for subject in directorylisting:
         Rmax=0
         Lval=None
         Rval=None
-
+        lenght=len(viddirectorylisting)
         imgs=viddirectorylisting
         img_pos=generate_pos(imgs,landmark_list)
-        viddirectorylisting = os.listdir(videopath)
-        print(counter01)
-        print(videopath, viddirectorylisting)
-        viddirectorylisting.sort(key = lambda x: int(x.split("e")[1].split(".")[0]))
-        print(videopath, viddirectorylisting)
-        print(len(img_pos),len(viddirectorylisting))
-        lenght = len(viddirectorylisting)
+        print('pos generated')
         start=0
         end=len(imgs)-1
         while lenght>=2:
@@ -309,3 +241,4 @@ for subject in directorylisting:
         #     print("not found",video)
         # # print(str(subjectdirectorylisting)+str(video))
         # continue
+
