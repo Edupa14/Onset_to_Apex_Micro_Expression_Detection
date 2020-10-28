@@ -48,7 +48,7 @@ negativepath ='Negative/'
 positivepath ='Positive/'
 surprisepath ='Surprise/'
 
-segmentName = 'UpperFace_cat_NEW_mod_edit'
+segmentName = 'UpperFace_cat_NEW_mod_edit_frameadjust'
 sizeH=32
 sizeV=32
 sizeD=30
@@ -65,6 +65,9 @@ for typepath in (paths):
         videopath = path+typepath + video
         segment_frames = []
         framelisting = os.listdir(videopath)
+        print(framelisting)
+        framelisting.sort(key=lambda x: int(x.split("e")[1].split(".")[0]))
+        print(framelisting)
         apexvidpath=apexpath+typepath + video
         directorylistingvid = os.listdir(apexvidpath)
         for pic in directorylistingvid:
