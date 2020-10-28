@@ -204,7 +204,7 @@ for subject in directorylisting:
         imgs=viddirectorylisting
         img_pos=generate_pos(imgs,landmark_list)
         print('pos generated')
-        start=0
+        start=/0
         end=len(imgs)-1
         while lenght>=2:
             Lmax,Lval=new_find_max(start,start+int((end-start)//2),img_pos,imgs,landmark_list)
