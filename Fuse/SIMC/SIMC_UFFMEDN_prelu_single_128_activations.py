@@ -199,7 +199,7 @@ def evaluate(segment_train_images, segment_validation_images, segment_train_labe
                 channel_image /= channel_image.std()
                 channel_image *= 64
                 channel_image += 128
-                chan4nel_image = numpy.clip(channel_image, 0, 255).astype('uint8')
+                channel_image = numpy.clip(channel_image, 0, 255).astype('uint8')
                 display_grid[col * (size+2): (col + 1) * (size+2)-2,  # Displays the grid
                 row * (size+2): (row + 1) * (size+2)-2] = channel_image
         scale = 1. / size
